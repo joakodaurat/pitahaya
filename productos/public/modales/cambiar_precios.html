@@ -1,0 +1,120 @@
+<style type="text/css">
+
+  .porcentajesimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .porcentajesimbolo input {
+    margin-top: 5px;
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<div id="modificarPrecios" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico" >
+
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-dollar"></i> </span> 
+        <span style="font-size: 18px;" id="Nuevo_prod"> Cambiar precios</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="modificar_precio" id="modificar_precio" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="modificar_precio" id="modificar_precio" value="1">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                 <a class="btn btn-sm btn-success" style="padding-right: 10px; padding-left: 10px;" onclick="precio_categoria()"> Modificar por CATEGORIA</a>
+                 <a class="btn btn-sm btn-success" style="padding-right: 10px; padding-left: 10px;" onclick="precio_marca()"> Modificar por MARCA</a>
+                 <a class="btn btn-sm btn-success" style="padding-right: 10px; padding-left: 10px;" onclick="precio_todo()"> Aplicar A TODO</a>
+                </div>
+                <hr>
+                  <div id="editar_precio_categoria" style="display:none">
+                    <div class="row">
+                    <div class="col-md-5 col-xs-12 label-cliente">
+                      <span class="form-label"> Categoría</span>
+                    </div>
+                    <div class="col-md-6">
+                      <select name="select_categoria" id="select_categoria" style="width: 90%;" required="required">
+                        <option value="">Seleccione una categoría</option>
+                        <?php while ($categorias -> fetch()) { ?>
+                        <option value="<?php echo $categorias -> cat_id; ?>"><?php echo $categorias -> cat_nombre; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-5 col-xs-1 label-cliente">
+                      <span class="form-label"> Porcentaje a incrementar </span>
+                    </div>
+                    <div class="col-md-6">
+                     <span class="porcentajesimbolo">%<input type="number" name="input_porcentaje_categoria" id="input_porcentaje_categoria" required="required" class="form-cliente"> </span>
+                    </div>
+                  </div>
+                  </div>
+
+                  <div id="editar_precio_marca" style="display:none">
+                    <div class="row">
+                    <div class="col-md-5 col-xs-12 label-cliente">
+                      <span class="form-label"> Marca</span>
+                    </div>
+                    <div class="col-md-7">
+                      <select name="select_marca" id="select_marca" style="width: 90%;" required="required">
+                        <option value="">Seleccione una marca</option>
+                        <?php while ($do_marcas -> fetch()) { ?>
+                        <option value="<?php echo $do_marcas -> marca_id; ?>"><?php echo $do_marcas -> marca_nombre; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-5 col-xs-1 label-cliente">
+                      <span class="form-label"> Porcentaje a incrementar </span>
+                    </div>
+                    <div class="col-md-7">
+                     <span class="porcentajesimbolo">%<input type="number" name="input_porcentaje_marca" id="input_porcentaje_marca" required="required" class="form-cliente"></span>
+                    </div>
+                  </div>
+                  </div>
+                  <div id="editar_precio_todo" class="row" style="display:none">
+                    <div class="col-md-5 col-xs-1 label-cliente">
+                      <span class="form-label"> Porcentaje a incrementar </span>
+                    </div>
+                    <div class="col-md-7">
+                      <span class="porcentajesimbolo">%<input type="number" name="input_porcentaje_todo" id="input_porcentaje_todo" required="required" class="form-cliente"></span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-raised btn-primary">Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-5 col-sm-5 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

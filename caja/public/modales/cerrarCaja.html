@@ -1,0 +1,35 @@
+    <form class="form-horizontal form-label-left" name="cerrar_caja" id="cerrar_caja" method="post" action="" enctype="multipart/form-data">
+
+  <div id="modalCerrarCaja_" class="modal fade" role="dialog">
+  
+    <div class="modal-dialog modal-chico">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <span class="modal-title">
+          <span style="font-size: 18px;"><i class="fa fa-download"></i></span> 
+          <span style="font-size: 18px; margin-left: 5px;"> Cierre de caja - <?php echo date('Y/m/d H:i:s'); ?> </span> 
+        </div>
+        <div class="modal-body"> 
+              <div> 
+                <input type="hidden" type="text" name="fecha_cierre" id="fecha_cierre" class="form-cliente" value="<?php echo date('d/m/Y'); ?>" >
+                <div class="row" >
+                  <div class="col-md-12 col-xs-12"> 
+                    <h4>
+                      Esta a punto de cerrar la caja ¿Desea continuar? 
+                    </h4>
+                      </div>
+                    <div class="form-group label-cliente col-md-12">
+                      <hr>
+                      <button onclick="CerrarCaja(<?php echo $ultima_caja -> caja_id?>)" class="btn btn-raised" style="background-color: darkcyan; color:whitesmoke;">Cerrar</button>
+                      <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+</div>
+   
+  </form>

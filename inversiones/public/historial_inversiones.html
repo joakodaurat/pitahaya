@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php  require_once('../templates/templates/estilos_comunes.html'); ?> 
+
+</head> 
+<style type="text/css">
+.cards-section .item-inner:hover {
+  background-color: white;
+
+}
+
+ input {
+    width: 100%;
+    font-weight: 500;
+    border: 1px solid #a9a9a9;
+    border-radius: 3px;
+}
+th {
+  text-align: center;
+}
+</style>
+
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+       <div class="container-fluid">
+      <h3> Historial inversiones</h3>
+
+      <div class="col-xs-12">
+        <div class="col-md-4 col-md-offset-4">
+        <form method="GET" id="form-fecha">
+          <span> Desde - Hasta</span> <input style="text-align: center" id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+      </div>
+      <div class="col-xs-12">
+        <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darkcyan;color: antiquewhite;height: 30px; padding-top: 4px;padding-bottom: 5px;" href="listado.php">
+         Inversiones diarias
+       </a>
+      </div>
+<div class="item item-primary col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
+<br>
+ 
+
+  <div class="item-inner item-estadistico z-depth-1">
+
+     <table style="margin:0px" id="tabla_inversiones" class="table table-bordered results z-depth-2 tabla-excel">
+      <thead>
+        <tr class="header-tabla-caja">
+          <th class="">Concepto</th>
+          <th class="">Monto</th>
+          <th class="">Fecha</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpodetabla">
+          <?php while ($do_inversiones -> fetch()) { $total_inversiones += $do_inversiones -> inversion_monto  ?>
+      <tr>
+         <td><?php echo $do_inversiones -> inversion_concepto; ?></td>
+         <td>$<span class="monto_inversion"><?php echo $do_inversiones -> inversion_monto?></span></td>
+         <td><?php echo date('Y-m-d H:i:s', strtotime($do_inversiones -> inversion_fh)); ?></td>
+         </tr>
+      <?php } ?>
+        
+      </tbody>
+      </tfoot>
+            <th style="text-align: right;">Total</th>
+            <th>$<span id="monto_total"><?php echo $total_inversiones?></span></th>
+            <th></th>
+      </tfoot>
+    </table>
+    <!--Tabla ventas diarias -->
+
+  </div><!--//item-inner-->
+
+</div>
+</div><!--//container-fluid-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/inversiones.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

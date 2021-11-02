@@ -1,0 +1,104 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  #div-contado {
+    display: none;
+  }
+</style>
+<div id="myModalNota" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo"><i class="fa fa-sticky-note-o"></i> Nueva nota</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="nueva_nota" id="nueva_nota" value="1">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-6 col-xs-12" id="div-cliente"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i> 
+              <select id="combo_cli" name="input_id_cliente" class="form-control form-angosto" placeholder="Seleccionar cliente" required>
+                <option value=""> Seleccione un cliente </option>
+                <?php foreach ($clientes as $cli) { ?>
+                  <option value="<?php echo $cli['id']; ?>">[<?php echo $cli['id']; ?>] <?php echo $cli['nombre']; ?></option>
+                <?php } ?>
+              </select>
+              <br>
+              <a href="#" data-toggle="modal" data-target="#myModalClienteAdd"> <i class="fa fa-user-plus"></i> Agregar nuevo </a>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="nota_fh" class="form-angosto" required id="nota_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_tipo" name="combo_tipo" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value="NC"> Nota de Crédito </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+
+        <!-- Div Efectivo -->
+        <div class="row form-seccion" id="div-contado">
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto" id="input_monto" class="form-obs form-contado" placeholder="Monto">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Efectivo --> 
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_nota" id="input_obs_nota" class="form-obs" placeholder="NC por devolución o cambio.">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

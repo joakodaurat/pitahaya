@@ -1,0 +1,164 @@
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Compra C00<?php echo $do_compras -> compra_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="edit_compra_id" id="edit_compra_id" value="<?php echo $do_compras -> compra_id;?>">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $proveedores['nombre']; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input type="date" name="compra_fh" class="form-angosto" required id="compra_fh" value="<?php echo date('Y-m-d',strtotime($do_compras -> compra_fh));?>">
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_productos">
+              <thead>
+                 <tr>
+                    <th class="col-md-6 col-xs-4">Producto</th>
+                    <th class="col-md-1 col-xs-4">Talle</th>
+                    <th class="col-md-1 col-xs-4">Color</th>
+                    <th class="col-md-1 col-xs-4">Cant</th>
+                    <th class="col-md-1 col-xs-4">Precio u.</th>
+                    <th class="col-md-2 col-xs-4">Precio Total</th>
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr>
+                  <td><?php echo $d['prod_modelo'];?> <input type="hidden" id="prod_id_<?php echo $i;?>" name="prod[<?php echo $i;?>][id]" value="<?php echo $d['prod_id'];?>"></td>
+                  <td>
+                    <select disabled id="talle_<?php echo $i;?>" name="prod[<?php echo $i;?>][talle]" class="select-tipo-vaca">
+                      <?php foreach ($talles as $k => $v){ ?>
+                        <option value="<?php echo $k; ?>" <?php if($d['talle'] == $k) {echo ' selected';} ?>><?php echo $v; ?></option>
+                      <?php } ?>
+                    </select>
+                  </td>
+                  <td>
+                    <select disabled id="color_<?php echo $i;?>" name="prod[<?php echo $i;?>][color]" class="select-tipo-vaca">
+                      <?php foreach ($colores as $k => $v){ ?>
+                        <option value="<?php echo $k; ?>" <?php if($d['color'] == $k) {echo ' selected';} ?>><?php echo $v; ?></option>
+                      <?php } ?>
+                    </select>
+                  </td>
+                  <td><input type="number" step="1" min="1" id="cantidad_<?php echo $i;?>" name="prod[<?php echo $i;?>][cantidad]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['cant'];?>"></td>
+                  <td><span>$</span><input type="number" step="0.10" min="0" id="precio_kg_<?php echo $i;?>" name="prod[<?php echo $i;?>][precio_kg]" oninput="modificar(<?php echo $i;?>);" value="<?php echo $d['precio_por_kg'];?>"></td>
+                  <td><span>$</span><input type="number" step="0.10" min="0" readonly id="precio_total_<?php echo $i;?>" class="precio_parcial" value="<?php echo $d['precio_parcial'];?>"> <a href="#" class="borrar"><i class="fa fa-times"></i></a></td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</span></td>
+                <td id="precio_total"><span>$</span><input type="number" readonly value="<?php echo $do_compras -> compra_monto_total; ?>" name="saldo_final_total" id="saldo_final_total"></td>
+              </tfoot>
+            </table>
+
+          </div>
+
+        </div>
+        <!-- Seccion productos -->
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input disabled autocomplete="off" type="text" name="input_observacion_compra" id="input_observacion_compra" class="form-obs" placeholder="Observación de la compra" value="<?php echo $do_compras -> compra_observacion; ?>">
+            </span>
+          </div>
+          
+        </div>
+
+        <div class="row form-seccion">
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-file-text-o"></i> 
+                <select disabled id="combo_tipo_comprobante" name="combo_tipo_comprobante" class="select-concepto-tipo" onchange="inputsConcepto()" placeholder="Tipo Concepto" >
+                <option <?php if($do_compras -> compra_tipo_comprobante == '') {echo 'selected'; }?> value="">Tipo de comprobante</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'BOL') {echo 'selected'; }?> value="BOL">Boleta (BOL)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'FAC') {echo 'selected'; }?> value="FAC">Factura (FAC)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'PRO') {echo 'selected'; }?> value="PRO">Proforma de Factura (PRO)</option>
+                <option <?php if($do_compras -> compra_tipo_comprobante == 'NFE') {echo 'selected'; }?> value="NFE">Nota Fiscal Electrónica (NFE)</option>
+              </select>
+            </span>
+          </div>
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-barcode"></i> 
+                <input disabled autocomplete="off" type="text" name="input_nro_comprob_compra" id="input_nro_comprob_compra" class="form-obs" placeholder="Número de comprobante"  value="<?php echo $do_compras -> compra_nro_comprobante; ?>">
+            </span>
+          </div>
+        </div>
+
+        <!-- Seccion Pago y opciones -->
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input disabled autocomplete="off" type="text" name="input_observacion_compra" id="input_observacion_compra" class="form-obs" placeholder="Observación de la compra" value="<?php echo $do_compras -> compra_observacion; ?>">
+            </span>
+          </div>
+          
+        </div>
+
+        <input type="hidden" name="cant_prod" id="cant_prod" value="<?php echo $i; ?>">
+        <!-- Cambiar cuando este listo credito -->
+        <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="1"> 
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="hidden" id="Despachar" name="Despachar" value="0" >
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+<script type="text/javascript">
+
+  $('#form_editar_compra').find('input').not('input[type=hidden]').attr('disabled',true);
+  $(".form-select-datalist").prop("disabled", true);
+  $(".borrar").css('display','none');
+  $("#guardar-cambios").css('display','none');
+  $("#nuevo_cliente").css('display','none');
+  
+
+</script>
+
+

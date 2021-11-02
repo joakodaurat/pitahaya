@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php  require_once('../templates/templates/estilos_comunes.html'); ?> 
+
+</head> 
+<style type="text/css">
+.cards-section .item-inner:hover {
+  background-color: white;
+
+}
+
+ input {
+    width: 100%;
+    font-weight: 500;
+    border: 1px solid #a9a9a9;
+    border-radius: 3px;
+}
+th {
+  text-align: center;
+}
+</style>
+
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee;">
+
+<?php require_once('../templates/templates/header.html');?>
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <div class="container-fluid">
+      <h3> Inversiones diarias</h3>
+
+      <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darkcyan;color: antiquewhite;height: 30px; padding-top: 4px;padding-bottom: 5px;" href="historial_inversiones.php">
+         Historial
+       </a>
+    <div class="item item-primary col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
+      <br>
+ 
+
+<div class="item-inner item-estadistico z-depth-1 text-center">
+      <!--Tabla ventas diarias -->
+      <label >Concepto</label>
+      <input type="text" name="input_concepto" id="input_concepto">
+      <label style="margin-top:5px;width: 100%" >Monto</label>
+      <label style="margin-right:5px">$</label><input type="number" id="input_monto" style="width: 50%" name="input_monto">
+      <a id="botonCargarInversion"class="btn btn-raised" style="display: block;margin-top: 20px; margin-bottom: 20px;background-color:#40babd;color: antiquewhite;height: 30px; padding-top: 4px;padding-bottom: 5px;" onclick="agregarInversion()">
+         Cargar inversion
+       </a>
+       <hr>
+     <table style="margin:0px" id="tabla_inversiones" class="table table-bordered results z-depth-2 tabla-excel">
+      <thead>
+        <tr class="header-tabla-caja">
+          <th class="">Concepto</th>
+          <th class="">Monto</th>
+          <th class=""></th>
+        </tr>
+      </thead>
+      <tbody id="cuerpodetabla">
+      <?php while ($do_inversiones -> fetch()) { ?>
+      <tr id="<?php echo $do_inversiones -> inversion_id; ?>">
+         <td><?php echo $do_inversiones -> inversion_concepto; ?></td>
+         <td>$<span class="monto_inversion"><?php echo $do_inversiones -> inversion_monto?></span></td>
+         <td onclick="borrar_inversion(<?php echo $do_inversiones -> inversion_id; ?>)" ><a  href="#"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></a></td>
+         </tr>
+      <?php $sum += $do_inversiones -> inversion_monto; } ?>
+        
+      </tbody>
+      <tfoot>
+            <th style="text-align: right;">Total</th>
+            <th>$<span id="monto_total"><?php echo $sum?></span></th>
+            <th></th>
+      </tfoot>
+    </table>
+    <!--Tabla ventas diarias -->
+
+  </div><!--//item-inner-->
+</div><!--//item-->
+
+</div>
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/inversiones.js"></script>   
+
+</body>
+</html>

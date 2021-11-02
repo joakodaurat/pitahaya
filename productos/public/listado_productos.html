@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+<form method="POST" name="editar_producto" id="form_editar_producto" enctype="multipart/form-data">
+  <div id="modal-edit-producto" class="modal fade" role="dialog">
+  </div>
+</form>
+
+<form method="POST" name="nuevo_producto" id="form_nuevo_producto" enctype="multipart/form-data">
+  <?php require_once('public/modales/nuevo_producto.html');?>
+</form>
+<form method="POST" name="cambiar_precios" id="form_cambiar_precios" enctype="multipart/form-data">
+  <?php require_once('public/modales/cambiar_precios.html');?>
+</form>
+
+<?php if ($_GET['id_add']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se agregó correctamente el producto número <b><?php echo $_GET['id_add']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['modifico']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificaron correctamente los precios</b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_edit']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificó correctamente el producto número <b><?php echo $_GET['id_edit']; ?></b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+    <section class="cards-section text-center" id="transicion" style="background-color: #eeeeee;">
+
+      <a class="btn btn-sm btn-raised btn-success" href="#" data-toggle="modal" data-target="#agregarProducto"><i class="fa fa-plus"></i> nuevo producto</a>
+      <a class="btn btn-sm btn-raised btn-success" style="margin-left: 10px; background-color:cadetblue" href="../compras/listado.php"><i class="fa fa-dollar"></i> Modificar Stock</a>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="col-md-1 col-xs-3"> ID </th>
+                      <!-- 1 --><th class="col-md-2 col-xs-3"> Codigo </th>
+                      <!-- 2 --><th class="col-md-2 col-xs-4"> Categoría </th>
+                      <!-- 4 --><th class="col-md-2 col-xs-4"> Marca </th>
+                      <!-- 3 --><th class="col-md-3 col-xs-4"> Nombre </th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4"> Precio </th>
+                      <!-- 8 --><th class="col-md-1 col-xs-4"> Stock </th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($productos->fetch()){ ?>
+                        <tr style="cursor: pointer;" onclick="getProducto(<?php echo $productos->prod_id; ?>);" >
+
+                        <!-- 1 -->
+                        <td><?php echo $productos -> prod_id; ?></td>
+
+                        <!-- 3 -->
+                        <td><?php echo $productos -> prod_codigo; ?></td>
+                        
+                        <!-- 2 -->
+                        <td><?php echo $productos -> cat_nombre; ?></td>
+
+                        <!-- 3 -->
+                        <td><?php echo $productos -> marca_nombre; ?></td>
+
+                        <!-- 3 -->
+                        <td><?php echo $productos -> prod_nombre; ?></td>
+
+                        <!-- 5 -->
+                        <td>$ <?php echo $productos -> prod_precio; ?></td>
+                       
+                        <!-- 8 -->
+                        <td><?php echo $productos -> getStock(); ?></td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright"><a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+
+    <script type="text/javascript" src="public/js/productos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_add']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_edit']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+
+            <?php if ($_GET['modifico']) {?>
+              $('.popup-notificacion').delay( 1000 ).fadeOut( 200 );
+            <?php } ?>
+
+            $('#input_categoria_add').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+          $('#select_categoria').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+           $('#select_marca').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+            $('#input_marca_add').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        } );
+
+        
+    </script>
+
+</body>
+</html>

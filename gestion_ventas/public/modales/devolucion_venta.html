@@ -1,0 +1,197 @@
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Devolución de productos</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="nueva_devolucion" id="nueva_devolucion" value="1">       
+        <input type="hidden" name="input_id_cliente" id="input_id_cliente" value="<?php echo $do_ventas -> venta_cliente_id; ?>"> 
+        <input type="hidden" name="venta_id" id="venta_id" value="<?php echo $do_ventas -> venta_id; ?>"> 
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+          <!-- Columna izquierda: Productos de la venta -->
+          <div class="col-md-6 div-prod-venta">
+            <h3> Productos de la venta </h3>
+            <span class="form-block">
+              <span class="form-inline" id="contenedor-productos">
+                <i class="fa fa-mail-forward"></i>  
+                <select id="combo_devolucion" name="aux_producto" style="width: 80%;" class="form-control form-select-datalist" placeholder="Seleccione un producto de la venta">
+                  <option value="" >Seleccione un producto de la venta</option>
+                  <?php foreach ($detalle as $prod) {
+                    $producto_texto =  $prod['prod_codigo'] .' - '. $prod['cat_nombre'] .' | '. $prod['marca_nombre'] .' | '. $prod['prod_nombre'].' ['. $prod['prod_color'].' '. $prod['prod_talle'] .']';
+                  ?>
+                  <option data-talle="<?php echo $prod['prod_talle']; ?>" data-val="<?php echo $prod['prod_val']; ?>" data-cant="<?php echo $prod['prod_cant']; ?>" data-color="<?php echo $prod['prod_color']; ?>" value="<?php echo $prod['det_id']; ?>" ><?php echo $producto_texto ?></option>
+                  <?php } ?>
+                </select>
+              </span>
+              <hr>
+            </span>
+
+            <div id="con-productos-devueltos"></div>
+
+            <hr>
+
+            <h4 class="contenedor-devueltos-total"> Total: $ 
+              <input type="number" readonly name="precio_total" value="0" class="input-devueltos-total" id="input-devueltos-total">
+            <h4>
+          </div>
+
+          <!-- Columna derecha: Acciones (Cambio / Plata) -->
+          <div class="col-md-6 div-prod-cambio">
+            <h3> Cambio </h3>
+            
+            <span class="form-block">
+              <span class="form-inline" id="contenedor-productos">
+                <i class="fa fa-mail-reply"></i>  
+                <select id="combo_cambio" name="aux_producto" style="width: 80%;" class="form-control form-select-datalist" placeholder="Seleccione un producto de la venta">
+                  <option value="" >Seleccione un producto para cambiar</option>
+                  <?php foreach ($productos as $prod) { ?>
+                  <option data-val="<?php echo $prod['valor']; ?>" value="<?php echo $prod['id']; ?>" ><?php echo $prod['modelo'] ?></option>
+                  <?php } ?>
+                </select>
+              </span>
+              <hr>
+            </span>
+
+            <div id="con-productos-cambiar"></div>
+
+            <hr>
+
+            <h4 class="contenedor-devueltos-total"> Total: $ 
+              <input type="number" readonly name="precio_total" value="0" class="input-devueltos-total" id="input-cambiados-total">
+            <h4>
+
+          </div>
+
+        </div>
+        <!-- Seccion Pago y opciones -->       
+
+        <!-- Seccion Observacion y diferencia -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_devolucion" id="input_obs_devolucion" class="form-obs" placeholder="Observación de la devolución">
+            </span>
+          </div>
+
+          <div class="col-md-6">
+            <h4 class="contenedor-devueltos-total" style="font-weight: 700;"> Diferencia: $ 
+              <input type="number" readonly name="diferencia_total" value="0" class="input-devueltos-total" id="input-diferencia-total">
+            <h4>
+          </div>
+          
+        </div>
+        <!-- Seccion Observacion y diferencia -->  
+
+        <!-- Seccion Pago -->
+        <div class="row form-seccion" id="div-pago" style="display: none; background-color: #e6efe7;">
+          <br>
+          <p>Hay una diferencia de dinero por los productos devueltos. Se cargará un cobro al cliente.</p>
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_forma_pago" name="combo_fpago" class="select-forma-pago dis-pago" required disabled >
+                <option value=""> Forma de pago </option>
+                <option value="1"> Efectivo </option>
+                <option value="2"> MercadoPago </option>
+                <option value="3"> Tarjeta credito </option>
+                <option value="4"> Tarjeta debito </option>
+              </select>
+            </span>
+          </div>
+
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input disabled autocomplete="off" step="0.1" type="number" name="input_monto_contado" id="input_monto_cobro" class="form-obs form-contado dis-pago" placeholder="Monto" readonly>
+            </span>
+          </div>
+
+          <input type="hidden" name="input_obs_pago" value="Pago por devolución de mercadería." disabled class="dis-pago">
+          
+        </div>
+        <!-- Seccion Pago -->    
+
+        <!-- Seccion NC -->
+        <div class="row form-seccion" id="div-nota" style="display: none; background-color: #e6efe7;">
+          <br>
+          <p>Hay una diferencia de dinero a favor del cliente. Se realizará una Nota de crédito.</p>
+          <!-- Seccion tiponota -->
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_tipo" name="combo_tipo" class="select-forma-pago dis-nc" required disabled >
+                <option value="NC"> Nota de Crédito </option>
+              </select>
+            </span>
+          </div>
+        <!-- Seccion tiponota -->
+
+        <!-- Div monto -->
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input disabled autocomplete="off" step="0.1" type="number" name="input_monto" id="input_monto_nc" class="form-obs form-contado dis-nc" placeholder="Monto" readonly>
+            </span>
+          </div>
+        <!-- / Div monto --> 
+          <input type="hidden" name="combo_tipo" value="NC" disabled class="dis-nc">
+          <input type="hidden" name="nota_fh" value="<?php echo date('Y-m-d H:i:s'); ?>" disabled class="dis-nc">
+          <input type="hidden" name="input_obs_nota" value="Nota por devolución de mercadería." disabled class="dis-nc">        
+          
+        </div>
+        <!-- Seccion NC -->       
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <input type="submit" class="btn btn-raised btn-primary" value="Guardar">
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script type="text/javascript">
+
+    $('#combo_devolucion').on("change", function(e) { agregar_producto_devolver($(e.target).find('option:selected')); $("#combo_devolucion").val("");});
+  $('#combo_cambio').on("change", function(e) { agregar_producto_cambiar($(e.target).find('option:selected'));$("#combo_cambio").val("");});
+
+
+  $('#combo_devolucion').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+
+  $('#combo_cambio').select2({
+    language: {
+      noResults: function (params) {
+        return "No hay resultados.";
+      }
+    }
+  });
+
+
+
+</script>

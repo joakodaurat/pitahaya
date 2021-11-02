@@ -1,0 +1,76 @@
+
+<div id="nuevoAdministrador" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico" >
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-address-card-o"></i></span> 
+        <span style="font-size: 18px;" id="Nuevo_prod">Nuevo administrador</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_administrador_add" id="detalle_administrador_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="add_administrador" id="add_administrador" value="1">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                  <input type="hidden" name="input_categoria" value="21"></input>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Nombre</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" name="input_administrador_nombre" id="input_administrador_nombre" required="required" class="form-cliente">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Telefono*</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="number" name="input_administrador_telefono" id="input_administrador_telefono" class="form-cliente">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Contraseña</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="password" name="input_administrador_contraseña" id="input_contraseña_administrador" required="required" class="form-cliente">  
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <span class="form-label">Repita la Contraseña</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="password" name="input_contraseña_repetida" id="input_contraseña_administrador_repetida" required="required" class="form-cliente">  
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group text-center">
+                <button id="boton_submit_administrador" type="submit"  class="btn btn-raised btn-default" style="background:#009688; color:white" >Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

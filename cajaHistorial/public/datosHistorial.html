@@ -1,0 +1,83 @@
+<?php  if ($aperturasDiarias -> N == "0") { ?>
+<div id="sincaja" class="item item-primary col-md-12 col-sm-12 col-xs-12">
+
+  <div class="item-inner item-estadistico z-depth-1">
+
+    <h2 class="title title-estadistico" style="text-align: left"> 
+     No hubo apertura de caja
+    </h2>
+  </div><!--//item-inner-->
+
+</div><!--fin si no hubo caja ese dia--> 
+<?php } else { ?>
+
+<div id="datoscaja">
+<div class="item item-primary col-md-6 col-sm-12 col-xs-12">
+  <div class="item-inner item-estadistico z-depth-1 text-center">
+
+    <h2 class="title title-estadistico"> 
+      <i class="fa fa-print"></i> Cajas 
+    </h2>
+
+    <div class="caja-resumen">
+      <table class="table table-bordered results z-depth-2">
+        <thead>
+          <tr>
+            <th>Vendedor</th>
+            <th>Hr Apertura</th>
+            <th>Hr Cierre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php 
+          $x=1;
+          while($aperturasDiarias -> fetch()){ ?>
+
+
+           <tr  style="cursor: pointer;" class="filaCajas <?php if($x==1){
+           echo 'active';
+         }; ?>" onclick="getDatosCajaParticular(<?php echo $aperturasDiarias->caja_id; ?>,this);" >
+            <td><?php echo $usuario -> getNombreUsuario($aperturasDiarias -> caja_usua_inicio) ?></td>
+            <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_inicio))?></td>
+            <?php if($aperturasDiarias -> caja_estado == 2) { ?>  <!-- Si esta abierta la caja -->
+            <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_cierre))?></td>
+            <?php }else{ ?>
+            <td>ABIERTA </td>
+
+            <?php
+            
+             } ?>
+
+
+          </tr>
+          <?php $x++; } ?>
+        </tbody>
+      </table>
+    </div> 
+    <hr>
+    
+
+</div><!--//item-inner-->
+</div>
+
+
+<div  class="item item-primary col-md-6 col-sm-12 col-xs-12">
+<div  class="item-inner item-estadistico z-depth-1">
+  <h3 id="avisoqueseleccionecaja"> Seleccione una caja </h3>
+  <div style="margin-left: 40%;display:none" id="spinercargador" >
+  <div class="loader"></div>
+  </div>
+  <div id="datoscajaindividual">
+    
+  </div>
+</div>
+</div> <!--fin datoscaja-->
+
+<script>
+$(document).ready(function(){
+ getDatosCajaParticular(<?php echo $aperturas -> caja_id?>);
+});
+</script>
+<?php } ?>
+
+

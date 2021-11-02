@@ -1,0 +1,73 @@
+<div id="agregarCategoria" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico" >
+    <!-- Modal content-->
+        <script type="text/javascript">
+      function validarCategoriaAdd(){
+          var nombre = $('#input_categoria_add').val();
+
+          $.ajax({
+              url: 'ajax_validarCategoria.php',
+              type: 'POST',
+              data: {nombre : nombre},
+              dataType: 'json'
+          }).done(function(data){
+            if(data){ //encontro un categoria con el mismo nombre
+              alert('Ya existe un producto con el mismo nombre. Debe ingresar un nombre distinto');
+              return false;
+            }else{
+              $('#form_nueva_categoria').submit(); // esta en listadocategorias.html
+            }
+          }).fail(function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+          }).always(function(){
+              // console.log('The ajax call ended.');
+          });
+
+        }
+    </script>
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;" id="Nueva_cat">Nueva Categoria</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left">
+            <div id="categoria"> 
+              <input type="hidden" name="add_categoria" id="add_categoria" value="1">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" name="input_categoria" id="input_categoria_add" required="required" class="form-cliente">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+           <div class="form-group">
+                <button type="button" class="btn btn-raised btn-primary" onclick="validarCategoriaAdd()">Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-5 col-sm-5 col-xs-11">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

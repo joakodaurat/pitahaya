@@ -1,0 +1,163 @@
+      
+
+        <div class="item item-primary col-md-6 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+
+            <h2 class="title title-estadistico"> 
+              <i class="fa fa-list-ul"></i> Aperturas
+            </h2>
+            <div class="caja-resumen">
+              <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                <thead>
+                  <tr>
+                    <th>Cajero</th>
+                    <th>Hr Apertura</th>
+                    <th>Hr Cierre</th>
+                    <th>Monto Inicial</th>
+                    <th>Monto Final</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php while($aperturasDiarias -> fetch()){?> 
+                  <tr>
+                    <td></td>
+                    <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_inicio))?></td>
+                   <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_cierre))?></td>
+                    <td>$ <?php echo $aperturasDiarias -> caja_monto_inicio; ?> </td>
+                    <td>$ <?php echo $aperturasDiarias -> caja_monto_cierre; ?> </td>
+                  </tr>
+                  <?php } ?>
+                </tbody>
+              </table>
+
+              
+            </div>
+          </div><!--//item-inner-->
+        </div>
+
+
+
+
+        <div class="item item-primary col-md-6 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+
+            <h2 class="title title-estadistico"> 
+              <i class="fa fa-list-ul"></i> Resumen diario
+            </h2>
+            <div class="caja-resumen">
+
+              <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                <thead>
+                  <tr>
+                    <th class="col-md-8">Ingresos</th>
+                    <th class="col-md-4"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php while($forma_pago -> fetch()){?> 
+                  <tr>
+                    <td><?php echo $forma_pago -> fp_desc; ?></td>
+                    <td>$ <?php echo $datos_historial['ingresos'][$forma_pago -> fp_desc]; ?></td>
+                  </tr>
+                <?php } ?> 
+                  <tr>
+                    <th>Total</th>
+                    <th>$<?php echo $datos_historial['ingresos']['Total']; ?></th>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+              <table class="table table-hover table-bordered results z-depth-2 tabla-excel">
+                <thead>
+                  <tr>
+                    <th class="col-md-8">Salidas</th>
+                    <th class="col-md-4"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php //while($forma_pago -> fetch()){?> 
+                  <tr>
+                    <td>Gastos </td>
+                    <td>$ 560</td>
+                  </tr>
+                  <tr>
+                    <td>Sueldos </td>
+                    <td>$ 8000</td>
+                  </tr>
+                  <tr>
+                    <td>Retiros </td>
+                    <td>$ 6500</td>
+                  </tr>
+                  <tr>
+                    <td>Compras </td>
+                    <td>$ 26000</td>
+                  </tr>
+                  <tr>
+                    <th>Total</th>
+                    <th>$ <?php echo 69500; ?></th>
+                  </tr>
+                </tbody>
+              </table>
+
+              
+            </div>
+          </div><!--//item-inner-->
+        </div>
+
+      <div class="row">
+        <div class="col-md-12">
+
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+              <i class="fa fa-shopping-basket"></i> Ventas 
+            </h2>
+            <div>
+              <h1>26</h1>
+            </div>
+          </div><!--//item-inner-->
+          <div class=" text-center">
+            <a class="btn btn-raised btn-sm btn-default " href="#" data-toggle="modal" data-target="#myModalResumen">
+              <i class="fa fa-print"></i> Resumen ventas PDF
+            </a>
+          </div>
+        </div>
+
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+              <i class="fa fa-cubes"></i> Artículos 
+            </h2>
+            <div>
+              <h1>46</h1>
+            </div>
+          </div><!--//item-inner-->
+          <div class=" text-center">
+            <a class="btn btn-raised btn-sm btn-default " href="#" data-toggle="modal" data-target="#myModalResumen">
+              <i class="fa fa-print"></i> Resumen ventas detalladas
+            </a>
+          </div>
+        </div>
+
+        <div class="item item-primary col-md-4 col-sm-12 col-xs-12">
+          <div class="item-inner item-estadistico z-depth-1 text-center">
+            <h2 class="title title-estadistico"> 
+              <i class="fa fa-exchange"></i> Cambios / devoluciones 
+            </h2>
+            <div>
+              <h1>2</h1>
+            </div>
+          </div><!--//item-inner-->
+          <div class=" text-center">
+            <a class="btn btn-raised btn-sm btn-default " href="#" data-toggle="modal" data-target="#myModalResumen">
+              <i class="fa fa-print"></i> Resumen devoluciones PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      </div>
+
+
+
+
+

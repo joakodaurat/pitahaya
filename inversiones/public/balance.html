@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php  require_once('../templates/templates/estilos_comunes.html'); ?> 
+
+</head> 
+<style type="text/css">
+.cards-section .item-inner:hover {
+  background-color: white;
+
+}
+
+ input {
+    width: 100%;
+    font-weight: 500;
+    border: 1px solid #a9a9a9;
+    border-radius: 3px;
+}
+th {
+  text-align: center;
+}
+</style>
+
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+       <div class="container-fluid">
+      <h2 style="margin-top:0px"> Balance</h2>
+
+      <div class="col-xs-12">
+        <div class="col-md-4 col-md-offset-4">
+        <form method="GET" id="form-fecha">
+          <span> Desde - Hasta</span> <input style="text-align: center" id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+      </div>
+
+<div class="item item-primary col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
+<br>
+ 
+
+  <div style="padding-left:0px;padding-right:0px" class="item-inner item-estadistico z-depth-1">
+            <!--Tabla Ganancia  -->
+    <h3 style="margin-top: 0px;color:green"> Cajas</h3>
+
+     <table style="margin:0px" id="tabla_inversiones" class="table table-bordered results z-depth-2 tabla-excel">
+      <thead>
+        <tr class="header-tabla-caja">
+          <th class="">Fecha</th>
+          <th class="">Ingresos</th>
+          <th class="">Gastos</th>
+          <th class="">Balance</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpodetabla">
+          <?php foreach ($ganancia as $clave=>$valor) { $total_balance_caja += $valor['ingresos'] - $valor['gastos']  ?>
+      <tr>
+         <td><?php echo $clave; ?></td>
+         <td style="color:green">$<span><?php echo $valor['ingresos']; ?></span></td>
+         <td style="color:red">$<span><?php echo $valor['gastos']; ?></span></td>
+         <?php $balance_caja = $valor['ingresos'] - $valor['gastos']; 
+          if ($balance_caja >= 0){ $estilo = "style='color:green'"; } else {  $estilo = "style='color:red'";}
+          ?>
+          <td <?php echo $estilo; ?> >$<span><?php echo $balance_caja; ?></span></td>
+         </tr>
+      <?php } ?>
+        
+      </tbody>
+      </tfoot>
+      <th></th>
+      <th></th>
+            <th style="text-align: right;">Total</th>
+          <?php  
+          if ($total_balance_caja >= 0){ $estilo_total = "style='color:green'"; } else {  $estilo_total = "style='color:red'";}
+          ?>
+            <th <?php echo $estilo_total; ?>>$<span id="monto_total"><?php echo $total_balance_caja?></span></th>
+            
+      </tfoot>
+    </table>
+    <!--Tabla Ganancias  -->
+    <!--Tabla inversiones  -->
+    <h3 style="margin-top: 10px;color:red">Inversiones</h3>
+
+     <table style="margin:0px" id="tabla_inversiones" class="table table-bordered results z-depth-2 tabla-excel">
+      <thead>
+        <tr class="header-tabla-caja">
+          <th class="">Fecha</th>
+          <th class="">Concepto</th>
+          <th class="">Monto</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpodetabla">
+          <?php while ($do_inversiones -> fetch()) { $total_inversiones += $do_inversiones -> inversion_monto  ?>
+      <tr>
+         <td><?php echo date('Y-m-d', strtotime($do_inversiones -> inversion_fh)); ?></td>
+         <td><?php echo $do_inversiones -> inversion_concepto; ?></td>
+         <td style="color:red">$<span class="monto_inversion"><?php echo $do_inversiones -> inversion_monto?></span></td>
+         </tr>
+      <?php } ?>
+        
+      </tbody>
+      </tfoot>
+            <th></th>
+            <th style="text-align: right;">Total</th>
+            <th style="color:red">$<span id="monto_total"><?php echo $total_inversiones?></span></th>
+      </tfoot>
+    </table>
+    <!--Tabla inversiones  -->
+    <?php $balance_total =  $total_balance_caja -  $total_inversiones;
+       if ($balance_total >= 0){ $estilo_balance = "style='color:green'"; } else {  $estilo_balance = "style='color:red'";}
+     ?>
+<hr>
+    <h3 style="margin-top: 10px;color:#40babd" ><strong>BALANCE ( <span <?php echo $estilo_balance; ?> > $<?php echo $balance_total?>  </span> )</strong></h3>
+
+
+  </div><!--//item-inner-->
+
+</div>
+</div><!--//container-fluid-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/inversiones.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

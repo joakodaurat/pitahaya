@@ -1,0 +1,182 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+
+    <style type="text/css">
+      .margen-izq {
+        padding-left: 10px;
+      }
+
+    </style>
+
+    <script type="text/javascript">
+
+        function eliminarProducto(){
+          $('#eliminar_producto').submit();
+        }
+         function editarAlias(){
+          $('#editar_alias_form').submit();
+        }
+        
+    </script>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-dropbox"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cliente">Producto <?php echo $do_productos -> prod_id; ?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="editar_alias_form" id="editar_alias_form" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+
+              <input type="hidden" name="prod_id" id="prod_id" value="<?php echo $do_productos -> prod_id; ?>">
+
+              <div class="row" >
+
+                  <div class="row">
+
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Categoría</span>
+                    </div>
+                    <div class="col-md-6">
+                      <input autocomplete="off" type="text" name="input_categoria" id="input_categoria" class="form-cliente" disabled value="<?php echo $do_productos -> cat_nombre; ?>">
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Marca</span>
+                    </div>
+                    <div class="col-md-6">
+                      <input autocomplete="off" type="text" name="input_categoria" id="input_categoria" class="form-cliente" disabled value="<?php echo $do_productos -> marca_nombre; ?>">
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-6">
+                      <input autocomplete="off" type="text" name="input_nombre" id="input_nombre" class="form-cliente" disabled value="<?php echo $do_productos -> prod_nombre; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Código</span>
+                    </div>
+                    <div class="col-md-6">
+                      <input autocomplete="off" type="text" name="input_codigo" id="input_codigo" class="form-cliente" disabled value="<?php echo $do_productos -> prod_codigo; ?>">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> Precio </span>
+                    </div>
+                    <div class="col-md-6">
+                      <input autocomplete="off" type="number" name="input_precio" id="input_precio" class="form-cliente" disabled value="<?php echo $do_productos -> prod_precio; ?>">
+                      
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"> </span>
+                    </div>
+                    <div class="col-md-6">
+                      
+                      <a href="#" onclick="editarPrecio();" id="mostrar_precio"> <i class="fa fa-pencil"></i> Editar precio </a> 
+
+                      <button type="submit" id="editar_precio" style="display: none;" class="btn btn-sm btn-raised btn-primary">Guardar</button> 
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 col-xs-1">
+                      <h3>Stock</h3>
+                    
+                      <table nowrap class="table table-hover table-bordered results z-depth-1 tabla-excel" id="cants" >
+
+                        <thead class="text-center">
+                          <tr>
+                            <th class="col-md-1 col-xs-3">Talle </th>
+                            <?php foreach ($do_stock['Talles'] as $k => $v) { ?>
+                              <th class="col-md-2 col-xs-3 text-center"> <?php echo $v; ?></th>
+                            <?php } ?>
+                          </tr>
+                        </thead>
+
+                        <tbody class="">
+                          <td></td>
+                          <?php $i = 0; ?>
+                          <?php foreach ($do_stock['Stock'] as $k => $v) { ?>
+                                <td>
+                                   <?php echo $v; ?> 
+                                </td>
+                     
+                          <?php } ?>
+                        </tbody>
+
+                      </table>
+                    
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <h3>Imagenes</h3>
+                    </div>
+                    <div class="col-xs-12">
+                      <?php if ($do_productos -> prod_img1) { ?>
+                    
+                      <img style="height: 300px; width:24%; display: inline-block" id="edit-image1" class="center" src="<?php echo $do_productos -> prod_img1?>" alt="" />
+                  
+                      <?php }?>
+                      <?php if ($do_productos -> prod_img2) { ?>
+                   
+                      <img style="height: 300px; width:24%; display: inline-block" id="edit-image2" class="center" src="<?php echo $do_productos -> prod_img2?>" alt="" />
+                   
+                      <?php }?>
+                      <?php if ($do_productos -> prod_img2) { ?>
+                   
+                      <img style=" height: 300px; width:24%;display: inline-block" id="edit-image3" class="center" src="<?php echo $do_productos -> prod_img3?>" alt="" />
+                  
+                      <?php }?>
+                      <?php if ($do_productos -> prod_img2) { ?>
+                    
+                      <img style=" height: 300px; width:24%; display: inline-block" id="edit-image4" class="center" src="<?php echo $do_productos -> prod_img4?>" alt="" />
+                  
+                      <?php }?>
+                    </div>
+                    
+                  </div>
+
+                  <br>
+
+              </div>
+                            
+            </div>
+           
+        </form>
+
+        <form method="POST" name="eliminar_producto" id="eliminar_producto">
+          <input type="hidden" name="borrar_producto" value="1">
+          <input type="hidden" name="id_eliminar" value="<?php echo $do_productos -> prod_id; ?>">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <div class="form-group label-cliente">
+          <?php if($stock_total == 0 && $prem){ ?>
+            <button type="button" class="btn btn-raised btn-danger" onclick="eliminarProducto();">Eliminar</button>
+          <?php } ?>
+          <button type="button" id="editar_alias" class="btn btn-raised btn-primary" style="display:none;" onclick="editarAlias()">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>

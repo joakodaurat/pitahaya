@@ -1,0 +1,152 @@
+<style type="text/css">
+  #precio_total {
+    font-size: 20px;
+  }
+  .tooltip {
+    text-decoration:none;
+    position:relative;
+  }
+
+  .tooltip span {
+    display:none;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    color:black;
+    background:white; 
+  }
+
+  .tooltip span img {
+    float:left;
+    margin:0px 8px 8px 0;
+  }
+
+  .tooltip:hover span {
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1000;
+    width:auto;
+    width: 320px;
+    max-width:320px;
+    min-height:128px;
+    border:1px solid black;
+    margin-top:12px;
+    margin-left:32px;
+    overflow:hidden;
+    padding:8px;
+  }
+  .modal-body {
+    overflow-x: auto;
+  }
+</style>
+
+<div id="myModalVenta" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nueva Venta</span> 
+        </span>
+        <span style="display:none" class="form-inline pull-right" style="margin-top: 4px;">
+          <i class="fa fa-calendar"></i>
+          <input  type="date" name="venta_fh" class="form-angosto" required id="venta_fh" value="<?php echo date('Y-m-d');?>" readonly>
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="nueva_venta" id="nueva_venta" value="1">
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+        <!--    <span class="form-inline" id="contenedor-productos" style="margin-left: 15px;">
+              <i class="fa fa-cart-plus"></i> 
+              <select id="combo_prod" name="aux_producto" class="form-control form-select-datalist" placeholder="Agregar producto a la compra" style="width: 95%;">
+                <option value="" >Agregar producto a la venta</option>
+                <?php foreach ($productos as $prod) {
+                $producto_texto =  $prod['modelo'];
+                ?>
+                <option value="<?php echo $prod['id']; ?>" ><?php echo  $producto_texto ?></option>
+                <?php } ?>
+              </select>
+            </span>-->
+            <!-- tipo cliente -->
+
+            <div class="row">
+              <?php while ($tipoproducto -> fetch()) { ?>
+              <div class="col-xs-12">
+               <a class="btn btn-raised" style="display: block; background: #40babd;color: antiquewhite; height: 30px; padding-top: 5px" onclick="mostrarProductos(<?php echo $tipoproducto -> marca_id ?>)">
+                 <?php echo  $tipoproducto -> marca_nombre ?>
+               </a>
+             </div>
+             <?php } ?>
+           </div>
+           <hr>
+           <div class="row" id="div_productos">
+            <?php while ($listado_productos -> fetch()) { ?>
+          <!-- Boton que manda a elegir los dos precios (turista y local) -->
+
+            <div style="display:none" class="col-xs-12 productos tipoproducto_<?php echo  $listado_productos -> prod_marca_id ?>">
+
+             <a class="btn btn-raised " style="display: block; background:darkslategray;color: antiquewhite;padding-top: 0px;white-space: unset" onclick="agregar_producto_lista(<?php echo  $listado_productos -> prod_id ?>,<?php echo  $listado_productos -> prod_precio ?>); bajarscrollhastalistado()">
+               <?php echo  $listado_productos -> prod_nombre ?>  $<?php echo  $listado_productos -> prod_precio; ?>
+            </a>
+          </div>
+
+        <?php } ?> 
+        </div>
+        <hr>
+        <div class="row" id="div_precios">
+          <?php while ($tipocliente -> fetch()) { ?>
+          <div style="display:none" class="col-xs-12 tipocliente">
+           <a class="btn btn-raised" id="tipo_cliente_ <?php echo  $tipocliente -> cat_nombre ?>" style="display: block; background:forestgreen;color: antiquewhite;  white-space: unset;" onclick="cargarproductodesdeboton(this)" >
+           <?php echo  $tipocliente -> cat_nombre ?></span> - <span id="nombre_producto_<?php echo  $tipocliente -> cat_nombre ?>">
+          </a>
+        </div>
+        <?php } ?>
+      </div>
+      <!-- listado de pruductos seleccionados -->
+      <div class="" style="margin-top: 15px;" > 
+        <div id="tabla_productos">
+        </div>
+        <div>
+          <p>Total $</span>
+            <strong id="precio_total"><input style="border:none;width:150px" type="number" readonly name="saldo_final_total" id="saldo_final_total"></strong></p>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- Seccion productos -->
+
+
+      <input type="hidden" name="iterador_producto" id="iterador_producto" value="0">
+      <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="1">            
+
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <span class="form-inline" id="boton_descuento" style="display: none;">
+            <a href="#" class="btn btn-raised btn-info" onclick="nuevoDescuento();">
+              <i class="fa fa-gift"></i> Descuento
+            </a>
+          </span>
+          <button onclick="cobrarVenta(<?php echo $ultima_caja -> caja_valor_dolar;?> );" type="button" id="boton-pagar" class="btn btn-raised btn-success" title="Cobrar venta" ><i class="fa fa-dollar"></i> Cobrar</button>  
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>

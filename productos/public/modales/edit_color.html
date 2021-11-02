@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-chico">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;" id="nombre_color">Color #<?php echo $do_colores -> color_id;?></span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_color_edit" id="detalle_color_edit" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_tipo"> 
+
+              <input type="hidden" name="edit_color_id" id="edit_color_id" value="<?php echo $do_colores -> color_id; ?>">
+              <input type="hidden" name="edit_color" id="edit_color" value="1">
+                  <div class="row">
+                    <div class="col-md-4 col-xs-1 label-cliente">
+                      <span class="form-label"> Color</span>
+                    </div>
+                    <div class="col-md-8">
+                      <input autocomplete="off" type="text" name="input_color_edit" id="input_color_edit" class="form-cliente" placeholder="Nombre" value="<?php echo $do_colores -> color_nombre; ?>">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 col-xs-1 label-cliente">
+                      <span class="form-label"> Codigo</span>
+                    </div>
+                    <div class="col-md-8">
+                      <input autocomplete="off" type="text" name="input_codigo_edit" id="input_codigo_edit" class="form-cliente" placeholder="Nombre" value="<?php echo $do_colores -> color_codigo; ?>">
+                    </div>
+                  </div>
+
+            </div>
+            <hr>
+
+        <div class="form-group label-color text-right">
+          <button type="submit" class="btn btn-raised btn-primary" >Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+         </form>
+      </div>
+    </div>
+
+  </div>

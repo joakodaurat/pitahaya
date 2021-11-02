@@ -1,0 +1,163 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    background-color: #eeeeee;
+  }
+</style>
+
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nota <?php echo $do_nota -> nota_tipo; ?>00<?php echo $do_nota -> nota_id; ?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php echo $do_nota -> cliente_nombre; ?>
+              <?php echo $do_nota -> prov_nombre; ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="nota_fh" class="form-angosto" required id="nota_fh" value="<?php echo date('Y-m-d',strtotime($do_nota -> nota_alta_fh));?>" disabled>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion cliente y fecha -->
+
+        <!-- Div  -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4>  Tipo </h4>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"></i>
+              <input autocomplete="off" type="text" name="input_tipo_nota" id="input_tipo_nota" class="input-pagos form-obs form-contado" value="<?php echo $do_nota -> nota_tipo;?>" disabled>
+            </span>
+          </div>
+        </div>
+        <!-- / Div  -->
+
+        <!-- Div  -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4>  Monto </h4>
+          <div class="col-md-5 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" value="<?php echo $do_nota -> nota_monto;?>" disabled>
+            </span>
+          </div>
+        </div>
+        <!-- / Div  -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+          <h4>  Observación </h4>
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="-" disabled value="<?php echo $do_nota -> nota_observacion;?>">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+
+      <?php if($do_nota -> nota_tipo == "NC") { ?> 
+        <div class="col-md-2 col-xs-2"> 
+          <button href="#" type="button" class="btn btn-sm btn-raised btn-default" id="botonImprimirnota"><i class="fa fa-print"></i> Imprimir NOTA</button>
+        </div>
+      <?php } ?>
+
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-default" onclick="$('#modal-edit-nota').modal('hide');">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    <!-- Seccion imprimir nota credito -->
+
+    <!-- Genero un numero con el id para luego generar el codigo de barras-->
+        <input type="hidden" name="codigo" id="codigonota" value="00<?php echo $do_nota -> nota_id; ?>">
+    
+
+         <div style="width: 300px; display: none" >
+          <div id="imprimirnota" style="width: 300px; " class="container-fluid">
+          <br>
+          <div align="center" style="margin-bottom:10px">
+            <img src="../templates/templates/assets/images/favicon-32x32.png" alt="Logotipo">
+          </div>
+           
+            <p style="text-align: center">DevGAM
+            <br>
+            <br> <strong>NOTA DE CRÉDITO</strong>
+
+            <br><?php echo date('Y-m-d H:i:s',strtotime($do_nota -> nota_alta_fh));?>
+            <br> <i class="fa fa-user"></i>
+              <?php echo $do_nota -> cliente_nombre; ?>
+              <?php echo $do_nota -> prov_nombre; ?>
+            </p>
+              
+            <hr>
+            <p style="text-align: center">
+            <?php if($do_nota -> nota_observacion){ ?>
+              Observación
+              <br> "<?php echo $do_nota -> nota_observacion;?>"
+              <br>
+            <?php } ?>
+              <br><strong>MONTO: $<?php echo $do_nota -> nota_monto;?></strong>
+            </p>
+
+            <hr>
+             <div style="margin: auto;" id="barcodenota"></div>
+
+          </div>
+         </div>
+        
+      <!-- Seccion imprimir -->
+
+
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+    $('#botonImprimirnota').on("click", function () {
+      // genero el codigo de barra
+      var settings = {
+          barWidth: 2, 
+          };
+      var codigo_venta = $('#codigonota').val();
+      $("#barcodenota").barcode(
+                   codigo_venta, // Valor del codigo de barras
+                    "code128",
+                   settings // tipo (cadena)
+                   );
+      // fin genero el codigo de barra
+
+      $(this).blur();
+      $('#imprimirnota').printThis({
+        base: "",
+           });
+        
+         });
+</script>

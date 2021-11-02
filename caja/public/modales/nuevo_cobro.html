@@ -1,0 +1,145 @@
+<style type="text/css">
+
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+<div id="myModalCobro" class="modal fade" role="dialog">
+
+  <div class="modal-dialog modal-chico">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nuevo cobro <span id="montotitulo" style="color:#40babd;"></span></h2></span> 
+        </span>
+        <span style="display:none;" class="form-inline pull-right" style="margin-top: 4px;">
+              <i class="fa fa-calendar"></i>
+              <input  type="datetime" name="cobro_fh" required  id="cobro_fh" value="<?php echo date('d/m/Y');?>" readonly>
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_cobro" id="nuevo_cobro" value="1">
+        <input type="hidden" name="input_monto2" id="input_monto2">
+
+        <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion" style="background-color: #eeeeee;">
+          <h4>Forma de pago</h4>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value=""> Forma de pago </option>
+                <option value="1"> Contado </option>
+                <option value="2"> Dolares </option>
+                <option value="3"> Tarjeta </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+
+        <!-- Div Efectivo -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4> <i class="fa fa-money"> </i>  Pago en Pesos</h4>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" placeholder="Monto" min="1">
+            </span>
+          </div>
+          <div class="col-md-12 col-xs-12"> 
+            <h4 style="margin-bottom: 5px;margin-left: 10px;">Cambio</h4>
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" readonly type="number" id="cambio_pesos" name="cambio_en_pesos" class="input-pagos form-obs form-contado" placeholder="0" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Efectivo -->
+
+        <!-- Div Dolar -->
+        <div class="row form-seccion div-pagos" id="div-mercado">
+          <h4> <i class="fa fa-money"> </i> Pago en dólares ($<span id="totalendolares"></span> usd)</h4>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="hidden"  name="total_dolar" id="total_dolar" >
+                <input autocomplete="off" type="number" name="input_monto_dolar" id="input_monto_dolar" class="input-pagos form-obs form-mercado" placeholder="Monto" min="1">
+            </span>
+          </div>
+          <div class="col-md-12 col-xs-12"> 
+            <h4 style="margin-bottom: 5px;margin-left: 10px;">Cambio en pesos <span id="cambiomxspan"></span></h4>
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off"  type="number" id="pagodolares_cambio_pesos" name="pagodolares_cambio_pesos" class="input-pagos form-obs form-mercado" placeholder="0" min="1">
+            </span>
+          </div>
+          <div class="col-md-12 col-xs-12"> 
+            <h4 style="margin-bottom: 5px;margin-left: 10px;">Cambio en USD <span id="cambiodolarspan"></span></h4>
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off"  type="number" id="pagodolares_cambio_dolares" name="pagodolares_cambio_dolares" class="input-pagos form-obs form-mercado" placeholder="0" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Dolar -->
+
+
+         <!-- Div Tarjeta -->
+        <div class="row form-seccion div-pagos" id="div-credito">
+          <h4> <i class="fa fa-credit-card"> </i> Pago con tarjeta</h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" readonly name="input_monto_tarjeta" id="input_monto_tarjeta" class="input-pagos form-obs form-credito" placeholder="Monto" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div tarjeta -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-12">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del pago">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarYsubmitear();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default" onclick="location.reload();">Cancelar</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

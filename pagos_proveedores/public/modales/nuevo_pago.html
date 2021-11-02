@@ -1,0 +1,162 @@
+<style type="text/css">
+  .fa {
+    width: 20px;
+  }
+  .div-pagos {
+    display: none;
+    background-color: #eeeeee;
+  }
+  .pesitosimbolo {
+    border: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    background-color: white;
+  }
+  .pesitosimbolo input {
+    width: 88%;
+    border-left: 0;
+    padding-left: 0px;
+    border-radius: 0;
+  }
+</style>
+<div id="myModalPago" class="modal fade" role="dialog">
+
+  <div class="modal-dialog modal-grande">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Nuevo Pago</span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="nuevo_pago" id="nuevo_pago" value="1">
+        <input type="hidden" name="input_monto_total" id="input_monto_total" value="">
+
+        <!-- Seccion proveedor y fecha -->
+        <div class="row form-seccion"> 
+          <div class="col-md-6 col-xs-12"> 
+           <span class="form-inline">
+              <i class="fa fa-truck"></i> 
+              <select id="combo_prov_pago" name="input_id_proveedor" class="form-control form-angosto" placeholder="Seleccionar proveedor">
+                <option value="">Seleccione un proveedor</option>
+                <?php foreach ($proveedores as $prov) { ?>
+                  <option value="<?php echo $prov['id']; ?>"><?php echo $prov['nombre']; ?></option>
+                <?php } ?>
+              </select>
+            </span>
+            <span id="deuda_prov"></span>
+            <br>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input  type="date" name="pago_fh" class="form-angosto" required id="pago_fh" value="<?php echo date('Y-m-d');?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- / Seccion proveedor y fecha -->
+
+  <!-- Seccion Pago y opciones -->
+        <div class="row form-seccion">
+          <div class="col-md-4 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-print"> </i> 
+              <select id="combo_fpago" name="combo_fpago" class="select-forma-pago" placeholder="Forma de pago" required>
+                <option value=""> Forma de pago </option>
+                <option value="1"> Efectivo </option>
+                <option value="2"> MercadoPago </option>
+                <option value="3"> Tarjeta credito </option>
+                <option value="4"> Tarjeta debito </option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->
+
+         <!-- Div Efectivo -->
+        <div class="row form-seccion div-pagos" id="div-contado">
+          <h4> <i class="fa fa-money"> </i>  Pago efectivo </h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-dollar"></i>
+              <input autocomplete="off" type="number" name="input_monto_contado" id="input_monto_contado" class="input-pagos form-obs form-contado" placeholder="Monto" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div Efectivo -->
+
+        <!-- Mercado PAGO -->
+        <div class="row form-seccion div-pagos" id="div-mercado">
+          <h4> <i class="fa fa-handshake-o"> </i> MercadoPago </h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_mercado" id="input_monto_mercado" class="input-pagos form-obs form-mercado" placeholder="Monto" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Mercado P -->
+
+
+         <!-- Div Credito -->
+        <div class="row form-seccion div-pagos" id="div-credito">
+          <h4> <i class="fa fa-credit-card"> </i> Crédito </h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_credito" id="input_monto_credito" class="input-pagos form-obs form-credito" placeholder="Monto" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div credito -->
+
+         <!-- Div debito -->
+        <div class="row form-seccion div-pagos" id="div-debito">
+          <h4> <i class="fa fa-credit-card"> </i> Débito </h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <i class="fa fa-dollar"></i>
+                <input autocomplete="off" type="number" name="input_monto_debito" id="input_monto_debito" class="input-pagos form-obs form-debito" placeholder="Monto" min="1">
+            </span>
+          </div>
+        </div>
+        <!-- / Div debito -->
+
+        <!-- Seccion Observacion -->
+        <div class="row form-seccion">
+
+          <div class="col-md-6">
+            <span class="form-block">
+              <i class="fa fa-edit"></i> 
+                <input autocomplete="off" type="text" name="input_obs_pago" id="input_obs_pago" class="form-obs" placeholder="Observación del pago">
+            </span>
+          </div>
+        </div>
+        <!-- Seccion Pago y opciones -->        
+
+      </div>
+      <div class="modal-footer">
+      <div class="col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2">
+        <div class="form-group">
+          <button type="button" class="btn btn-raised btn-primary" onclick="validarYsubmitear();">Guardar</button>
+          <button type="button" class="btn btn-raised btn-default"  data-dismiss="modal">Cancelar</button>
+           <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

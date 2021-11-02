@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+
+
+  <?php require_once('public/modales/nuevo_color.html');?>
+   <?php require_once('public/modales/nuevo_talle.html');?>
+
+  <div id="modal-edit-color" class="modal fade" role="dialog">
+  </div>
+    <div id="modal-edit-talle" class="modal fade" role="dialog">
+  </div>
+  <input type="hidden" name="premium" id="premium" value="<?php echo $premium; ?>">
+
+<?php if ($_GET['id_color']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificó correctamente el color</b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_nuevo_color']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se creó correctamente el color</b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_talle']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se modificó correctamente el talle</b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($_GET['id_nuevo_talle']) { ?>
+<div class="popup-notificacion">
+    <div class="modal-content">
+        <div class="z-depth-3 contenido-notificacion">
+            <span>
+                <i class="fa fa-check"></i> Se creó correctamente el talle</b>.
+            </span>
+        </div>
+    </div>
+</div>
+<?php } ?>
+<div class="row" >
+
+    <!--    TALLES    -->
+<div class="col-xs-6">
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Listado de talles</h3>
+      <h4><a href="#" data-toggle="modal" data-target="#agregarTalle"><i class="fa fa-plus"></i> Nuevo Talle</a></h4>
+
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table class="table table-hover table-bordered results z-depth-2" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-1">#</th>
+                      <th class="col-md-11 col-xs-11">Talle</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_talles->fetch()){?> 
+                        
+                        <tr style="cursor: pointer;" onclick="getTalle(<?php echo $do_talles -> talle_id; ?>,$('#premium').val());" >
+                          <th scope="row">#<?php echo $do_talles -> talle_id; ?></th>
+                          <td><?php echo $do_talles -> talle_nombre; ?></td>
+                        </tr>
+                    <?php    } ?>
+                  </tbody>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//talles-section-->
+</div>
+    <!--    COLORES    -->
+<div class="col-xs-6">
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Listado de colores</h3>
+      <h4><a href="#" data-toggle="modal" data-target="#agregarColor"><i class="fa fa-plus"></i> Nuevo color</a></h4>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table class="table table-hover table-bordered results z-depth-2" id="tabla_colores" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 col-xs-1">#</th>
+                      <th class="col-md-6 col-xs-6">Color</th>
+                      <th class="col-md-6 col-xs-6">Codigo</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_colores->fetch()){?> 
+                        
+                        <tr style="cursor: pointer;" onclick="getColor(<?php echo $do_colores -> color_id; ?>,$('#premium').val());" >
+                          <th scope="row">#<?php echo $do_colores -> color_id; ?></th>
+                          <td style="text-align: left"><?php echo $do_colores -> color_nombre; ?></td>
+                          <td style="text-align: left"><?php echo $do_colores -> color_codigo; ?></td>
+                        </tr>
+                    <?php    } ?>
+                  </tbody>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//-colores-->
+</div>
+</div>
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+
+    <script type="text/javascript" src="public/js/productos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+            $('#tabla_ticketss_filter').find('input').css('border', '0');
+
+            $('#tabla_colores').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+            $('#tabla_colores_filter').find('input').css('border', '0');
+
+            <?php if ($_GET['id_eliminar']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_nuevo']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+            <?php if ($_GET['id_tipo']) {?>
+              $('.popup-notificacion').delay( 3000 ).fadeOut( 400 );
+            <?php } ?>
+
+        } );
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<div id="agregarProducto" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico" >
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-dropbox"></i></span> 
+        <span style="font-size: 18px;" id="Nuevo_prod">Nuevo producto</span> 
+        </span>
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_producto_add" id="detalle_producto_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+              <input type="hidden" name="add_producto" id="add_producto" value="1">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Categoría</span>
+                    </div>
+                    <div class="col-md-9">
+                      <select name="input_categoria" id="input_categoria_add" style="width: 90%;" required="required" class="campos_prod">
+                        <option value="">Seleccione una categoría</option>
+                        <?php while ($do_categoria -> fetch()) { ?>
+                        <option value="<?php echo $do_categoria -> cat_id; ?>"><?php echo $do_categoria -> cat_nombre; ?></option>
+                        <?php } ?>
+                      </select>
+                      <a class="btn btn-sm btn-success" href="#" onclick="agregarCategoria();"><i class="fa fa-list-ul"></i> Agregar categoría </a>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Marca</span>
+                    </div>
+                    <div class="col-md-9">
+                      <select name="input_marca" id="input_marca_add" style="width: 90%;" required="required" class="campos_prod">
+                        <option value="">Seleccione una marca</option>
+                        <?php while ($do_marca -> fetch()) { ?>
+                        <option value="<?php echo $do_marca -> marca_id; ?>"><?php echo $do_marca -> marca_nombre; ?></option>
+                        <?php } ?>
+                      </select>
+                      <a class="btn btn-sm btn-success" href="#" onclick="agregarMarca();"><i class="fa fa-dropbox"></i> Agregar marca </a>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Nombre</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" name="input_modelo" id="input_modelo_add" required="required" class="form-cliente campos_prod">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Codigo</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="number" name="input_codigo" id="input_codigo_add" required="required" class="form-cliente campos_prod">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3 col-xs-1 label-cliente">
+                      <span class="form-label"> Precio</span>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="number" name="input_precio" id="input_precio_add" required="required" class="form-cliente campos_prod">  
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-raised btn-primary" onclick="agregarProducto();">Guardar</button>
+                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="col-md-6 col-sm-6 col-xs-12">   
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

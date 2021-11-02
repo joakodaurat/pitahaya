@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>DevGAM</title>
+    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+    <link rel="stylesheet" href="../templates/templates/assets/plugins/select2/dist/css/select2.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head> 
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+
+<!--              NOTIFICACION NUEVO PAGO CREADO                      -->
+<?php if ($_GET['id_pago']) { ?>
+    <div class="popup-notificacion">
+        <div class="modal-content">
+            <div class="z-depth-3 contenido-notificacion">
+                <span>
+                    <i class="fa fa-check"></i> Se guardó correctamente el pago número <b>PA00<?php echo $_GET['id_pago']; ?></b>.
+                </span>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+  <!--              MODAL NUEVO PAGO                       -->
+ <form class="form-horizontal form-label-left" name="form_pago" id="form_pago" method="post" action="" enctype="multipart/form-data" > 
+ <?php require_once('public/modales/nuevo_pago.html'); ?> 
+</form>
+
+  <!--              MODAL VER PAGO                       -->
+  <div id="modal-ver-pago" class="modal fade" role="dialog">
+  </div>
+
+
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+      <h3><i class="fa fa-list-ul"></i> Listado de pagos</h3>
+       <?php if ($cajaAbierta) { ?>
+         <h4><a href="#" data-toggle="modal" data-target="#myModalPago"><i class="fa fa-plus"></i> Nuevo Pago</a></h4>
+        </h4>
+      <?php } else { ?>
+          <h5> <i class="fa fa-warning"></i> La <a href="../caja/index.php">caja</a> está cerrada. Debe abrirla para poder realizar un pago.</h5>
+      <?php } ?>
+      <div class="col-md-3">
+        <form method="GET" id="form-fecha">
+          <i class="fa fa-calendar"></i> <input id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+
+            <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="col-md-2 col-xs-3">Fecha</th>
+                      <!-- 3 --><th class="col-md-2 col-xs-4">Proveedor</th>
+                      <!-- 2 --><th class="col-md-2 col-xs-4">Forma de pago</th>
+                      <!-- 5 --><th class="col-md-1 col-xs-4">Monto</th>
+                      <!-- 7 --><th class="col-md-2 col-xs-4">Observacion</th> 
+                      <!-- 8 --><th class="col-md-2 col-xs-4">Usuario</th> 
+                      <!-- 9 --><th class="col-md-1 col-xs-4">ID</th> 
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($do_pagos->fetch()){ ?>
+                        <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getPago(<?php echo $do_pagos->pago_id; ?>);" >
+
+                        <!-- 1 Fecha -->
+                          <td><?php echo date('Y/m/d', strtotime($do_pagos -> pago_fh)); ?></td>
+
+                        <!-- 3 Proveedor -->
+                          <td><?php echo $do_pagos -> prov_nombre; ?></td>
+                        
+                        <!-- 2 Concepto -->
+                          <td><?php echo $do_pagos -> fp_desc; ?></td>
+
+                        <!-- 5 Monto -->
+                          <td>$ <span class="row_monto"><?php echo $do_pagos -> pago_monto_total; ?></span></td>
+
+                        <!-- 5.1 Observacion -->
+                          <td><?php echo $do_pagos -> pago_observacion; ?></td>
+
+                        <!-- 5.1 Usuario -->
+                          <td><?php echo $do_pagos -> usua_nombre; ?></td>
+
+                        <!-- 8 Estado pago -->
+                          <td> PA00<?php echo $do_pagos -> pago_id; ?> </td>
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> DevGAM </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script src="../templates/templates/assets/plugins/select2/dist/js/select2.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script type="text/javascript" src="public/js/pagos.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+            $('#tabla_tickets_filter').find('input').css('border', '0');
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+            $('#combo_prov_pago').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+            $('#input_cheque_terceros').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+        } );
+
+        <?php if ($_GET['id_pago']) {?>
+          $('.popup-notificacion').delay( 2500 ).fadeOut( 400 );
+        <?php } ?>
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+
+      <div class="row">
+      <div class="col-md-3 col-xs-12">
+        <span class="form-label">Abierta por <h3 class="nums-totales"><?php echo $u_abrio -> usua_nombre; ?></h3></span>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <span class="form-label">Monto inicial<h3 class="nums-totales"><?php echo $caja -> caja_monto_inicio; ?>$</h3>
+        </span>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <span class="form-label">Monto inicial<h3 class="nums-totales"><?php echo $caja -> caja_monto_dolar_inicio; ?>U$D</h3>
+        </span>
+      </div>
+      <div class="col-md-3 col-xs-12">
+        <span class="form-label">Valor dolar<h3 class="nums-totales"><?php echo $caja -> caja_valor_dolar; ?></h3>
+        </span>
+      </div>
+    </div>
+
+    <h4 style="margin-bottom:0px; color:#4caf50; margin-bottom:2px;border-top: 1px solid #ccc;
+    padding-top: 15px;">INGRESOS </h4>
+    <div class="caja-resumen">
+          <div class="estado-caja">
+     <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#40babd; font-weight: 400; margin-bottom:0px text-center">Efectivo</h3>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#40babd; font-weight: 400; margin-bottom:0px text-center">Dolares</h3>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#40babd; font-weight: 400; margin-bottom:0px text-center">Tarjeta</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#4caf50; font-weight: 400; margin-bottom:0px; margin-top:0px;"><?php echo $efectivoTotal; ?>$</h3>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#4caf50; font-weight: 400; margin-bottom:0px; margin-top:0px;"><?php echo $efectivoTotalDolar; ?>USD</h3>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <h3 style="color:#4caf50; font-weight: 400; margin-bottom:0px; margin-top:0px;"><?php echo $caja -> caja_pagos_tarjeta ?>$</h3>
+      </div>
+    </div>
+    <hr>
+
+    </div>
+
+      <!--Tabla ventas diarias -->
+       <h4 style="margin-bottom:0px; color:#4caf50; margin-bottom:2px"> VENTAS </h4>
+     <table style="margin:0px" class="table table-bordered results z-depth-2 tabla-excel">
+      <thead>
+        <tr class="header-tabla-caja">
+          <th class="">Articulo</th>
+          <th class="">Monto</th>
+          <th class="">Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($do_ventas->fetch()){ ?>
+        <tr style="cursor: pointer;" onclick="getVenta(<?php echo $do_ventas->venta_id; ?>);" >
+          <td><?php echo  $do_ventas -> getDetalleArticuloPrecio();  ?></td>
+
+          <td><span>$<?php echo $do_ventas -> venta_monto_total; ?> (<?php echo $do_ventas -> getDetalleFormaPago(); ?>)</span></td>
+
+          <td><?php echo date('H:m:s', strtotime($do_ventas -> venta_fh)); ?></td>
+
+        </tr>
+        <?php     } ?>
+      </tbody>
+    </table>
+    <!--Tabla ventas diarias -->
+    <br>
+    <!-- TABLA EGRESOS DE EFECTIVO CAJA ACTUAL -->      
+       <h4 style="margin-bottom:0px; color:red; margin-bottom:2px">GASTOS </h4>
+      <table class="table table-hover table-bordered results z-depth-2 tabla-excel" style="margin-top: 0px">
+        <thead>
+          <tr class="header-tabla-caja">
+            <th class="col-md-8">Gastos</th>
+            <th class="col-md-4"></th>
+          </tr>
+        </thead>
+       
+        <tbody>
+        <?php while($gastos -> fetch()){ $total_gastos += $gastos -> gasto_monto_total;  ?> 
+          <tr>
+            <td><?php echo $gastos -> gasto_concepto;?></td>
+            <td>$<?php echo $gastos -> gasto_monto_total;?></td>
+          </tr>
+        <?php }?> 
+          <tr>
+            <th style="text-align: right;">Total</th>
+            <th>$<?php echo $total_gastos;?></th>
+          </tr>
+        </tbody>
+    
+      </table>
+
+       <!--  TABLA EGRESOS DE EFECTIVO CAJA ACTUAL --> 
+      
+    </div>
+    <br>
+
+    <h3 class="title title-estadistico" style="text-align:left;"> 
+       <span><i class="fa fa-line-chart"></i>Balance</span>
+            <span class="balance-diario <?php echo $clase_balance; ?>">$ <?php echo $cajaTotal; ?></span>
+    </h3>
+    <br>
+ 

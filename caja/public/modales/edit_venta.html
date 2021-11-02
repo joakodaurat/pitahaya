@@ -1,0 +1,253 @@
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+          <span class="titulo_modal" id="titulo">Venta V00<?php echo $do_ventas -> venta_id;?></span> 
+        </span>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" name="edit_venta_id" id="edit_venta_id" value="<?php echo $do_ventas -> venta_id;?>">
+
+        <!-- Seccion cliente y fecha -->
+        <div class="row form-seccion" > 
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline">
+              <i class="fa fa-user"></i>
+              <?php if ($clientes['nombre']){echo $clientes['nombre'];} else { echo "Cliente Anonimo";}   ?>
+            </span>
+          </div>
+
+          <div class="col-md-6 col-xs-12"> 
+            <span class="form-inline pull-right">
+              <i class="fa fa-calendar"></i>
+              <input type="date" name="venta_fh" class="form-angosto" required id="venta_fh" value="<?php echo date('Y-m-d',strtotime($do_ventas -> venta_fh));?>" readonly>
+            </span>
+          </div>
+
+        </div>
+        <!-- Seccion cliente y fecha -->
+
+        <!-- Seccion productos -->
+        <div class="row form-seccion"> 
+
+          <div class="col-md-12 col-xs-12"> 
+            <table class="table table-striped table-bordered table-sm z-depth-1" id="tabla_producto">
+              <thead>
+                <tr>
+                  <th class="">Prenda</th>
+                  <th class="">Talle</th>
+                  <th class="">Cant</th>
+                  <th class="">Precio Unitario</th>
+                  <th class="">Precio total ($)</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <?php $i = 0; ?>
+                <?php foreach ($detalle as $d) { ?>
+                <tr>
+                  <td>
+                    <?php echo $d['prod_codigo'].' - '.$d['cat_nombre'].' > '.$d['marca_nombre'].' > '.$d['prod_nombre']; ?>
+                  </td>
+                  <td>
+                    <?php echo $d['prod_talle']; ?>
+                  </td>
+                  <td><?php echo $d['prod_cant']; ?>
+                  </td>
+                  <td>$ <?php echo $d['prod_val']; ?>
+                  </td>
+                  <td>$ <?php echo $d['prod_tot']; ?>
+                  </td>
+                </tr>
+                <?php $i ++; ?>
+                <?php } ?> 
+                <?php if($do_ventas -> venta_descuento_monto) { ?>
+                  <tr style="background-color: #c0ebf1;">
+                    <td> Descuento </td>
+                    <td> </td>
+                    <td><?php echo $do_ventas -> venta_descuento_porc; ?> %</td>
+                    <td>$ <?php echo $do_ventas -> venta_descuento_monto; ?></td>
+                    <td>$ <?php echo $do_ventas -> venta_descuento_monto; ?></td>
+                  </tr>
+                <?php } ?>
+
+              </tbody>
+              <tfoot style="background-color: #fafafa;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;">Total $</span></td>
+                <td id="precio_total"><input type="number" readonly name="saldo_final_total" id="saldo_final_total" value="<?php echo $do_ventas -> venta_monto_total; ?>"></td>
+                
+              </tfoot>
+            </table>  
+
+          </div>
+           <!-- Seccion Pagos -->
+           <div class="col-md-12 col-xs-12"> 
+            <p>
+              FORMA DE PAGO: <strong style="margin-right:5px;color:#4caf50"><?php echo $do_ventas -> getDetalleFormaPago(); ?></strong>
+              <?php if ($do_ventas -> venta_forma_pago_id == 2) { ?> <!-- DOLARES -->
+              <span>MONTO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_monto_total_dolar;?>USD</strong>
+              <span>MONTO ABONADO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_pago_dolar;?>USD</strong>
+              <span>VUELTO: </span>
+              <strong style="color:#4caf50"><?php echo $do_ventas -> cobro_vuelto_dolar ?>USD + </strong>
+              <strong style="margin-right:5px;color:#4caf50"><?php echo $do_ventas -> cobro_vuelto_pesos ?>$ </strong>
+              <?php } ?>
+              <?php if ($do_ventas ->venta_forma_pago_id ==1){ ?> <!-- PESOS -->
+              <span>MONTO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_monto_total;?>$</strong>
+              <span>MONTO ABONADO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_pago_pesos;?>$</strong>
+              <span>VUELTO: </span>
+              <strong style="margin-right:5px;color:#4caf50"><?php echo $do_ventas -> cobro_vuelto_pesos ?>$ </strong>
+              <?php } ?>
+              <?php if ($do_ventas ->venta_forma_pago_id ==3){ ?> <!-- TARJETA -->
+              <span>MONTO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_monto_total;?>$</strong>
+              <span>MONTO ABONADO: </span>
+              <strong style="margin-right:5px; color:#4caf50"><?php echo $do_ventas -> cobro_monto_total;?>$</strong>
+              <?php } ?>
+
+          </p>
+        </div>
+        <!-- Seccion pagos -->
+
+        </div>
+        <!-- Seccion productos -->
+<!-- Seccion imprimir -->
+
+        <div style="width: 300px; display: none" >
+          <div id="imprimir" style="width: 300px;" class="container-fluid">
+          <br>
+          <div align="center" style="margin-bottom:10px">
+            <img src="../templates/templates/assets/images/favicon-32x32.png" alt="Logotipo">
+          </div>
+            <p style="text-align: center">TICKET DE VENTA<br> DevGAM<br><?php echo date('Y-m-d H:i:s',strtotime($do_ventas -> venta_fh));?></p>
+            <div class="row">
+              <div class="col-xs-6"><?php echo $clientes['nombre']; ?></div>
+              <div class="col-xs-6 text-right">V00<?php echo $do_ventas -> venta_id;?></div>
+             <hr>
+           </div>
+              <div class="row" style="border-bottom: 1px solid #ccc;" >
+                <div class="col-xs-8" ><strong>Producto</strong></div>
+                <div class="col-xs-2  text-center"><strong>N°</strong></div>
+                <div class="col-xs-2 text-right" ><strong>$</strong></div>
+              </div>
+                <?php foreach ($detalle as $d) { ?>
+                <div class="row" style="border-bottom: 1px solid #ccc; display: flex; align-items: center;">
+                     <div class="col-xs-8 ">
+                      <?php echo $d['cat_nombre']; ?> - <?php echo $d['marca_nombre'];?> - <?php echo $d['prod_nombre']; ?> 
+                    </div>
+                     <div class="col-xs-2 text-center "><?php echo $d['prod_cant']; ?></div>
+                     <div class="col-xs-2 text-right">$<?php echo $d['prod_tot']; ?></div>
+                </div>
+                <?php } ?> 
+                <br>  
+                 <div class="row">
+                     <div class="col-xs-9 "><strong>Total:</strong></div>
+                     <div class="col-xs-2 "><span>$<?php echo $do_ventas -> venta_monto_total; ?></span></div>
+                </div>
+                <div class="row">
+                     <div class="col-xs-9 "><strong>Forma de pago:</strong></div>
+                     <div class="col-xs-2 "><span><?php echo $do_ventas -> getDetalleFormaPago(); ?></span></div>
+                </div>
+                <?php if ($do_ventas ->venta_forma_pago_id ==1){ ?> <!-- PESOS -->
+                <div class="row">
+                     <div class="col-xs-9 "><strong>Monto Abonado:</strong></div>
+                     <div class="col-xs-2 "><span>$<?php echo $do_ventas -> cobro_pago_pesos; ?></span></div>
+                </div>
+                <div class="row">
+                     <div class="col-xs-9 "><strong>Vuelto:</strong></div>
+                     <div class="col-xs-2 "><span>$<?php echo $do_ventas -> cobro_vuelto_pesos; ?></span></div>
+                   </div>
+                   <?php } ?>
+                   <?php if ($do_ventas ->venta_forma_pago_id ==2){ ?> <!-- DOLARES -->
+                   <div class="row">
+                    <div class="col-xs-6 "><strong>Total en USD:</strong></div>
+                     <div class="col-xs-6" style="text-align:right;"><span><?php echo $do_ventas -> cobro_monto_total_dolar ?>USD</span></div>
+                   </div>
+                   <div class="row">
+                     <div class="col-xs-6 "><strong>Monto Abonado:</strong></div>
+                     <div class="col-xs-6" style="text-align:right;"><span><?php echo $do_ventas -> cobro_pago_dolar; ?>USD</span></div>
+                   </div>
+                   <div class="row">
+                     <div class="col-xs-6 "><strong>Vuelto:</strong></div>
+                     <div class="col-xs-6 " style="text-align:right;"><span>$<?php echo $do_ventas -> cobro_vuelto_pesos; ?> + <?php echo $do_ventas -> cobro_vuelto_dolar; ?>USD </span></div>
+                   </div>
+                   <?php } ?>
+                <hr>
+                 <p style="text-align: center">¡GRACIAS POR SU COMPRA!
+                 <!--<br>código devolución</p>
+                 <div style="margin: auto;" id="barcode"></div> -->
+          </div>
+         </div>
+        <!-- Seccion imprimir -->
+
+        <input type="hidden" name="cant_prod" id="cant_prod" value="<?php echo $i; ?>">
+        <!-- Cambiar cuando este listo credito -->
+        <input type="hidden" name="input_forma_pago" id="input_forma_pago" value="1"> 
+         <!-- Genero un numero de venta con el id para luego generar el codigo de barras-->
+        <input type="hidden" name="codigo_venta" id="codigo_venta" value="00<?php echo $do_ventas -> venta_id;?>">
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-2 col-xs-2"> 
+                <button href="#" type="button" class="btn btn-sm btn-raised btn-default" id="botonImprimir"><i class="fa fa-print"></i> Ticket de venta</button>
+        </div>
+
+      <div class="col-md-10 col-sm-10 col-xs-10">
+        <div class="form-group">
+          <?php if ($cajaAbierta) { ?>
+          <!--
+          <button onclick="cobrarVenta(<?php echo $do_ventas -> venta_id;?>,<?php echo $do_ventas -> venta_cliente_id;?>,<?php echo $do_ventas -> venta_monto_total;?>,<?php echo $cajaActual -> caja_valor_dolar;?> );" type="button" id="boton-pagar" data-toggle="modal" data-target="#myModalCobro" class="btn btn-raised btn-sm btn-success" title="Cobrar venta" ><i class="fa fa-print"></i> Cobrar</button> -->
+          <?php } else { ?>
+             <!--<button  type="button" class="btn btn-raised btn-sm btn-success" title="Abra la caja para realizar el cobro." disabled><i class="fa fa-print"></i> Cobrar</button> -->
+            <span> <i class="fa fa-warning"></i> La <a href="../caja/index.php">caja</a> está cerrada.</span>
+          <?php } ?>
+          <button type="button" class="btn btn-raised btn-sm btn-danger" title="Eliminar venta" onclick="ventafuera(<?php echo $do_ventas -> venta_id;?>)" ><i class="fa fa-trash"></i> Eliminar</button> 
+          <button type="button" class="btn btn-sm btn-raised btn-default" data-dismiss="modal">Volver</button>
+          <div class="col-md-6 col-sm-6 col-xs-12">   
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+<script type="text/javascript"> 
+
+  $('#form_editar_venta').find('input').not('input[type=hidden]').attr('disabled',true);
+
+  $('#botonImprimir').on("click", function () {
+   // genero el codigo de barra
+           var settings = {
+          barWidth: 2,
+
+        };
+    var codigo_venta = $('#codigo_venta').val();
+        $("#barcode").barcode(
+          codigo_venta, // Valor del codigo de barras
+           "code128",
+           settings // tipo (cadena)
+              );
+  // fin genero el codigo de barra
+
+      $(this).blur();
+      $('#imprimir').printThis({
+        base: "",
+           });
+        
+         });
+
+
+</script>
+
+

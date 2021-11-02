@@ -1,0 +1,73 @@
+<div id="myModalClienteAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-chico">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">
+        <span style="font-size: 18px;"><i class="fa fa-money"></i></span> 
+        <span style="font-size: 18px;" id="nombre_cliente">Nueva Salida de Caja </span> 
+      </div>
+      <div class="modal-body"> 
+        <form class="form-horizontal form-label-left" name="detalle_gasto_add" id="detalle_gasto_add" method="post" action="" enctype="multipart/form-data">
+            <div id="datos_cliente"> 
+
+              <input type="hidden" name="add_gasto" id="add_gasto" value="1">
+
+              <div class="row" >
+
+                <div class="col-md-12 col-xs-12"> 
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-user"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                       <select name="input_concepto" id="input_concepto" class="select-tipo-vaca" required="required">
+                          <option value="0">Seleccione un Concepto</option>
+                          <?php while($tipo_gasto -> fetch()){ ?>
+                              <option value="<?php echo $tipo_gasto -> tg_id; ?>"><?php echo $tipo_gasto -> tg_nombre; ?></option>
+                          <?php } ?>
+                        </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-address-card"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="number" name="input_monto" id="input_monto" class="form-cliente" placeholder="Monto" >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-1 col-xs-1 label-cliente">
+                      <span class="form-label"><i class="fa fa-eye"></i> </span>
+                    </div>
+                    <div class="col-md-11">
+                      <input autocomplete="off" type="text" name="input_observacion" id="input_observacion" class="form-cliente" placeholder="Observación" >
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="form-group label-cliente">
+                    <button type="submit" class="btn btn-raised btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+           
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
