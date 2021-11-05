@@ -86,7 +86,7 @@
                     <?php while ($do_compras->fetch()){ ?>
                         <tr style="cursor: pointer;" data-toggle="modal" data-target="#myModalEdit" onclick="getCompra(<?php echo $do_compras->compra_id; ?>);" >
                           <td> C00<?php echo $do_compras -> compra_id; ?> </td>
-                          <td><?php echo date('Y/m/d', strtotime($do_compras -> compra_fh)); ?></td>
+                          <td><?php echo date('d/m/Y', strtotime($do_compras -> compra_fh)); ?></td>
                           <td><?php echo $do_compras -> getDetalleString(); ?></td>
                           <td><?php echo $do_compras -> compra_observacion; ?></td>
                         </tr>

@@ -136,6 +136,8 @@ function cargar_producto_lista (data) {
 
 }
 
+
+
 /* Borrar producto de la factura */
 $(document).on('click', '.borrar', function (event) {
   event.preventDefault();
@@ -146,7 +148,7 @@ $(document).on('click', '.borrar', function (event) {
 /* Selección de producto (Ajax) */
 
 function armarSelect(stock,i){
-  var select = '<select required class="select-tipo-vaca" onchange="modificarMax('+i+');" id="tipo_producto_'+i+'" name="detalle['+i+'][tipo]" required>';
+  var select = '<select required style="padding:0px;text-align:center" class="select-tipo-vaca" onchange="modificarMax('+i+');" id="tipo_producto_'+i+'" name="detalle['+i+'][tipo]" required>';
 
   var CantidadTalles = stock.Talles.length;
 
@@ -501,10 +503,7 @@ function ventafuera(id){
   $('#modalEliminarVenta').modal('show');
 }
 
-//cuando se abre el modal de ventas, abro automaticamente el selector de productos
-$('#myModalVenta').on('shown.bs.modal', function (e) {
-    $('#combo_prod').select2('open');
-})
+
 
 // Eliminar Gasto
 function gastoFuera(id,concepto,monto){
@@ -515,18 +514,3 @@ function gastoFuera(id,concepto,monto){
 }
 
 
-function traer_categorias(id) {
-  $.ajax({
-      url: 'ajax_getCategorias.php',
-      type: 'POST',
-      data: {id : id},
-      dataType: 'json'
-  }).done(function(data){
-    console.log(data);
-     // cargar_producto_lista(data);
-  }).fail(function(xhr, textStatus, errorThrown) {
-      console.log(xhr.responseText);
-  }).always(function(){
-      // console.log('The ajax call ended.');
-  });
-}

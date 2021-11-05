@@ -72,13 +72,14 @@
                 <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
                   <thead>
                     <tr>
-                      <!-- 1 --><th class="col-md-1 col-xs-3"> ID </th>
-                      <!-- 1 --><th class="col-md-2 col-xs-3"> Codigo </th>
-                      <!-- 2 --><th class="col-md-2 col-xs-4"> Categoría </th>
-                      <!-- 4 --><th class="col-md-2 col-xs-4"> Marca </th>
-                      <!-- 3 --><th class="col-md-3 col-xs-4"> Nombre </th>
-                      <!-- 5 --><th class="col-md-1 col-xs-4"> Precio </th>
-                      <!-- 8 --><th class="col-md-1 col-xs-4"> Stock </th>
+                      <!-- 1 --><th class=""> ID </th>
+                      <!-- 1 --><th class=""> Codigo </th>
+                      <!-- 2 --><th class=""> Categoría </th>
+                      <!-- 4 --><th class=""> Marca </th>
+                      <!-- 3 --><th class=""> Nombre </th>
+                      <!-- 5 --><th class=""> Precio </th>
+                      <!-- 8 --><th class=""> Stock </th>
+
                     </tr>
 
                   </thead>
@@ -105,7 +106,21 @@
                         <td>$ <?php echo $productos -> prod_precio; ?></td>
                        
                         <!-- 8 -->
-                        <td><?php echo $productos -> getStock(); ?></td>
+                        <td>
+                          
+                               <?php 
+
+
+                              $do_stock = $do_productos -> getStockPorTalle($productos -> prod_id);
+                            
+                               foreach ($do_stock['Stock'] as $k => $v) { ?>
+                                
+                                   <?php echo $k; ?>(<?php echo $v; ?>) 
+                                
+                     
+                          <?php } ?>
+
+                        </td>
 
                         </tr>
                     <?php     } ?>

@@ -49,6 +49,14 @@
 	$do_marcas = $do_marca -> getMarcas();
 	$categorias = $do_categoria -> getCategorias();
 
+	$do_productos = DB_DataObject::factory('producto');
+
+	$talles = DB_DataObject::factory('talle');
+	$talles -> find();
+
+	
+
+
 	require_once('public/listado_productos.html');
 	exit;
 ?>

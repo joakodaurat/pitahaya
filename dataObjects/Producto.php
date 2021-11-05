@@ -31,6 +31,16 @@ class DataObjects_Producto extends DB_DataObject
     ###END_AUTOCODE
 
     function nuevoProducto($o,$imagenes=null){
+                // asocio la marca a una categoria
+        $do_marcacate= DB_DataObject::factory('marca_categoria');
+        $do_marcacate -> whereAdd('marcacat_marca_id='.$o['input_marca'].' AND marcacat_categoria_id='.$o['input_categoria']);
+        $do_marcacate -> find();    
+        if (!$do_marcacate -> N){
+            $do_marcacate -> marcacat_marca_id = $o['input_marca'];
+            $do_marcacate -> marcacat_categoria_id = $o['input_categoria'];
+            $do_marcacate -> insert();
+        }
+
         $this -> prod_nombre = $o['input_modelo'];
         $this -> prod_codigo = $o['input_codigo'];
         $this -> prod_marca_id = $o['input_marca'];
@@ -60,6 +70,12 @@ class DataObjects_Producto extends DB_DataObject
             $x++;
         }
         }
+
+        // guardo la categoria y la marca
+        $do_marcacate= DB_DataObject::factory('marca_categoria');
+        $do_marcacate -> whereAdd('marcacat_marca_id='.$o['input_marca'].'AND marcacat_categoria_id='.$o['input_categoria']);
+        $do_marcacate -> find(true);
+        $yaestacargado = $do_marcacate -> N;
 
         $id = $this -> insert();
         return $id;
@@ -344,13 +360,14 @@ class DataObjects_Producto extends DB_DataObject
         $do_producto_stock -> find();
 
         $resp = array();
-
+        $do_producto_stock->orderBy('ps_talle_id ASC');
+        $do_producto_stock->find();
         while ($do_producto_stock -> fetch()) {
             $sum[$do_producto_stock -> talle_nombre] += $do_producto_stock -> ps_cantidad;
             $t_aux[$do_producto_stock -> talle_id] = $do_producto_stock -> talle_nombre;
         }
 
-        ksort($t_aux);
+      
 
         foreach ($t_aux as $key => $value) {
             $talles[] = $value;

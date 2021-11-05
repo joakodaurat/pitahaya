@@ -8,8 +8,10 @@
 
 	$do_compras = DB_DataObject::factory('compra');
 	$do_compras -> whereAdd('compra_id = '.$_POST['id']);
-	$do_proveedor = DB_DataObject::factory('proveedor');
-	$do_compras -> joinAdd($do_proveedor);
+	
+	$do_usuario = DB_DataObject::factory('usuario');
+	$do_compras -> joinAdd($do_usuario);
+	
 	$do_compras -> find(true);	
 	$respuesta = array();
 
@@ -22,6 +24,7 @@
 	$do_producto = DB_DataObject::factory('producto');
 	$do_marca = DB_DataObject::factory('marca');
 	$do_categoria = DB_DataObject::factory('categoria');
+
 	$do_producto -> joinAdd($do_marca);
 	$do_producto -> joinAdd($do_categoria);
 
@@ -35,8 +38,7 @@
 		$detalle[$do_compras_detalle -> detalle_id]['cat_nombre'] = $do_compras_detalle -> cat_nombre;
 		$detalle[$do_compras_detalle -> detalle_id]['tipo_nombre'] = $do_compras_detalle -> tipo_desc;
 		$detalle[$do_compras_detalle -> detalle_id]['prod_id'] = $do_compras_detalle -> prod_id;  
-		$detalle[$do_compras_detalle -> detalle_id]['prod_modelo'] = $do_compras_detalle -> prod_codigo .' - '. utf8_decode($do_compras_detalle -> cat_nombre).' | '. utf8_decode($do_compras_detalle -> marca_nombre).' | '. utf8_decode($do_compras_detalle -> prod_nombre); 
-		$detalle[$do_compras_detalle -> detalle_id]['color'] = $do_compras_detalle -> detalle_prod_color; 
+		$detalle[$do_compras_detalle -> detalle_id]['prod_modelo'] = $do_compras_detalle -> prod_codigo .' - '. utf8_decode($do_compras_detalle -> cat_nombre).' | '. utf8_decode($do_compras_detalle -> marca_nombre).' | '. utf8_decode($do_compras_detalle -> prod_nombre);  
 		$detalle[$do_compras_detalle -> detalle_id]['talle'] = $do_compras_detalle -> detalle_prod_talle; 
 		$detalle[$do_compras_detalle -> detalle_id]['cant'] = $do_compras_detalle -> detalle_prod_cant; 
 		$detalle[$do_compras_detalle -> detalle_id]['precio_por_kg'] = $do_compras_detalle -> detalle_prod_precio_u; 
@@ -62,23 +64,13 @@
 		}
 	}
 
-	$do_prov = DB_DataObject::factory('proveedor');
-	$do_prov -> find();
-
-	$proveedores = array();
-
-	while ($do_prov -> fetch()) { 
-		$proveedores[$do_prov -> prov_id]['id'] = $do_prov -> prov_id;
-		$proveedores[$do_prov -> prov_id]['nombre'] = $do_prov -> prov_nombre;
-	}
 
 
 	//TALLES Y COLORES
 	$talle = DB_DataObject::factory('talle');
 	$talles = json_decode($talle -> getTallesJson());	
 
-	$color = DB_DataObject::factory('color');
-	$colores = json_decode($color -> getColoresJson());
+
 
 	//CONCEPTOS
 	$do_conceptos = DB_DataObject::factory('compra_concepto');

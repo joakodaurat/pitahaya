@@ -1,0 +1,15 @@
+
+      
+                <?php foreach ($categorias as $categoria) { ?>
+        
+            <div class="col-xs-12">
+               <a class="btn btn-raised" style="display: block; background: #40babd;color: antiquewhite; height: 30px; padding-top: 5px" onclick="traer_productos(<?php echo $marca_id?>,<?php echo $categoria['categoria_id']?>)">
+                 <?php echo $categoria['categoria_nombre']?>
+               </a>
+             </div>
+                 
+             
+                <?php } ?> 
+              
+
+

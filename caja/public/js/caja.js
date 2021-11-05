@@ -127,3 +127,46 @@ function vertablaventasxarticulo(){
     $('#tablaventas').hide();
     $('#tablaventasxproducto').show();
 };
+
+
+function traer_categorias(id) {
+  $('#listadoproductos').html('');
+  $.ajax({
+      url: 'ajax_getCategorias.php',
+      type: 'POST',
+      data: {id : id},
+      dataType: 'html'
+  }).done(function(data){
+  $('#listadocategorias').html('');
+  $('#listadocategorias').html(data);
+  }).fail(function(xhr, textStatus, errorThrown) {
+      console.log(xhr.responseText);
+  }).always(function(){
+      // console.log('The ajax call ended.');
+  });
+}
+//cuando cierro modal ventas que se deseleccionen las categorias y productos
+$('#myModalVenta').on('hidden.bs.modal', function () {
+     $('#listadocategorias').html('');
+});
+
+function traer_productos(marca_id,categoria_id) {
+  $.ajax({
+      url: 'ajax_getProductos.php',
+      type: 'POST',
+      data: {marca_id : marca_id, categoria_id : categoria_id},
+      dataType: 'html'
+  }).done(function(data){
+  $('#listadoproductos').html('');
+  $('#listadoproductos').html(data);
+  }).fail(function(xhr, textStatus, errorThrown) {
+      console.log(xhr.responseText);
+  }).always(function(){
+      // console.log('The ajax call ended.');
+  });
+}
+//cuando cierro modal ventas que se deseleccionen las categorias y productos
+$('#myModalVenta').on('hidden.bs.modal', function () {
+     $('#listadocategorias').html('');
+     $('#listadoproductos').html('');
+});

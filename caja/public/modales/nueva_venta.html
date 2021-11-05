@@ -41,11 +41,20 @@
 .modal-body {
   overflow-x: auto;
 }
+
+@media screen and (max-width: 1200px) {
+    #modal_venta {
+    width: 95%;
+      }
+      #contenedor-productos {
+        display: none
+      }
+}
 </style>
 
 <div id="myModalVenta" class="modal fade" role="dialog">
 
-  <div class="modal-dialog">
+  <div class="modal-dialog" id="modal_venta">
     
     <div class="modal-content">
       
@@ -54,9 +63,9 @@
         <span class="modal-title">
           <span class="titulo_modal" id="titulo">Nueva Venta</span> 
         </span>
-        <span class="form-inline pull-right" style="margin-top: 4px;">
+        <span style="display: none" class="form-inline pull-right" style="margin-top: 4px;">
               <i class="fa fa-calendar"></i>
-              <input  type="date" name="venta_fh" class="form-angosto" required id="venta_fh" value="<?php echo date('Y-m-d');?>" readonly>
+              <input   type="date" name="venta_fh" class="form-angosto" required id="venta_fh" value="<?php echo date('Y-m-d');?>" readonly>
         </span>
       </div>
 
@@ -96,22 +105,29 @@
         <div class="row">
               <?php while ($marcas -> fetch()) { ?>
               <div class="col-xs-12">
-               <a class="btn btn-raised" style="display: block; background: #40babd;color: antiquewhite; height: 30px; padding-top: 5px" onclick="traerCategorias(<?php echo $tipoproducto -> marca_id ?>)">
+               <a class="btn btn-raised" style="display: block; background:darkcyan;color: antiquewhite; height: 30px; padding-top: 5px" onclick="traer_categorias(<?php echo $marcas -> marca_id ?>)">
                  <?php echo  $marcas -> marca_nombre ?>
                </a>
              </div>
              <?php } ?>
         </div>
 
+        <div class="row" id="listadocategorias">
+          <!-- ESTO se llena por ajax_getcategorias, el html esta en public/categorias -->
+        </div>
+        <div  id="listadoproductos">
+          <!-- ESTO se llena por ajax_getcategorias, el html esta en public/categorias -->
+        </div>
+
           <div class="" style="margin-top: 15px; min-width:600px" > 
             <table class="table table-striped table-bordered table-sm z-depth-1 " id="tabla_productos">
               <thead>
                 <tr>
-                  <th class="col-md-6 col-xs-6">Prenda</th>
-                  <th class="col-md-2 col-xs-2">Talle</th>
-                  <th class="col-md-1 col-xs-1">Cant</th>
-                  <th class="col-md-1 col-xs-1">Precio Unitario</th>
-                  <th class="col-md-2 col-xs-2">Precio total ($)</th>
+                  <th class="">Prenda</th>
+                  <th class="">Talle</th>
+                  <th class="">Cant</th>
+                  <th class="">Precio Unitario</th>
+                  <th class="">Precio total ($)</th>
                 </tr>
               </thead>
               <tbody> </tbody>
@@ -137,7 +153,6 @@
 
           <div class="col-md-12">
             <span class="form-block">
-              <i class="fa fa-edit"></i> 
                 <input autocomplete="off"  style="width: 98%;" type="text" name="input_observacion_venta" id="input_observacion_venta" class="form-obs" placeholder="Observación de la venta">
             </span>
           </div>
