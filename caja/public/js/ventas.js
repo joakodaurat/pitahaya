@@ -110,7 +110,7 @@ function cargar_producto_lista (data) {
     newRowContent += '<td>'+select_stock+'</td>';
     newRowContent += '<td><input type="number" value="1" min="1" class="cantidades soloNumeros full-ancho" id="cant_producto_'+i+'" name="detalle['+i+'][cant]" oninput="modificar('+i+')"></td></td>';
     newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
-    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> <a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></a></td>';
+    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
     
     newRowContent += '</tr>';
     $("#tabla_productos tbody").append(newRowContent);
