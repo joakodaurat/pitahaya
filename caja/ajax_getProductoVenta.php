@@ -11,9 +11,11 @@
 	// print_r($_POST);exit;
 	$do_productos = $do_prod -> getProductos($_POST['id']);
 	$do_stock = $do_prod -> getStockPorTalle($_POST['id']);
+	$do_stocktotal = $do_prod -> getStockTotal($_POST['id']);
 
 	$resp['producto'] = $do_productos;
 	$resp['stock'] = $do_stock;
+	$resp['stocktotal'] = $do_stocktotal;
 	
 	print_r(json_encode($resp));
 

@@ -164,7 +164,6 @@ class DataObjects_Producto extends DB_DataObject
         $do_producto_stock -> ps_color_id = $color_id;
        // $do_producto_stock -> whereAdd('ps_cantidad > 0');
         $do_producto_stock -> find();
-
         while ($do_producto_stock -> fetch()) {
            
         if ($do_producto_stock -> ps_cantidad > 0) {  //nuevo if con stock negativo
@@ -279,6 +278,19 @@ class DataObjects_Producto extends DB_DataObject
         return $sum;
     }
 
+    function getStockTotal($id) {
+        $do_producto_stock = DB_DataObject::factory('producto_stock');
+        $do_producto_stock -> ps_producto_id = $id;
+       // $do_producto_stock -> ps_cantidad > 0;
+        $do_producto_stock -> find();
+
+        $sum = 0;
+        while ($do_producto_stock -> fetch()) {
+            $sum += $do_producto_stock -> ps_cantidad;            
+        }
+
+        return $sum;
+    }
 
     function getMenorStock() {
 

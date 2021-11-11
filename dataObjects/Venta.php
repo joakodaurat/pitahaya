@@ -39,8 +39,9 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
         $venta -> venta_estado_id = 2; // Saldada
         $venta -> venta_forma_pago_id = $_POST['combo_fpago'];
         $venta -> venta_descuento_porc = $objeto['porc_descuento'];
-        $venta -> venta_descuento_monto = $objeto['precio_descuento'];
+        $venta -> venta_descuento_monto = $objeto['cuantodescuento'];
         $venta -> venta_monto_total = $objeto['saldo_final_total'];
+        $venta -> venta_monto_sindescuento = $objeto['saldo_final_total_sindescuento'];
         $venta -> venta_cobro_id = $id_cobro;
         $id_venta = $venta -> insert();
         // 2. Resta stock
@@ -49,13 +50,11 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $tipos = explode(',',$p['tipo']);
 
             $talle = DB_DataObject::factory('talle');
-            $talle_id = $talle -> getTallePorNombre($tipos[1]);
-
-            $color = DB_DataObject::factory('color');
-            $color_id = $color -> getColorPorNombre($tipos[0]);
+            $talle_id = $talle -> getTallePorNombre($tipos[0]);
 
             $producto = DB_DataObject::factory('producto'); 
             $prod = $producto -> getProductos($p['id']);
+
             $arreglo = $prod -> restarStock($talle_id,$color_id,$p['cant']);
 
             if($arreglo['productos']) {
@@ -66,6 +65,8 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
                 $detalle -> detalle_prod_precio_u = $p['precio'];
                 $detalle -> detalle_prod_talle_id = $talle_id;
                 $detalle -> detalle_prod_color_id = $color_id;
+                $detalle -> detalle_prod_total_venta = $p['total'];
+                $detalle -> detalle_prod_total_sindescuento = $p['total_sindescuento'];
 
                 $det_id = $detalle -> insert();
 

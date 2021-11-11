@@ -15,8 +15,8 @@ class DataObjects_Venta_detalle extends DB_DataObject
     public $detalle_prod_id;                 // int(11)  not_null group_by
     public $detalle_prod_cant;               // int(11)  not_null group_by
     public $detalle_prod_precio_u;           // float(11)  not_null group_by
-    public $detalle_prod_precio_venta;       // float(11)  group_by
-    public $detalle_prod_precio_u_original;    // float(11)  group_by
+    public $detalle_prod_total_venta;        // float(11)  group_by
+    public $detalle_prod_total_sindescuento;    // float(11)  group_by
     public $detalle_prod_talle_id;           // int(11)  group_by
     public $detalle_prod_color_id;           // int(11)  group_by
     public $detalle_cant_devueltos;          // int(11)  group_by

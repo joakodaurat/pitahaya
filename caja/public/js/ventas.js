@@ -34,6 +34,14 @@ function calcular_total() {
       sum += parseFloat($(this).val());
   });
   $('#saldo_final_total').val(sum);
+
+// sumo los totales sin tener en cuenta los descuentos
+  var sum1 = 0;
+  $('.precio_parc_sindescuento').each(function() {
+      sum1 += parseFloat($(this).val());
+  });
+  $('#saldo_final_total_sindescuento').val(sum1);
+ 
 }
 
 /* Para que deje scrollear el modal anterior!! */
@@ -55,6 +63,13 @@ function modificar(i) {
         var precio_unitario = parseFloat($('#precio_producto_'+i+'').val());
         var cant = parseFloat($('#cant_producto_'+i+'').val());
         var precio_parcial = (precio_unitario * cant);
+        $('#precio_total_sindescuento'+i+'').val(precio_parcial);
+        // checo si tiene descuento aplicado 
+        var descuento =  $('#descuento_producto_'+i).val();
+        if (descuento) {
+          var descuento = precio_parcial * descuento / 100 ;
+          var precio_parcial = precio_parcial - descuento;
+        }
         $('#precio_total_'+i+'').val(precio_parcial);
 
   // Calculos + Precio total + Tabla conceptos
@@ -89,7 +104,7 @@ function modificarMax(i){
 }
 
 function cargar_producto_lista (data) {
-  if (!data.stock.Stock) {
+  if (!data.stocktotal) {
      alert('ARTICULO SIN STOCK');
      return false;
   }
@@ -110,8 +125,9 @@ function cargar_producto_lista (data) {
     newRowContent += '<td>'+select_stock+'</td>';
     newRowContent += '<td><input type="number" value="1" min="1" class="cantidades soloNumeros full-ancho" id="cant_producto_'+i+'" name="detalle['+i+'][cant]" oninput="modificar('+i+')"></td></td>';
     newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
+    newRowContent += '<td><input type="number"  id="descuento_producto_'+i+'" name="detalle['+i+'][descuento]" onchange="porc_desc('+i+');"> </td>';
     newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
-    
+    newRowContent += '<td style="display:none"><input type="number"  class="precio_parc_sindescuento" readonly value="'+data.producto.prod_precio+'" id="precio_total_sindescuento'+i+'" name="detalle['+i+'][total_sindescuento]"> </a></td>'
     newRowContent += '</tr>';
     $("#tabla_productos tbody").append(newRowContent);
   // Limpiar el campo del producto
@@ -155,7 +171,7 @@ function armarSelect(stock,i){
   // si viene con un solo talle y un solo color que el select ya venga cargado con ese
   if( CantidadTalles == 1 ) {
       for (var k in stock.Stock){
-      select += '<option data-maximo="'+stock.Stock[k]+'" value="'+k+'">'+k+'</option>';
+      select += '<option data-maximo="'+stock.Stock[k]+'" value="'+k+'">'+k+'('+stock.Stock[k]+')</option>';
       // para que pueda cargar la cantidad que quiera
        $('#cant_producto_'+i).attr("readonly", false);
 
@@ -165,8 +181,9 @@ function armarSelect(stock,i){
 
   select += '<option value="">Talle</option>';
   for (var k in stock.Stock){
-    
-      select += '<option data-maximo="'+stock.Stock[k]+'" value="'+k+'">'+k+'</option>';
+      if (stock.Stock[k] > 0) {
+      select += '<option data-maximo="'+stock.Stock[k]+'" value="'+k+'">'+k+'('+stock.Stock[k]+')</option>';
+      } 
 
   } // fin for k
 
@@ -179,61 +196,18 @@ function armarSelect(stock,i){
   return select;
 }
 
-function porc_desc(){
-  var total = 0;
-  $('.precio_parc').each(function() {
-      total += parseInt($(this).val());
-  });
+function porc_desc(i){
 
-  var precio_desc = total * $('#porc_descuento').val() / 100;
-  var precio_total_final = total - precio_desc;
-
-  $('#precio_descuento').val(precio_desc);
-  $('#precio_total_desc').val(precio_desc);
-  $('#saldo_final_total').val(precio_total_final);
-
+  valor_original = $('#precio_producto_'+i).val();
+  porcentaje = $('#descuento_producto_'+i).val();
+  descuento = valor_original * porcentaje / 100;
+  precio_con_descuento = valor_original - descuento;
+  cantidad = $('#cant_producto_'+i).val();
+  precio_con_descuento = precio_con_descuento * cantidad;
+  $('#precio_total_'+i).val(precio_con_descuento);
+  calcular_total();
 }
 
-function prec_desc(){
-  var total = 0;
-  $('.precio_parc').each(function() {
-      total += parseInt($(this).val());
-  });
-
-  var porc_desc = $('#precio_descuento').val() * 100 / total;
-  var precio_total_final = total - $('#precio_descuento').val();
-
-  $('#porc_descuento').val(porc_desc);
-  $('#precio_total_desc').val($('#precio_descuento').val());
-  $('#saldo_final_total').val(precio_total_final);
-
-}
-
-function nuevoDescuento(){
-  var newRowContent = '<tr style="background-color: #c0ebf1;">';
-
-  newRowContent += '<td> Descuento </td>';
-  newRowContent += '<td></td>';
-  newRowContent += '<td><input type="number" max="99" oninput="porc_desc();" class="mod_desc soloNumeros" id="porc_descuento" placeholder="%" name="porc_descuento"></td></td>';
-  newRowContent += '<td><input type="number" step="0.01" oninput="prec_desc();" class="mod_desc" id="precio_descuento" placeholder="$" name="precio_descuento"></td>';
-  newRowContent += '<td><input type="number" step="0.01" class="precio_parc_desc" readonly id="precio_total_desc" name="precio_total_desc"></td>';
-  
-  newRowContent += '</tr>';
-  $("#tabla_productos tbody").append(newRowContent);
-
-// Calcular el total
-  var sum = 0;
-  $('.precio_parc').each(function() {
-      sum += parseInt($(this).val());
-  });
-  sum -= $('#precio_descuento').val();
-
-// Actualizar monto final e interes
-  $('#saldo_final_total').val(sum);
-  $('#boton_descuento').hide();
-  $('#contenedor-productos').hide();
-
-}
 
 function agregar_producto_lista(id) {
    $("#combo_prod").val('');
