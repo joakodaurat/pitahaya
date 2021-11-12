@@ -7,11 +7,12 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 });
 
 
-function actualizarHistorial() {
+function actualizarHistorial(fecha) {
   $('#contenedor-datos-caja').html('');
   $('#contenedor-esperando').css('display','block');
+  if (!fecha) { var fecha = $('#fecha_historial').val();  }
+  
 
-  var fecha = $('#fecha_historial').val();
 
   $.ajax({
       url: 'ajax_actualizarHistorial.php',
@@ -114,4 +115,13 @@ function getVenta(id) {
 }
 
 
+function traercajaporfecha(){
+  let searchParams = new URLSearchParams(window.location.search)
+   if (searchParams.has('fecha')){
+     var fecha = searchParams.get('fecha');
+     $('#fecha_historial').val(fecha);
+     actualizarHistorial(fecha);
+   }
+ 
 
+}

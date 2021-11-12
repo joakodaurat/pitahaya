@@ -64,7 +64,7 @@ th {
       </thead>
       <tbody id="cuerpodetabla">
           <?php foreach ($ganancia as $clave=>$valor) { $total_balance_caja += $valor['ingresos'] - $valor['gastos']  ?>
-      <tr>
+      <tr style="cursor: pointer;" onclick="window.location='../cajaHistorial/historial_caja.php?fecha=<?php echo $clave; ?>'" >
          <td><?php echo $clave; ?></td>
          <td style="color:green">$<span><?php echo $valor['ingresos']; ?></span></td>
          <td style="color:red">$<span><?php echo $valor['gastos']; ?></span></td>
