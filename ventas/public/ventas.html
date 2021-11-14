@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+<head>
+    <title>Stocker</title>
+    <?php  require_once('../templates/templates/estilos_comunes.html'); ?> 
+
+</head> 
+<style type="text/css">
+.cards-section .item-inner:hover {
+  background-color: white;
+
+}
+
+ input {
+    width: 100%;
+    font-weight: 500;
+    border: 1px solid #a9a9a9;
+    border-radius: 3px;
+}
+th {
+  text-align: center;
+}
+</style>
+
+
+    
+<body class="landing-page" style="background-color: #eeeeee;">  
+
+    <div class="page-wrapper" style="background-color: #eeeeee; ">
+
+<?php require_once('../templates/templates/header.html');?>
+    <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
+       <div class="container-fluid">
+      <h2 style="margin-top:0px"> Ventas</h2>
+
+      <div class="col-xs-12">
+        <div class="col-md-4 col-md-offset-4">
+        <form method="GET" id="form-fecha">
+          <span> Desde - Hasta</span> <input style="text-align: center" id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input id="fecha_desde" type="hidden" name="fecha_desde">
+          <input id="fecha_hasta" type="hidden" name="fecha_hasta">
+        </form>
+      </div>
+      </div>
+
+<div class="item item-primary col-xs-12">
+<br>
+ 
+
+  <div style="padding-left:0px;padding-right:0px" class="item-inner item-estadistico z-depth-1">
+       <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                  <thead>
+                    <tr>
+                      <!-- 1 --><th class="">VENDEDOR</th>
+                      <!-- 2 --><th class="">MARCA</th>
+                      <!-- 3 --><th class="">CATEGORIA</th>
+                      <!-- 4 --><th class="">PRODUCTO</th>
+                      <!-- 5 --><th class="">VENTA</th>
+                      <!-- 6 --><th class="">FECHA</th>
+
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <?php while ($ventas_detalle->fetch()){ ?>
+                        <tr >
+
+                        <!-- 1 -->
+                        <td><?php echo $ventas_detalle -> usua_nombre; ?></td>
+
+                        <!-- 2 -->
+                        <td><?php echo $ventas_detalle -> marca_nombre; ?></td>
+                        
+                        <!-- 3 -->
+                        <td><?php echo $ventas_detalle -> cat_nombre; ?></td>
+
+                        <!-- 4 -->
+                        <td><?php echo $ventas_detalle -> prod_nombre; ?> - $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?> 
+                          <?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> 
+
+                           <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong>   
+
+                          <?php }?>
+
+                       </td>
+
+                        <!-- 5 -->
+                        <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?>
+                          <?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?> 
+                          <?php
+                            $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ;
+                            echo $descuento; 
+                           ?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?>
+                           <?php }?>
+                        </td>
+
+                        <!-- 6 -->
+                        <td><?php echo $ventas_detalle -> venta_fh; ?></td>
+                       
+
+                        </tr>
+                    <?php     } ?>
+                  </tbody>
+                  <tfoot style="background-color: #ededed;">
+                    
+                  </tfoot>
+                </table>
+                
+            </div><!--//overflow-->
+    
+
+
+
+
+  </div><!--//item-inner-->
+
+</div>
+</div><!--//container-fluid-->
+        </section><!--//cards-section-->
+
+    </div><!--//page-wrapper-->
+    
+    <footer class="footer text-center">
+        <div class="container">
+
+            <small class="copyright">Desarrollado por <a href="http://www.dev-gam.com.ar/" target="_blank"> Stocker </a></small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+
+    
+    <!-- Main Javascript -->          
+    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
+    <script type="text/javascript" src="public/js/ventas.js"></script>   
+    <script type="text/javascript">  
+        
+        $(document).ready(function() {
+
+
+            $('#fecha_form').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "Desde",
+                    "toLabel": "Hasta",
+                    "customRangeLabel": "Personalizar",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    "firstDay": 1
+                }
+            });
+            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
+              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
+              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
+              $('#form-fecha').submit();
+            });
+
+
+            $('#tabla_tickets').DataTable(
+              {
+                "pageLength": 50,
+                "aaSorting": [0,'desc'],
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              });
+
+        } );
+        
+    </script>
+
+</body>
+</html>

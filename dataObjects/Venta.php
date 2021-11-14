@@ -21,7 +21,7 @@ class DataObjects_Venta extends DB_DataObject
     public $venta_observacion;               // blob(65535)  blob
     public $venta_baja_fh;                   // datetime(19)  
     public $venta_cobro_id;                  // int(11)  group_by
-
+    public $venta_monto_sindescuento;        // float(11)  not_null group_by
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Venta',$k,$v); }
 
