@@ -12,7 +12,7 @@ class DataObjects_Tipo_talle extends DB_DataObject
     public $__table = 'tipo_talle';          // table name
     public $talle_id;                        // int(11)  not_null primary_key group_by
     public $talle_nombre;                    // varchar(10)  not_null
-    public $talle_baja;                      // int(1)  group_by
+    public $talle_baja;                      // int(11)  group_by
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Tipo_talle',$k,$v); }

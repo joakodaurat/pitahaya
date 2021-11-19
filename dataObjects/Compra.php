@@ -16,8 +16,8 @@ class DataObjects_Compra extends DB_DataObject
     public $compra_monto_total;              // float(11)  not_null group_by
     public $compra_usuario_id;               // int(11)  not_null group_by
     public $compra_observacion;              // blob(65535)  blob
-    public $compra_tipo_comprobante;         // varchar(256)  
-    public $compra_nro_comprobante;          // varchar(256)  
+    public $compra_tipo_operacion;           // varchar(256)  
+    public $compra_lugar;                    // varchar(256)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Compra',$k,$v); }
@@ -46,8 +46,8 @@ class DataObjects_Compra extends DB_DataObject
         $compra -> compra_monto_total = $objeto['saldo_final_total'];
         $compra -> compra_usuario_id = $_SESSION['usuario']['id'];
         $compra -> compra_observacion = $objeto['input_observacion_compra'];
-        $compra -> compra_tipo_comprobante = $objeto['combo_tipo_comprobante'];
-        $compra -> compra_nro_comprobante = $objeto['input_nro_comprob_compra'];
+        $compra -> compra_tipo_operacion = "Entrada";
+        $compra -> compra_lugar = "Tienda";
 
         $id_compra = $compra -> insert();
 
@@ -82,6 +82,52 @@ class DataObjects_Compra extends DB_DataObject
 
         return $id_compra;
     }
+
+    function nuevaSalida($objeto) {
+
+        // 1. Crea una nueva compra
+        $compra = DB_DataObject::factory('compra');
+        $compra -> compra_fh = date("Y-m-d H:i:s");
+        $compra -> compra_usuario_id = $_SESSION['usuario']['id'];
+        $compra -> compra_observacion = $objeto['input_observacion_compra'];
+        $compra -> compra_tipo_operacion = "Salida";
+        $compra -> compra_lugar = "Tienda";
+
+        $id_compra = $compra -> insert();
+
+        // 2. Suma stock
+        // 3. Asigna productos al detalle de la compras
+     
+        foreach ($objeto['prod'] as $p) {
+            $producto = DB_DataObject::factory('producto'); 
+            $prod = $producto -> getProductos($p['id']);
+            $respuesta = is_array($prod -> restarStock($p['talle'], $p['cantidad']));
+            if($respuesta) {
+
+                $detalle = DB_DataObject::factory('compra_detalle');
+                $detalle -> detalle_compra_id = $id_compra;
+                $detalle -> detalle_prod_id = $p['id'];
+                $detalle -> detalle_prod_color = $p['color'];
+                $detalle -> detalle_prod_talle = $p['talle'];
+                $detalle -> detalle_prod_cant = $p['cantidad'];
+                $detalle -> detalle_prod_precio_u = $p['precio_kg'];
+                $detalle -> detalle_prod_tipo = $p['tipo'];
+                $detalle -> insert();
+
+            }
+        }
+
+        $compra_e = DB_DataObject::factory('compra');
+        $compra_e -> compra_id = $id_compra;
+        $compra_e -> find(true);
+        $compra_e -> update();
+
+        $cc = DB_DataObject::factory('proveedor_cuenta_corriente');
+        $id_cc = $cc -> cargarCompra($objeto, $id_compra);
+
+        return $id_compra;
+    }
+
 
 
     /* 

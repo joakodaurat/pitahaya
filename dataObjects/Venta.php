@@ -13,15 +13,15 @@ class DataObjects_Venta extends DB_DataObject
     public $venta_id;                        // int(11)  not_null primary_key auto_increment group_by
     public $venta_fh;                        // datetime(19)  not_null
     public $venta_cliente_id;                // int(11)  not_null group_by
-    public $venta_forma_pago_id;             // int(2)  not_null group_by
-    public $venta_estado_id;                 // int(2)  not_null group_by
+    public $venta_forma_pago_id;             // int(11)  not_null group_by
+    public $venta_estado_id;                 // int(11)  not_null group_by
     public $venta_monto_total;               // float(11)  not_null group_by
     public $venta_usuario_id;                // int(11)  not_null group_by
-    public $venta_monto_contado;             // float(11)  not_null group_by
+    public $venta_monto_sindescuento;        // float(11)  not_null group_by
     public $venta_observacion;               // blob(65535)  blob
     public $venta_baja_fh;                   // datetime(19)  
     public $venta_cobro_id;                  // int(11)  group_by
-    public $venta_monto_sindescuento;        // float(11)  not_null group_by
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Venta',$k,$v); }
 
@@ -55,7 +55,7 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $producto = DB_DataObject::factory('producto'); 
             $prod = $producto -> getProductos($p['id']);
 
-            $arreglo = $prod -> restarStock($talle_id,$color_id,$p['cant']);
+            $arreglo = $prod -> restarStock($talle_id,$p['cant']);
 
             if($arreglo['productos']) {
                 $detalle = DB_DataObject::factory('venta_detalle');
@@ -64,7 +64,6 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
                 $detalle -> detalle_prod_cant = $p['cant'];
                 $detalle -> detalle_prod_precio_u = $p['precio'];
                 $detalle -> detalle_prod_talle_id = $talle_id;
-                $detalle -> detalle_prod_color_id = $color_id;
                 $detalle -> detalle_prod_total_venta = $p['total'];
                 $detalle -> detalle_prod_total_sindescuento = $p['total_sindescuento'];
 

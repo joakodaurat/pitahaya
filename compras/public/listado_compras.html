@@ -21,6 +21,9 @@
 <form class="form-horizontal form-label-left" name="detalle_compra" id="detalle_compra" method="post"> 
 <?php require_once('public/modales/nueva_compra.html'); ?> 
 </form>
+    <form class="form-horizontal form-label-left" name="salida_tienda" id="salida_tienda" method="post"> 
+    <?php require_once('public/modales/salida_tienda.html'); ?> 
+    </form>
 <form method="POST" name="editar_compra" id="form_editar_compra">
   <div id="modal-edit-compra" class="modal fade" role="dialog">
   </div>
@@ -48,20 +51,32 @@
         </div>
     </div>
 <?php } ?>
-<?php if ($_GET['id_pago']) { ?>
-    <div class="popup-notificacion">
-        <div class="modal-content">
-            <div class="z-depth-3 contenido-notificacion">
-                <span>
-                    <i class="fa fa-check"></i> Se guardó correctamente el pago número <b>P00<?php echo $_GET['id_pago']; ?></b>.
-                </span>
-            </div>
-        </div>
-    </div>
-<?php } ?>
+
 
     <section class="cards-section fadein text-center" id="transicion" style="background-color: #eeeeee;">
-      <h4><a class="btn btn-sm btn-raised btn-success" href="#" data-toggle="modal" data-target="#myModalVenta"><i class="fa fa-plus"></i> Sumar Stock</a></h4>
+      <div class="row" style="margin-right:20px; margin-left:20px"> 
+        <div class="col-md-3 col-xs-6">
+          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkcyan;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalVenta" >
+            <i class="fa fa-plus"></i> Stock tienda
+          </a>
+        </div>
+                <div class="col-md-3 col-xs-6">
+          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkcyan;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalVenta" >
+            <i class="fa fa-plus"></i> Stock bodega
+          </a>
+        </div>
+        <div class="col-md-3 col-xs-6">
+          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidatienda" >
+            <i class="fa fa-minus"></i> Stock tienda
+          </a>
+        </div>
+        <div class="col-md-3 col-xs-6">
+          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalVenta" >
+            <i class="fa fa-plus"></i> Stock tienda
+          </a>
+        </div>
+
+      </div>
 <br>
       <div class="col-md-3">
         <form method="GET" id="form-fecha">
@@ -118,6 +133,8 @@
 
             $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
 
+            $('#combo_prod_salida').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
             $('#combo_prov').select2({
               language: {
                 noResults: function (params) {
@@ -127,6 +144,13 @@
             });            
 
             $('#combo_prod').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+            $('#combo_prod_salida').select2({
               language: {
                 noResults: function (params) {
                   return "No hay resultados.";

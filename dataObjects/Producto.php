@@ -14,7 +14,7 @@ class DataObjects_Producto extends DB_DataObject
     public $__table = 'producto';            // table name
     public $prod_id;                         // int(11)  not_null primary_key auto_increment group_by
     public $prod_nombre;                     // varchar(255)  not_null
-    public $prod_codigo;                     // bigint(64)  not_null group_by
+    public $prod_codigo;                     // bigint(20)  not_null group_by
     public $prod_marca_id;                   // int(11)  not_null group_by
     public $prod_cat_id;                     // int(11)  not_null group_by
     public $prod_baja;                       // tinyint(1)  not_null group_by
@@ -150,7 +150,7 @@ class DataObjects_Producto extends DB_DataObject
         return $id_update;
     }
 
-    function restarStock($talle_id,$color_id,$cant) {
+    function restarStock($talle_id,$cant) {
 
         $id = false;
         $costo_total = 0;
@@ -161,13 +161,15 @@ class DataObjects_Producto extends DB_DataObject
 
         $do_producto_stock -> ps_producto_id = $this -> prod_id;
         $do_producto_stock -> ps_talle_id = $talle_id;
-        $do_producto_stock -> ps_color_id = $color_id;
        // $do_producto_stock -> whereAdd('ps_cantidad > 0');
         $do_producto_stock -> find();
+        
+
         while ($do_producto_stock -> fetch()) {
            
         if ($do_producto_stock -> ps_cantidad > 0) {  //nuevo if con stock negativo
 
+        
 
             // if sin stock negativo
             if($do_producto_stock -> ps_cantidad >= $cant) {
@@ -193,7 +195,6 @@ class DataObjects_Producto extends DB_DataObject
 
 
         }
-
         if($id){
             return $respuesta;
         } else {

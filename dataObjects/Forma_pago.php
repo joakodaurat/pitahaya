@@ -12,7 +12,7 @@ class DataObjects_Forma_pago extends DB_DataObject
     public $__table = 'forma_pago';          // table name
     public $fp_id;                           // int(11)  not_null primary_key auto_increment group_by
     public $fp_desc;                         // varchar(45)  not_null
-    public $fp_baja;                         // int(1)  not_null group_by
+    public $fp_baja;                         // int(11)  not_null group_by
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Forma_pago',$k,$v); }

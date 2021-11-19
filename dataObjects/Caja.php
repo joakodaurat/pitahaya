@@ -17,7 +17,7 @@ class DataObjects_Caja extends DB_DataObject
     public $caja_monto_cierre;               // float(9)  group_by
     public $caja_usua_inicio;                // int(11)  not_null group_by
     public $caja_usua_cierre;                // int(11)  group_by
-    public $caja_estado;                     // int(1)  not_null group_by
+    public $caja_estado;                     // int(11)  not_null group_by
     public $caja_pagos_ft;                   // float(11)  group_by
     public $caja_monto_dolar_inicio;         // float(9)  not_null group_by
     public $caja_monto_dolar_cierre;         // float(9)  not_null group_by
