@@ -11,6 +11,11 @@
 		$id = $compra -> nuevaCompra($_POST);
 		header("Location: listado.php?id_compra=".$id); 
 	}
+	if($_POST['nueva_salida']) {
+		$compra = DB_DataObject::factory('compra');
+		$id = $compra -> nuevaSalida($_POST);
+		header("Location: listado.php?id_compra=".$id);
+	}
 
 	if($_POST['nuevo_pago']) {
 		$pago = DB_DataObject::factory('pago_proveedor');

@@ -12,7 +12,7 @@ class DataObjects_Caja_estado extends DB_DataObject
     public $__table = 'caja_estado';         // table name
     public $ce_id;                           // int(11)  not_null primary_key auto_increment group_by
     public $ce_nombre;                       // varchar(256)  not_null
-    public $ce_baja;                         // int(1)  group_by
+    public $ce_baja;                         // int(11)  group_by
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Caja_estado',$k,$v); }

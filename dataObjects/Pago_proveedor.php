@@ -16,7 +16,7 @@ class DataObjects_Pago_proveedor extends DB_DataObject
     public $pago_compra_id;                  // int(11)  group_by
     public $pago_monto_total;                // float(11)  not_null group_by
     public $pago_usuario_id;                 // int(11)  not_null group_by
-    public $pago_forma_pago;                 // int(2)  not_null group_by
+    public $pago_forma_pago;                 // int(11)  not_null group_by
     public $pago_observacion;                // varchar(256)  
 
     /* Static get */
