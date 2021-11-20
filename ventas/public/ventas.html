@@ -24,8 +24,6 @@ th {
 }
 </style>
 
-
-    
 <body class="landing-page" style="background-color: #eeeeee;">  
 
     <div class="page-wrapper" style="background-color: #eeeeee; ">
@@ -38,7 +36,7 @@ th {
       <div class="col-xs-12">
         <div class="col-md-4 col-md-offset-4">
         <form method="GET" id="form-fecha">
-          <span> Desde - Hasta</span> <input style="text-align: center" id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
+          <input style="text-align: center" id="fecha_form" type="text" name="fecha" class="form-fecha" value="<?php echo $campoFecha; ?>" autocomplete="off">
           <input id="fecha_desde" type="hidden" name="fecha_desde">
           <input id="fecha_hasta" type="hidden" name="fecha_hasta">
         </form>
@@ -50,7 +48,31 @@ th {
  
 
   <div style="padding-left:0px;padding-right:0px" class="item-inner item-estadistico z-depth-1">
-       <div style="overflow-x:auto; width: 95%; margin: auto;">   
+       
+        <div class="row">
+          <div class="col-xs-12 col-md-2"><h4 style="margin-top: 30px;"> FILTRAR POR:</h4></div>
+                    <div class="col-xs-12 col-md-3" style="margin-top: 20px;"> 
+                      <h4>VENDEDOR</h4>
+                      <select  id="combo_vendedor" name="input_id_vendedor" class="form-control form-angosto" placeholder="Seleccionar Vendedor" required>
+                         <option value="">TODOS</option>
+                      <?php foreach ($vendedores as $vend) { ?>
+                        <option value="<?php echo $vend['id']; ?>" ><?php echo $vend['nombre']; ?></option>
+                      <?php } ?>
+                    </select>
+                     </div> 
+
+                    <div class="col-xs-12 col-md-3" style="margin-top: 20px;"> 
+                      <h4>MARCA</h4>
+                      <select  id="combo_marca" name="input_id_marca" class="form-control form-angosto" placeholder="Seleccionar marca" required>
+                         <option value="">TODAS</option>
+                      <?php while ($do_marca->fetch()){ ?>
+                        <option value="<?php echo $do_marca -> marca_id; ?>" ><?php echo $do_marca -> marca_nombre; ?></option>
+                      <?php } ?>
+                    </select>
+                     </div> 
+          
+        </div>
+        <div style="overflow-x:auto; width: 95%; margin: auto;">
                 <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
                   <thead>
                     <tr>
@@ -66,6 +88,12 @@ th {
                   </thead>
                   <tbody>
                     <?php while ($ventas_detalle->fetch()){ ?>
+                     <?php $totalventas += $ventas_detalle -> detalle_prod_total_venta;  ?>
+                     <?php
+                      $vendido[$ventas_detalle -> usua_id][$ventas_detalle -> usua_nombre] += $ventas_detalle -> detalle_prod_total_sindescuento;
+
+
+      ?>
                         <tr >
 
                         <!-- 1 -->
@@ -111,9 +139,12 @@ th {
                 
             </div><!--//overflow-->
     
-
-
-
+            <h3> TOTAL VENTAS: <span style="color:green">$<?php echo $totalventas; ?></span>  </h3>
+              <?php foreach ($vendedores as $vend) { ?>
+              <?php if($vendido[$vend['id']][$vend['nombre']]) { ?>
+                    <h3><?php echo $vend['nombre']; ?> vendio <?php echo $vendido[$vend['id']][$vend['nombre']]; ?>  </h3>    
+              <?php }} ?>
+           
 
   </div><!--//item-inner-->
 
@@ -188,6 +219,29 @@ th {
                 "aaSorting": [0,'desc'],
                 "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
               });
+
+            $('#tabla_tickets_filter > label').css('color', 'black')
+
+            $('#combo_vendedor').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+            $('#combo_marca').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+
+             $('.select2-container').css('width', '100%');
+
+             cargarselect();
+            
+
 
         } );
         

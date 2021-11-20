@@ -201,6 +201,33 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
 
         return $do_ventas;
     }
+    function getVentasxvendedor($desde = false,$hasta = false,$idvendedor) {
+        $do_ventas = DB_DataObject::factory('venta');
+
+
+        $do_usuario = DB_DataObject::factory('usuario');
+        $do_cliente = DB_DataObject::factory('cliente');
+        $do_venta_estado = DB_DataObject::factory('venta_estado');
+        $do_venta_forma_pago = DB_DataObject::factory('venta_forma_pago');
+
+        $do_ventas -> joinAdd($do_usuario,"LEFT");
+        $do_ventas -> joinAdd($do_cliente,"LEFT");
+        $do_ventas -> joinAdd($do_venta_estado,"LEFT");
+        $do_ventas -> joinAdd($do_venta_forma_pago,"LEFT");
+
+        if($desde && $hasta){
+            $do_ventas -> whereAdd('venta_fh BETWEEN "'.$desde.'" AND "'.$hasta.'"');
+        }
+
+        $do_ventas -> whereAdd('venta_usuario_id = '.$idvendedor);
+        $do_ventas -> find();
+        while ($do_ventas -> fetch()) {
+             $totalventas += $do_ventas -> venta_monto_sindescuento;
+        }
+       
+
+        return $totalventas;
+    }
 
     function getDetalleString() {
 

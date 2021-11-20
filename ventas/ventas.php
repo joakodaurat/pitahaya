@@ -23,9 +23,18 @@
     $ventas_detalle = DB_DataObject::factory('venta_detalle');
     $do_vendedor = DB_DataObject::factory('usuario');
 
+
+    // si tiene el select de vendedor, filtro
+    if($_GET['vendedor']){
+	  $do_ventas -> whereAdd('venta_usuario_id = '.$_GET['vendedor']);
+
+	}
+
     $ventas_detalle -> joinAdd($do_ventas);
     $ventas_detalle -> joinAdd($do_vendedor);
     $ventas_detalle -> find();
+
+
  	$producto = DB_DataObject::factory('producto');
  	$marca = DB_DataObject::factory('marca');
     $categoria = DB_DataObject::factory('categoria');
@@ -37,8 +46,44 @@
     $ventas_detalle ->joinAdd($producto);	
     $ventas_detalle -> find();
 
-    $ventas_detalle -> find();
+    // si tiene el select de marca, filtro
+    if($_GET['marca']){
+	  $ventas_detalle -> whereAdd('marca_id = '.$_GET['marca']);
+      $ventas_detalle -> find();
+	}
    // print_r($ventas_detalle);exit; 
+
+
+    // traigo los vendedores para el select
+   	$do_vendedor = DB_DataObject::factory('usuario');
+	$do_vendedor -> usua_baja = 0;
+	
+
+	$do_usua_roles = DB_DataObject::factory('usuario_rol');
+    $do_roles = DB_DataObject::factory('rol');
+    $do_roles -> rol_id = 5;
+   // $do_roles->find(true);
+    $do_usua_roles->joinAdd($do_roles);
+    $do_vendedor->joinAdd($do_usua_roles);
+
+    $do_vendedor -> rol_nombre = "vendedor";
+    $do_vendedor->find();
+
+  // print_r($do_vendedor);exit;
+
+
+	$vendedores = array();
+
+	while ($do_vendedor -> fetch()) { 
+		$vendedores[$do_vendedor -> usua_id]['id'] = $do_vendedor -> usua_id;
+		$vendedores[$do_vendedor -> usua_id]['nombre'] = $do_vendedor -> usua_nombre;
+	}
+
+ 	// FIN traigo los vendedores para el select
+ 	// traigo las marcas para el select
+   	$do_marca = DB_DataObject::factory('marca');
+   	$do_marca->find();
+ 	// FIN traigo las marcas para el select
 
 
 

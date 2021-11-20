@@ -28,19 +28,22 @@
 
               <?php if($usr -> esAdmin() or $usr -> esContador()) {  ?>
                 <li class="menu-item">
-                  <a class="nav-link" title="caja" href="../caja/index.php"> <i class="fa fa-line-chart"></i> Caja </a>
+                  <a class="nav-link" title="caja" href="../caja/index.php"> <i class="fa fa-inbox"></i> Caja </a>
                 </li>
                 <li class="menu-item">
-                  <a class="nav-link" title="caja" href="../inversiones/listado.php"> <i class="fa fa-money"></i> Inversiones </a>
+                  <a class="nav-link" title="inversiones" href="../inversiones/listado.php"> <i class="fa fa-money"></i> Inversiones </a>
                 </li>
                 <li class="menu-item">
-                  <a class="nav-link" title="caja" href="../inversiones/balance.php"> <i class="fa fa-line-chart"></i> Balances </a>
+                  <a class="nav-link" title="ventas" href="../ventas/ventas.php"> <i class="fa fa-dollar"></i> ventas </a>
                 </li>   
                 <li class="menu-item">
-                  <a class="nav-link" title="caja" href="../productos/productos.php"> <i class="fa fa-dropbox "></i> Productos </a>
+                  <a class="nav-link" title="balances" href="../inversiones/balance.php"> <i class="fa fa-line-chart"></i> Balances </a>
+                </li> 
+                <li class="menu-item">
+                  <a class="nav-link" title="productos" href="../productos/productos.php"> <i class="fa fa-dropbox "></i> Productos </a>
                 </li>
                 <li class="menu-item">
-                  <a class="nav-link" title="caja" href="../vendedores/listado.php"> <i class="fa fa-address-card-o "></i> Vendedores </a>
+                  <a class="nav-link" title="vendedores" href="../vendedores/listado.php"> <i class="fa fa-address-card-o "></i> Vendedores </a>
                 </li>     
               <?php }  ?>    
 
