@@ -17,25 +17,7 @@
 		header("Location: listado.php?id_compra=".$id);
 	}
 
-	if($_POST['nuevo_pago']) {
-		$pago = DB_DataObject::factory('pago_proveedor');
-		$id = $pago -> nuevoPago($_POST);
 
-		$c = DB_DataObject::factory('compra');
-		$c -> compra_id = $_POST['compra_id'];
-		$c -> find(true);
-		$c -> compra_estado_id = 2;
-	
-		$c -> update();
-		header("Location: listado.php?id_pago=".$id."&id_compra_abrir=".$_POST['compra_id']);
-	}
-
-	if($_POST['nuevo_concepto']) {
-		$concepto = DB_DataObject::factory('compra_concepto');
-		$id = $concepto -> nuevoConcepto($_POST);
-
-		header("Location: listado.php?id_concepto=".$id."&id_compra_abrir=".$_POST['concepto_compra_id']);
-	}
 
 	$do_prod = DB_DataObject::factory('producto');
 
@@ -73,7 +55,7 @@
 
 
 	$fecha_actual = new DateTime();	
-	$f_desde =  $fecha_actual -> modify("-1 month");
+	$f_desde = $fecha_actual -> modify("first day of this month");
 
 	$compra = DB_DataObject::factory('compra');
 
@@ -85,7 +67,7 @@
 		$campoFecha = date('d/m/Y',strtotime($_GET['fecha_desde'])).' - '.date('d/m/Y',strtotime($_GET['fecha_hasta']));
 	}
 
-
+	
 	/* Stocky */
 
 	$talle = DB_DataObject::factory('talle');
@@ -104,6 +86,9 @@
 	$do_marca = DB_DataObject::factory('marca');
 	$do_marca -> cat_baja = 0;
 	$do_marca -> find();
+
+
+	
 
 
 	require_once('public/listado_compras.html');

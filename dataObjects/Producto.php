@@ -220,6 +220,24 @@ class DataObjects_Producto extends DB_DataObject
         }
 
     }
+    function sumarStockBodega($compra_id, $producto_id, $pantidad, $talle) {
+        $id = false;
+
+        $do_producto_stock_bodega = DB_DataObject::factory('producto_stock_bodega');
+        $do_producto_stock_bodega -> psbodega_compra_id = $compra_id;
+        $do_producto_stock_bodega -> psbodega_producto_id = $producto_id;
+        $do_producto_stock_bodega -> psbodega_talle_id = $talle;
+        $do_producto_stock_bodega -> psbodega_cantidad = $pantidad;
+
+        $id = $do_producto_stock_bodega -> insert();
+
+        if($id){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     function sumarStockTrasbordo($trasb_id, $producto_id, $cantidad) {
         $id = false;
@@ -378,6 +396,35 @@ class DataObjects_Producto extends DB_DataObject
         while ($do_producto_stock -> fetch()) {
             $sum[$do_producto_stock -> talle_nombre] += $do_producto_stock -> ps_cantidad;
             $t_aux[$do_producto_stock -> talle_id] = $do_producto_stock -> talle_nombre;
+        }
+
+      
+
+        foreach ($t_aux as $key => $value) {
+            $talles[] = $value;
+        }
+
+        $resp['Stock'] = $sum;
+        $resp['Talles'] = $talles;
+        return $resp;
+    }
+    function getStockPorTalleBodega($id) {
+        $do_producto_stock_bodega = DB_DataObject::factory('producto_stock_bodega');
+        $do_producto_stock_bodega -> psbodega_producto_id = $id;
+
+        $talle = DB_DataObject::factory('talle');
+
+        $do_producto_stock_bodega -> joinAdd($talle);
+        
+       // $do_producto_stock -> whereAdd('ps_cantidad > 0');
+        $do_producto_stock_bodega -> find();
+
+        $resp = array();
+        $do_producto_stock_bodega->orderBy('psbodega_talle_id ASC');
+        $do_producto_stock_bodega->find();
+        while ($do_producto_stock_bodega -> fetch()) {
+            $sum[$do_producto_stock_bodega -> talle_nombre] += $do_producto_stock_bodega -> psbodega_cantidad;
+            $t_aux[$do_producto_stock_bodega -> talle_id] = $do_producto_stock_bodega -> talle_nombre;
         }
 
       

@@ -267,4 +267,47 @@ function readURL(input) {
 
 
 
+// PARA LOS MODALES DE MODIFICAR STOCK
 
+function calcular_total() {
+  var sum = 0;
+  $('.precio_parc').each(function() {
+    $val = $(this).val();
+    if ($val != ''){ sum += parseFloat($val);}
+  });
+  $('#saldo_final_total').val(sum);
+}
+
+function modificar(i) {
+  // Actualizo factura
+    var peso_total = parseFloat($('#cantidad_'+i+'').val());
+    var precio_kg = parseFloat($('#precio_kg_'+i+'').val());
+
+    var precio_parcial = (peso_total * precio_kg);
+
+    $('#precio_total_'+i+'').val(precio_parcial);
+
+    calcular_total();
+}
+
+function cargar_producto_lista (prod_modelo, prod_id) {
+
+  var i = parseInt($('#cant_prod').val());
+
+  var newRowContent = '<tr>';
+  newRowContent += '<td>'+prod_modelo+' <input type="hidden" id="prod_id_'+i+'" name="prod['+i+'][id]" value="'+prod_id+'"></td>';
+  newRowContent += '<td><select class="select-tipo-vaca" id="listado-talles_'+i+'" name="prod['+i+'][talle]" required>';
+  newRowContent += '<option value="">Seleccione</option>'; 
+    $.each(talles,function(key, value) 
+    { newRowContent += '<option value=' + key + '>' + value + '</option>'; });
+  newRowContent += '</select></td>';
+  newRowContent += '<td><input type="number" step="1" min="1" id="cantidad_'+i+'" name="prod['+i+'][cantidad]" oninput="modificar('+i+');" required></td>';
+  newRowContent += '</tr>';
+
+  $("#tabla_productos tbody").append(newRowContent);
+  $("#combo_prod").val('');
+  
+  calcular_total();
+
+  $('#cant_prod').val(i+1);
+}

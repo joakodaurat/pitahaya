@@ -54,6 +54,40 @@
 	$talles = DB_DataObject::factory('talle');
 	$talles -> find();
 
+
+// PARA LOS MODALES DE MODIFICAR STOCK
+
+    if($_POST['nueva_compra']) {
+		//print_r($_POST);exit;
+		$compra = DB_DataObject::factory('compra');
+		$id = $compra -> nuevaCompra($_POST);
+		header("Location: productos.php?id_compra=".$id); 
+	}
+	if($_POST['entrada_bodega']) {
+		//print_r($_POST);exit;
+		$compra = DB_DataObject::factory('compra');
+		$id = $compra -> nuevaentradabodega($_POST);
+		header("Location: productos.php?id_compra=".$id); 
+	}
+	if($_POST['nueva_salida']) {
+		$compra = DB_DataObject::factory('compra');
+		$id = $compra -> nuevaSalida($_POST);
+		header("Location: productos.php?id_salida=".$id);
+	}
+
+	$talle = DB_DataObject::factory('talle');
+	$talles = $talle -> getTallesJson();	
+
+	$do_prod = DB_DataObject::factory('producto');
+
+	$listado_productos = $do_prod -> getproductos();
+	$productos_modificar_stock = array();
+
+	while ($listado_productos -> fetch()) { 
+		$productos_modificar_stock[$listado_productos -> prod_id]['id'] = $listado_productos -> prod_id;
+		$productos_modificar_stock[$listado_productos -> prod_id]['modelo'] = $listado_productos -> prod_codigo .' - '. utf8_decode($listado_productos -> cat_nombre).' | '. utf8_decode($listado_productos -> marca_nombre).' | '. utf8_decode($listado_productos -> prod_nombre);
+	}
+
 	
 
 

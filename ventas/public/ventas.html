@@ -141,7 +141,7 @@ th {
     
             <h3> TOTAL VENTAS: <span style="color:green">$<?php echo $totalventas; ?></span>  </h3>
               <?php foreach ($vendedores as $vend) { ?>
-              <?php if($vendido[$vend['id']][$vend['nombre']]) { ?>
+              <?php if( $vendido[$vend['id']][$vend['nombre']]) { ?>
                     <h3><?php echo $vend['nombre']; ?> vendio <?php echo $vendido[$vend['id']][$vend['nombre']]; ?>  </h3>    
               <?php }} ?>
            

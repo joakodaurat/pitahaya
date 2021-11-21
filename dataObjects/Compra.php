@@ -82,6 +82,50 @@ class DataObjects_Compra extends DB_DataObject
 
         return $id_compra;
     }
+     function nuevaentradabodega($objeto) {
+        //print_r($objeto);exit;
+        // 1. Crea una nueva compra
+        $compra = DB_DataObject::factory('compra');
+        $compra -> compra_fh = date("Y-m-d H:i:s");
+        $compra -> compra_prov_id = 99;  
+        $compra -> compra_usuario_id = $_SESSION['usuario']['id'];
+        $compra -> compra_observacion = $objeto['input_observacion_compra'];
+        $compra -> compra_tipo_operacion = "Entrada";
+        $compra -> compra_lugar = "Bodega";
+
+        $id_compra = $compra -> insert();
+
+        // 2. Suma stock
+        // 3. Asigna productos al detalle de la compras
+        $suma_peso = 0;
+        foreach ($objeto['prod'] as $p) {
+            $producto = DB_DataObject::factory('producto'); 
+            $prod = $producto -> getProductos($p['id']);
+            if($prod -> sumarStockBodega($id_compra, $p['id'], $p['cantidad'], $p['talle'])) {
+
+                $detalle = DB_DataObject::factory('compra_detalle');
+                $detalle -> detalle_compra_id = $id_compra;
+                $detalle -> detalle_prod_id = $p['id'];
+                $detalle -> detalle_prod_color = $p['color'];
+                $detalle -> detalle_prod_talle = $p['talle'];
+                $detalle -> detalle_prod_cant = $p['cantidad'];
+                $detalle -> detalle_prod_precio_u = $p['precio_kg'];
+                $detalle -> detalle_prod_tipo = $p['tipo'];
+                $detalle -> insert();
+
+            }
+        }
+
+        $compra_e = DB_DataObject::factory('compra');
+        $compra_e -> compra_id = $id_compra;
+        $compra_e -> find(true);
+        $compra_e -> update();
+
+        $cc = DB_DataObject::factory('proveedor_cuenta_corriente');
+        $id_cc = $cc -> cargarCompra($objeto, $id_compra);
+
+        return $id_compra;
+    }
 
     function nuevaSalida($objeto) {
 
