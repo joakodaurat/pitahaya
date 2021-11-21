@@ -56,24 +56,33 @@
 
 
 // PARA LOS MODALES DE MODIFICAR STOCK
-
+	//entradastocktienda
     if($_POST['nueva_compra']) {
 		//print_r($_POST);exit;
 		$compra = DB_DataObject::factory('compra');
 		$id = $compra -> nuevaCompra($_POST);
 		header("Location: productos.php?id_compra=".$id); 
 	}
+	//salidatocktienda
+	if($_POST['nueva_salida']) {
+		$compra = DB_DataObject::factory('compra');
+		$id = $compra -> nuevaSalida($_POST);
+		header("Location: productos.php?id_salida=".$id);
+	}
+	//entradastockbodega
 	if($_POST['entrada_bodega']) {
 		//print_r($_POST);exit;
 		$compra = DB_DataObject::factory('compra');
 		$id = $compra -> nuevaentradabodega($_POST);
 		header("Location: productos.php?id_compra=".$id); 
 	}
-	if($_POST['nueva_salida']) {
+	//salidastockbodega
+		if($_POST['salida_bodega']) {
 		$compra = DB_DataObject::factory('compra');
-		$id = $compra -> nuevaSalida($_POST);
+		$id = $compra -> nuevaSalidaBodega($_POST);
 		header("Location: productos.php?id_salida=".$id);
 	}
+
 
 	$talle = DB_DataObject::factory('talle');
 	$talles = $talle -> getTallesJson();	

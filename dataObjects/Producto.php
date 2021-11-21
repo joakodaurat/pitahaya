@@ -201,6 +201,57 @@ class DataObjects_Producto extends DB_DataObject
             return false;
         }
     }
+    function restarStockBodega($talle_id,$cant) {
+
+        $id = false;
+        $costo_total = 0;
+
+        $respuesta = array();
+
+        $do_producto_stock = DB_DataObject::factory('producto_stock_bodega');
+
+        $do_producto_stock -> psbodega_producto_id = $this -> prod_id;
+        $do_producto_stock -> psbodega_talle_id = $talle_id;
+       // $do_producto_stock -> whereAdd('ps_cantidad > 0');
+        $do_producto_stock -> find();
+        
+
+        while ($do_producto_stock -> fetch()) {
+           
+        if ($do_producto_stock -> psbodega_cantidad > 0) {  //nuevo if con stock negativo
+
+        
+
+            // if sin stock negativo
+            if($do_producto_stock -> psbodega_cantidad >= $cant) {
+                $do_producto_stock -> psbodega_cantidad = $do_producto_stock -> psbodega_cantidad - $cant;
+                $id = $do_producto_stock -> update();
+                $respuesta['productos'][$do_producto_stock -> psbodega_id] = $cant;
+               $cant = 0;
+                break;
+            } else { 
+                $cant = $cant - $do_producto_stock -> psbodega_cantidad; 
+                $respuesta['productos'][$do_producto_stock -> psbodega_id] = $do_producto_stock -> psbodega_cantidad;
+                $do_producto_stock -> psbodega_cantidad = 0;
+                $do_producto_stock -> update();
+            }
+            // if sin stock negativo
+
+        }else {    //nuevo if con stock negativo
+                $do_producto_stock -> psbodega_cantidad = $do_producto_stock -> psbodega_cantidad - $cant;
+                $id = $do_producto_stock -> update();
+                $respuesta['productos'][$do_producto_stock -> psbodega_id] = $cant;
+
+        } //nuevo if con stock negativo
+
+
+        }
+        if($id){
+            return $respuesta;
+        } else {
+            return false;
+        }
+    }
 
     function sumarStock($compra_id, $producto_id, $pantidad, $talle) {
         $id = false;

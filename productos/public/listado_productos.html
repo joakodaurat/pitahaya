@@ -30,11 +30,11 @@
     <?php require_once('public/modales/salida_tienda.html'); ?> 
 </form>
 
-<form class="form-horizontal form-label-left" name="salida_tienda" id="salida_tienda" method="post"> 
-    <?php require_once('public/modales/salida_tienda.html'); ?> 
+<form class="form-horizontal form-label-left" name="salida_bodega" id="salida_bodega" method="post"> 
+    <?php require_once('public/modales/salida_bodega.html'); ?> 
 </form>
 
-<form method="POST" name="nuevo_producto" id="form_nuevo_producto" enctype="multipart/form-data">
+<form  class="form-horizontal form-label-left" name="entrada_bodega" id="entrada_bodega" method="post">
   <?php require_once('public/modales/entrada_bodega.html');?>
 </form>
 
@@ -128,7 +128,7 @@
           </a>
         </div>
         <div class="col-md-3 col-xs-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#mymodalsalidabodega" >
+          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidabodega" >
             <i class="fa fa-minus"></i> Stock bodega
           </a>
         </div>
@@ -279,7 +279,11 @@
             $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())}); 
 
             $('#combo_prod_salida').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
-              $('#combo_prod_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+            
+            $('#combo_prod_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+            
+            $('#combo_prod_salida_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
             
              $('#combo_prod').select2({
               language: {
@@ -296,6 +300,13 @@
               }
             });
             $('#combo_prod_bodega').select2({
+              language: {
+                noResults: function (params) {
+                  return "No hay resultados.";
+                }
+              }
+            });
+           $('#combo_prod_salida_bodega').select2({
               language: {
                 noResults: function (params) {
                   return "No hay resultados.";
