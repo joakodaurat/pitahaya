@@ -30,7 +30,7 @@ class DataObjects_Producto extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function nuevoProducto($o,$imagenes=null){
+    function nuevoProducto($o,$imagen=null){
                 // asocio la marca a una categoria
         $do_marcacate= DB_DataObject::factory('marca_categoria');
         $do_marcacate -> whereAdd('marcacat_marca_id='.$o['input_marca'].' AND marcacat_categoria_id='.$o['input_categoria']);
@@ -47,28 +47,34 @@ class DataObjects_Producto extends DB_DataObject
         $this -> prod_cat_id = $o['input_categoria'];
         $this -> prod_baja = 0;
         $this -> prod_precio = $o['input_precio'];
-
-        if ($imagenes) {
-          $x = 1;
-          foreach ($imagenes as $imagen) {
-
-            $ruta_archivo_s3 = subirArchivo($imagen);
-            switch ($x) {
-                case 1:
-                    $this -> prod_img1 = $ruta_archivo_s3;
-                    break;
-                case 2:
-                    $this -> prod_img2 = $ruta_archivo_s3;
-                    break;
-                case 3:
-                     $this -> prod_img3 = $ruta_archivo_s3;
-                    break;
-                case 4:
-                     $this -> prod_img4 = $ruta_archivo_s3;
-                    break;
-               };
-            $x++;
+        if ($imagen) {
+             $tipo = $imagen['image1']['type'];
+             $tamano = $imagen['image1']['size'];
+             $temp = $imagen['image1']['tmp_name'];
+                  if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+                  echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+                 - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+                 }
+                   else {
+                            //Si la imagen es correcta en tamaño y tipo
+                           //Se intenta subir al servidor
+               if (move_uploaded_file($temp, '../imagenes/'. $imagen['image1']['name'])) {
+            //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
+                  chmod('images/'.$imagen['image1']['name'], 0777);
+            //Mostramos el mensaje de que se ha subido co éxito
+               $this -> prod_img1 = '../imagenes/'.$imagen['image1']['name'];
         }
+            else {
+           //Si no se ha podido subir la imagen, mostramos una imagen generica
+           $this -> prod_precio = "../imagenes/generica.jpg";
+         }
+      }
+   
+       
+
+
+
+
         }
 
         // guardo la categoria y la marca
@@ -78,7 +84,7 @@ class DataObjects_Producto extends DB_DataObject
         $yaestacargado = $do_marcacate -> N;
 
         $id = $this -> insert();
-        return $id;
+        return $status;
     }
         function agregar_producto($objeto,$archivo=null) {
         $do_producto_add = DB_DataObject::factory('cms_productos');

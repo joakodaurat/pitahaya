@@ -19,8 +19,9 @@
 	}
 
 	if($_POST['add_producto']) {// Nuevo prod
-		//print_r($_FILES);exit;
+	//	print_r($_FILES);exit;
 		$producto = DB_DataObject::factory('producto');
+
 		$id_prod_add = $producto -> nuevoProducto($_POST,$_FILES);
 		header("Location: productos.php?id_add=".$id_prod_add);
 	}
