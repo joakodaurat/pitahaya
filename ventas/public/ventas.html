@@ -87,7 +87,8 @@ th {
 
                   </thead>
                   <tbody>
-                    <?php while ($ventas_detalle->fetch()){ ?>
+                     <?php $totalventas = 0 ?>
+                     <?php while ($ventas_detalle->fetch()){ ?>
                      <?php $totalventas += $ventas_detalle -> detalle_prod_total_venta;  ?>
                      <?php
                       $vendido[$ventas_detalle -> usua_id][$ventas_detalle -> usua_nombre] += $ventas_detalle -> detalle_prod_total_sindescuento;
@@ -139,11 +140,8 @@ th {
                 
             </div><!--//overflow-->
     
-            <h3> TOTAL VENTAS: <span style="color:green">$<?php echo $totalventas; ?></span>  </h3>
-              <?php foreach ($vendedores as $vend) { ?>
-              <?php if( $vendido[$vend['id']][$vend['nombre']]) { ?>
-                    <h3><?php echo $vend['nombre']; ?> vendio <?php echo $vendido[$vend['id']][$vend['nombre']]; ?>  </h3>    
-              <?php }} ?>
+            <h3> TOTAL VENTAS <span id="porfiltro"></span>: <span style="color:green">$<?php  echo $totalventas;?></span>  </h3>
+
            
 
   </div><!--//item-inner-->
