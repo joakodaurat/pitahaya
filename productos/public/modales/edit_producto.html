@@ -127,15 +127,23 @@
                   </div>
                   <div class="row">
                     <div class="col-xs-12">
-                      <h3>Imagenes</h3>
-                    </div>
-                    <div class="col-xs-12">
                       <?php if ($do_productos -> prod_img1) { ?>
                     
                       <img  id="edit-image1" class="center" src="<?php echo $do_productos -> prod_img1?>" alt="" />
                   
                       <?php }?>
-                     
+
+                      <?php if ($do_productos -> prod_img1 != "../imagenes/sinimagen.PNG") { ?>
+                      <?php $comillas = "'" ?>
+                              <a class="btn btn-raised" onclick="eliminarimagen(<?php echo $do_productos -> prod_id; ?>,<?php echo $comillas?><?php echo $do_productos -> prod_img1?><?php echo $comillas?>)" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"> Eliminar imagen </a>
+                       <?php } else {?>
+
+                           <label class="btn btn-raised" for="inputeditimagen" style="text-align:center; display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"> subir imagen </label>
+                                    <input type='file' capture="camera" accept="image/*" style="display: none;" name="imagen" id="inputeditimagen" class="inputImagen"  />
+                                   <img style="display: none; width: 250px; height: 300px" id="image1" class="center" src="#" alt="" />
+
+                         <?php }?>
+
                     </div>
                     
                   </div>

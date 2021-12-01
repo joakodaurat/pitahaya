@@ -56,17 +56,16 @@
 
     // traigo los vendedores para el select
    	$do_vendedor = DB_DataObject::factory('usuario');
-	$do_vendedor -> usua_baja = 0;
 	
 
 	$do_usua_roles = DB_DataObject::factory('usuario_rol');
     $do_roles = DB_DataObject::factory('rol');
-    $do_roles -> rol_id = 5;
+  //  $do_roles -> rol_id = 5;
    // $do_roles->find(true);
     $do_usua_roles->joinAdd($do_roles);
     $do_vendedor->joinAdd($do_usua_roles);
 
-    $do_vendedor -> rol_nombre = "vendedor";
+ //   $do_vendedor -> rol_nombre = "vendedor";
     $do_vendedor->find();
 
   // print_r($do_vendedor);exit;

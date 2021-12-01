@@ -66,7 +66,7 @@ class DataObjects_Producto extends DB_DataObject
         }
             else {
            //Si no se ha podido subir la imagen, mostramos una imagen generica
-           $this -> prod_precio = "../imagenes/generica.jpg";
+           $this -> prod_img1 = "../imagenes/sinimagen.PNG";
          }
       }
    
