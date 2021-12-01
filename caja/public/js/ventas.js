@@ -406,6 +406,7 @@ $("#input_monto_contado").change(function () {
   var monto =  parseFloat($('#saldo_final_total').val());
   if (monto > valorcontado) {
       alert('El valor minimo de pago debe ser $'+monto);
+      $("#input_monto_contado ").val(monto);
       } else {
         $("#cambio_pesos").val(valorcontado - monto);
       }
