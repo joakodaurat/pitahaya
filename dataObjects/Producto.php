@@ -398,43 +398,6 @@ class DataObjects_Producto extends DB_DataObject
         return $respuesta;
     }
 
-    function getStockPorTalleYColor($id) {
-        $do_producto_stock = DB_DataObject::factory('producto_stock');
-        $do_producto_stock -> ps_producto_id = $id;
-
-        $talle = DB_DataObject::factory('talle');
-        $color = DB_DataObject::factory('color');
-
-        $do_producto_stock -> joinAdd($talle);
-        $do_producto_stock -> joinAdd($color);
-        
-       // $do_producto_stock -> whereAdd('ps_cantidad > 0');
-        $do_producto_stock -> find();
-
-        $resp = array();
-
-        while ($do_producto_stock -> fetch()) {
-            $sum[$do_producto_stock -> color_nombre][$do_producto_stock -> talle_nombre] += $do_producto_stock -> ps_cantidad;
-            $c_aux[$do_producto_stock -> color_id] = $do_producto_stock -> color_nombre;
-            $t_aux[$do_producto_stock -> talle_id] = $do_producto_stock -> talle_nombre;
-        }
-
-        ksort($t_aux);
-
-        foreach ($t_aux as $key => $value) {
-            $talles[] = $value;
-        }
-
-        foreach ($c_aux as $key => $value) {
-            $colores[] = $value;
-        }
-
-        $resp['Stock'] = $sum;
-        $resp['Colores'] = $colores;
-        $resp['Talles'] = $talles;
-
-        return $resp;
-    }
 
     function getStockPorTalle($id) {
         $do_producto_stock = DB_DataObject::factory('producto_stock');
@@ -464,6 +427,42 @@ class DataObjects_Producto extends DB_DataObject
         $resp['Stock'] = $sum;
         $resp['Talles'] = $talles;
         return $resp;
+    }
+    function getStockPorTalleespecifico($id,$talleid) {
+        $do_producto_stock = DB_DataObject::factory('producto_stock');
+        $do_producto_stock -> ps_producto_id = $id;
+        $do_producto_stock -> ps_talle_id = $talleid;
+
+        $talle = DB_DataObject::factory('talle');
+
+        $do_producto_stock -> joinAdd($talle);
+        
+       // $do_producto_stock -> whereAdd('ps_cantidad > 0');
+        $do_producto_stock -> find();
+        $sum = 0;
+        while ($do_producto_stock -> fetch()) {
+            $sum += $do_producto_stock -> ps_cantidad;            
+        }
+
+        return $sum;
+    }
+        function getStockPorTalleespecificobodega($id,$talleid) {
+        $do_producto_stock = DB_DataObject::factory('producto_stock_bodega');
+        $do_producto_stock -> ps_producto_id = $id;
+        $do_producto_stock -> ps_talle_id = $talleid;
+
+        $talle = DB_DataObject::factory('talle');
+
+        $do_producto_stock -> joinAdd($talle);
+        
+       // $do_producto_stock -> whereAdd('ps_cantidad > 0');
+        $do_producto_stock -> find();
+        $sum = 0;
+        while ($do_producto_stock -> fetch()) {
+            $sum += $do_producto_stock -> ps_cantidad;            
+        }
+
+        return $sum;
     }
     function getStockPorTalleBodega($id) {
         $do_producto_stock_bodega = DB_DataObject::factory('producto_stock_bodega');

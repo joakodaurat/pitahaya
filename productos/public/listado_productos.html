@@ -1,327 +1,314 @@
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
-<head>
-    <title>Stocker</title>
-    <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!DOCTYPE html>
+  <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+  <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+  <!--[if !IE]><!--> <html lang="es"> <!--<![endif]-->  
+  <head>
+      <title>Stocker</title>
+      <?php require_once('../templates/templates/estilos_comunes.html'); ?> 
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-</head> 
-<script type="text/javascript">
-  var talles = JSON.parse('<?php echo $talles; ?>');
-</script>
-    
-<body class="landing-page" style="background-color: #eeeeee;">  
+  </head> 
+  <script type="text/javascript">
+    var talles = JSON.parse('<?php echo $talles; ?>');
+  </script>
+      
+  <body class="landing-page" style="background-color: #eeeeee;">  
 
-    <div class="page-wrapper" style="background-color: #eeeeee; ">
+      <div class="page-wrapper" style="background-color: #eeeeee; ">
 
-<?php require_once('../templates/templates/header.html');?>
-<form method="POST" name="editar_producto" id="form_editar_producto" enctype="multipart/form-data">
-  <div id="modal-edit-producto" class="modal fade" role="dialog">
-  </div>
-</form>
-
-<form class="form-horizontal form-label-left" name="detalle_compra" id="detalle_compra" method="post"> 
-    <?php require_once('public/modales/entrada_tienda.html'); ?> 
-</form>
-
-<form method="POST" name="nuevo_producto" id="nuevo_producto" enctype="multipart/form-data"> 
-    <?php require_once('public/modales/nuevo_producto.html'); ?> 
-</form>
-
-<form class="form-horizontal form-label-left" name="salida_tienda" id="salida_tienda" method="post"> 
-    <?php require_once('public/modales/salida_tienda.html'); ?> 
-</form>
-
-<form class="form-horizontal form-label-left" name="salida_bodega" id="salida_bodega" method="post"> 
-    <?php require_once('public/modales/salida_bodega.html'); ?> 
-</form>
-
-<form  class="form-horizontal form-label-left" name="entrada_bodega" id="entrada_bodega" method="post">
-  <?php require_once('public/modales/entrada_bodega.html');?>
-</form>
-
-<form method="POST" name="cambiar_precios" id="form_cambiar_precios" enctype="multipart/form-data">
-  <?php require_once('public/modales/cambiar_precios.html');?>
-</form>
-
-<?php if ($_GET['id_add']) { ?>
-<div class="popup-notificacion">
-    <div class="modal-content">
-        <div class="z-depth-3 contenido-notificacion">
-            <span>
-                <i class="fa fa-check"></i> Se agregó correctamente el producto número <b><?php echo $_GET['id_add']; ?></b>.
-            </span>
-        </div>
+  <?php require_once('../templates/templates/header.html');?>
+  <form method="POST" name="editar_producto" id="form_editar_producto" enctype="multipart/form-data">
+    <div id="modal-edit-producto" class="modal fade" role="dialog">
     </div>
-</div>
-<?php } ?>
+  </form>
 
-<?php if ($_GET['modifico']) { ?>
-<div class="popup-notificacion">
-    <div class="modal-content">
-        <div class="z-depth-3 contenido-notificacion">
-            <span>
-                <i class="fa fa-check"></i> Se modificaron correctamente los precios</b>.
-            </span>
-        </div>
-    </div>
-</div>
-<?php } ?>
+  <form class="form-horizontal form-label-left" name="detalle_compra" id="detalle_compra" method="post"> 
+      <?php require_once('public/modales/entrada_tienda.html'); ?> 
+  </form>
 
-<?php if ($_GET['id_edit']) { ?>
-<div class="popup-notificacion">
-    <div class="modal-content">
-        <div class="z-depth-3 contenido-notificacion">
-            <span>
-                <i class="fa fa-check"></i> Se modificó correctamente el producto número <b><?php echo $_GET['id_edit']; ?></b>.
-            </span>
-        </div>
-    </div>
-</div>
-<?php } ?>
-<?php if ($_GET['id_compra']) { ?>
-<div class="popup-notificacion">
-    <div class="modal-content">
-        <div class="z-depth-3 contenido-notificacion">
-            <span>
-                <i class="fa fa-check"></i> Se cargo efectivamente la entrada al stock </b>
-            </span>
-        </div>
-    </div>
-</div>
-<?php } ?>
-<?php if ($_GET['id_salida']) { ?>
-<div class="popup-notificacion">
-    <div class="modal-content">
-        <div class="z-depth-3 contenido-notificacion">
-            <span>
-                <i class="fa fa-check"></i> Se cargo efectivamente la salida al stock </b>
-            </span>
-        </div>
-    </div>
-</div>
-<?php } ?>
+  <form method="POST" name="nuevo_producto" id="nuevo_producto" enctype="multipart/form-data"> 
+      <?php require_once('public/modales/nuevo_producto.html'); ?> 
+  </form>
 
-    <section class="cards-section text-center" id="transicion" style="background-color: #eeeeee;">
-      <div class="row" style="margin-right:20px; margin-left:20px"> 
-        <div class="col-md-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkcyan;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#agregarProducto" >
-             Agregar nuevo producto
-          </a>
-        </div>
-        <div class="col-md-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:burlywood;color: antiquewhite;"  href="../compras/listado.php" >
-             Historial entradas/salidas
-          </a>
-        </div>
-        <div class="col-md-3 col-xs-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkslategrey;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalVenta" >
-            <i class="fa fa-plus"></i> Stock tienda
-          </a>
-        </div>
-                <div class="col-md-3 col-xs-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkslategrey;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#mymodalentradabodega" >
-            <i class="fa fa-plus"></i> Stock bodega
-          </a>
-        </div>
-        <div class="col-md-3 col-xs-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidatienda" >
-            <i class="fa fa-minus"></i> Stock tienda
-          </a>
-        </div>
-        <div class="col-md-3 col-xs-12">
-          <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidabodega" >
-            <i class="fa fa-minus"></i> Stock bodega
-          </a>
-        </div>
+  <form class="form-horizontal form-label-left" name="salida_tienda" id="salida_tienda" method="post"> 
+      <?php require_once('public/modales/salida_tienda.html'); ?> 
+  </form>
 
+  <form class="form-horizontal form-label-left" name="salida_bodega" id="salida_bodega" method="post"> 
+      <?php require_once('public/modales/salida_bodega.html'); ?> 
+  </form>
 
+  <form  class="form-horizontal form-label-left" name="entrada_bodega" id="entrada_bodega" method="post">
+    <?php require_once('public/modales/entrada_bodega.html');?>
+  </form>
+
+  <form method="POST" name="cambiar_precios" id="form_cambiar_precios" enctype="multipart/form-data">
+    <?php require_once('public/modales/cambiar_precios.html');?>
+  </form>
+
+  <?php if ($_GET['id_add']) { ?>
+  <div class="popup-notificacion">
+      <div class="modal-content">
+          <div class="z-depth-3 contenido-notificacion">
+              <span>
+                  <i class="fa fa-check"></i> Se agregó correctamente el producto número <b><?php echo $_GET['id_add']; ?></b>.
+              </span>
+          </div>
       </div>
+  </div>
+  <?php } ?>
+
+  <?php if ($_GET['modifico']) { ?>
+  <div class="popup-notificacion">
+      <div class="modal-content">
+          <div class="z-depth-3 contenido-notificacion">
+              <span>
+                  <i class="fa fa-check"></i> Se modificaron correctamente los precios</b>.
+              </span>
+          </div>
+      </div>
+  </div>
+  <?php } ?>
+
+  <?php if ($_GET['id_edit']) { ?>
+  <div class="popup-notificacion">
+      <div class="modal-content">
+          <div class="z-depth-3 contenido-notificacion">
+              <span>
+                  <i class="fa fa-check"></i> Se modificó correctamente el producto número <b><?php echo $_GET['id_edit']; ?></b>.
+              </span>
+          </div>
+      </div>
+  </div>
+  <?php } ?>
+  <?php if ($_GET['id_compra']) { ?>
+  <div class="popup-notificacion">
+      <div class="modal-content">
+          <div class="z-depth-3 contenido-notificacion">
+              <span>
+                  <i class="fa fa-check"></i> Se cargo efectivamente la entrada al stock </b>
+              </span>
+          </div>
+      </div>
+  </div>
+  <?php } ?>
+  <?php if ($_GET['id_salida']) { ?>
+  <div class="popup-notificacion">
+      <div class="modal-content">
+          <div class="z-depth-3 contenido-notificacion">
+              <span>
+                  <i class="fa fa-check"></i> Se cargo efectivamente la salida al stock </b>
+              </span>
+          </div>
+      </div>
+  </div>
+  <?php } ?>
+
+      <section class="cards-section text-center" id="transicion" style="background-color: #eeeeee;">
+        <div class="row" style="margin-right:20px; margin-left:20px"> 
+          <div class="col-md-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkcyan;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#agregarProducto" >
+               Agregar nuevo producto
+            </a>
+          </div>
+          <div class="col-md-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:burlywood;color: antiquewhite;"  href="../compras/listado.php" >
+               Historial entradas/salidas
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkslategrey;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalVenta" >
+              <i class="fa fa-plus"></i> Stock tienda
+            </a>
+          </div>
+                  <div class="col-md-3 col-xs-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color:darkslategrey;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#mymodalentradabodega" >
+              <i class="fa fa-plus"></i> Stock bodega
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidatienda" >
+              <i class="fa fa-minus"></i> Stock tienda
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <a class="btn btn-raised" style="display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"  href="#" data-toggle="modal" data-target="#myModalsalidabodega" >
+              <i class="fa fa-minus"></i> Stock bodega
+            </a>
+          </div>
 
 
-            <div style="overflow-x:auto; width: 95%; margin: auto;">   
-                <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
-                  <thead>
-                    <tr>
-                      <!-- 1 --><th class=""> Codigo </th>
-                      <!-- 2 --><th class=""> Categoría </th>
-                      <!-- 3 --><th class=""> Marca </th>
-                      <!-- 4 --><th class=""> Nombre </th>
-                      <!-- 5 --><th class=""> Precio </th>
-                      <!-- 6 --><th class=""> Tienda </th>
-                      <!-- 7 --><th class=""> Bodega </th>
-
-                    </tr>
-
-                  </thead>
-                  <tbody>
-                    <?php while ($productos->fetch()){ ?>
-                        <tr style="cursor: pointer;" onclick="getProducto(<?php echo $productos->prod_id; ?>);" >
+        </div>
 
 
-                        <!-- 1 -->
-                        <td>#<?php echo $productos -> prod_codigo; ?></td>
-                        
-                        <!-- 2 -->
-                        <td><?php echo $productos -> cat_nombre; ?></td>
+              <div style="overflow-x:auto; width: 95%; margin: auto;">   
+                  <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
+                    <thead>
+                      <tr>
+                        <!-- 1 --><th class=""> Codigo </th>
+                        <!-- 2 --><th class=""> Categoría </th>
+                        <!-- 3 --><th class=""> Marca </th>
+                        <!-- 4 --><th class=""> Nombre </th>
+                        <!-- 5 --><th class=""> Precio </th>
+                        <!-- 6 --><th class=""> XS </th>
+                        <!-- 7 --><th class=""> S </th>
+                        <!-- 6 --><th class=""> M </th>
+                        <!-- 6 --><th class=""> L </th>
+                        <!-- 6 --><th class=""> XL </th>
+                        <!-- 6 --><th class=""> ST </th>
 
-                        <!-- 3 -->
-                        <td><?php echo $productos -> marca_nombre; ?></td>
+                      </tr>
 
-                        <!-- 4 -->
-                        <td><?php echo $productos -> prod_nombre; ?></td>
+                    </thead>
+                    <tbody>
+                      <?php while ($productos->fetch()){ ?>
+                          <tr style="cursor: pointer;" onclick="getProducto(<?php echo $productos->prod_id; ?>);" >
 
-                        <!-- 5 -->
-                        <td>$ <?php echo $productos -> prod_precio; ?></td>
-                        <!-- 6 --> 
-                        <td>
+
+                          <!-- 1 -->
+                          <td>#<?php echo $productos -> prod_codigo; ?></td>
                           
-                               <?php 
+                          <!-- 2 -->
+                          <td><?php echo $productos -> cat_nombre; ?></td>
+
+                          <!-- 3 -->
+                          <td><?php echo $productos -> marca_nombre; ?></td>
+
+                          <!-- 4 -->
+                          <td><?php echo $productos -> prod_nombre; ?></td>
+
+                          <!-- 5 -->
+                          <td>$ <?php echo $productos -> prod_precio; ?></td>
+                          <!-- 6 --> 
+                          <td>
+                            <?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,1); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,1); ?>
+
+                          </td>
+                          <td><?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,2); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,2); ?></td>
+                          <td><?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,3); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,3); ?></td>
+                          <td><?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,4); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,4); ?></td>
+                          <td><?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,5); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,5); ?></td>
+                          <td><?php echo $do_productos -> getStockPorTalleespecifico($productos -> prod_id,6); ?> - <?php echo $do_productos -> getStockPorTalleespecificobodega($productos -> prod_id,6); ?></td>
 
 
-                              $do_stock = $do_productos -> getStockPorTalle($productos -> prod_id);
-                            
-                               foreach ($do_stock['Stock'] as $k => $v) { ?>
-                                
-                                   <?php echo $k; ?>(<?php echo $v; ?>) 
-                                
-                     
-                          <?php } ?>
+                          </tr>
+                      <?php     } ?>
+                    </tbody>
+                    <tfoot style="background-color: #ededed;">
+                      
+                    </tfoot>
+                  </table>
+                  
+              </div><!--//overflow-->
+          </section><!--//cards-section-->
 
-                        </td>
-                        <!-- 7 --> 
-                        <td>
-                          
-                               <?php 
+      </div><!--//page-wrapper-->
+      
+      <footer class="footer text-center">
+          <div class="container">
 
+              <small class="copyright"><a href="http://www.dev-gam.com.ar/" target="_blank"> Stocker </a></small>
+              
+          </div><!--//container-->
+      </footer><!--//footer-->
 
-                              $do_stock = $do_productos -> getStockPorTalleBodega($productos -> prod_id);
-                            
-                               foreach ($do_stock['Stock'] as $k => $v) { ?>
-                                
-                                   <?php echo $k; ?>(<?php echo $v; ?>) 
-                                
-                     
-                          <?php } ?>
+      
+      <!-- Main Javascript -->          
+      <?php require_once('../templates/templates/scripts_comunes.html'); ?>
 
-                        </td>
+      <script type="text/javascript" src="public/js/productos.js"></script>   
+      <script type="text/javascript">  
+          
+          $(document).ready(function() {
+              $('#tabla_tickets').DataTable(
+                {
+                  "pageLength": 50,
+                  "aaSorting": [0,'desc'],
+                  "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                   "dom": 'Bfrtip',
+                  "buttons": [
+                    'copy', 'excel', 'pdf'
+                    ]
+                });
 
-                        </tr>
-                    <?php     } ?>
-                  </tbody>
-                  <tfoot style="background-color: #ededed;">
-                    
-                  </tfoot>
-                </table>
-                
-            </div><!--//overflow-->
-        </section><!--//cards-section-->
-
-    </div><!--//page-wrapper-->
-    
-    <footer class="footer text-center">
-        <div class="container">
-
-            <small class="copyright"><a href="http://www.dev-gam.com.ar/" target="_blank"> Stocker </a></small>
+              $('#tabla_tickets_filter').find('input').css('border', '0');
             
-        </div><!--//container-->
-    </footer><!--//footer-->
+              $('.popup-notificacion').delay( 2000 ).fadeOut( 200 );
 
-    
-    <!-- Main Javascript -->          
-    <?php require_once('../templates/templates/scripts_comunes.html'); ?>
 
-    <script type="text/javascript" src="public/js/productos.js"></script>   
-    <script type="text/javascript">  
-        
-        $(document).ready(function() {
-            $('#tabla_tickets').DataTable(
-              {
-                "pageLength": 50,
-                "aaSorting": [0,'desc'],
-                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+              $('#input_categoria_add').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
               });
 
-            $('#tabla_tickets_filter').find('input').css('border', '0');
+            $('#select_categoria').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+             $('#select_marca').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+
+              $('#input_marca_add').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+
+              $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())}); 
+
+              $('#combo_prod_salida').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+              
+              $('#combo_prod_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+              
+              $('#combo_prod_salida_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
+
+              
+               $('#combo_prod').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+              $('#combo_prod_salida').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+              $('#combo_prod_bodega').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+             $('#combo_prod_salida_bodega').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+
+          } );
+
           
-            $('.popup-notificacion').delay( 2000 ).fadeOut( 200 );
+      </script>
 
-
-            $('#input_categoria_add').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-
-          $('#select_categoria').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-           $('#select_marca').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-
-            $('#input_marca_add').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-
-            $('#combo_prod').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())}); 
-
-            $('#combo_prod_salida').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
-            
-            $('#combo_prod_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
-            
-            $('#combo_prod_salida_bodega').on("change", function(e) { cargar_producto_lista($(e.target).find('option:selected').text(),$(e.target).find('option:selected').val())});
-
-            
-             $('#combo_prod').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-            $('#combo_prod_salida').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-            $('#combo_prod_bodega').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-           $('#combo_prod_salida_bodega').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-
-        } );
-
-        
-    </script>
-
-</body>
-</html>
+  </body>
+  </html>
