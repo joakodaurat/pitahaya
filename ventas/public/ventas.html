@@ -72,7 +72,7 @@ th {
                      </div> 
           
         </div>
-        <div style="overflow-x:auto; width: 95%; margin: auto;">
+        <div style="overflow-x:auto; width: 95%; margin: auto; margin-top:20px">
                 <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
                   <thead>
                     <tr>
@@ -107,27 +107,16 @@ th {
                         <td><?php echo $ventas_detalle -> cat_nombre; ?></td>
 
                         <!-- 4 -->
-                        <td><?php echo $ventas_detalle -> prod_nombre; ?> - $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?> 
-                          <?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> 
-
-                           <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong>   
-
-                          <?php }?>
+                        <td><?php echo $ventas_detalle -> prod_nombre; ?> - $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?><?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong><?php }?>
 
                        </td>
 
                         <!-- 5 -->
-                        <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?>
-                          <?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?> 
-                          <?php
-                            $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ;
-                            echo $descuento; 
-                           ?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?>
-                           <?php }?>
+                        <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?><?php $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?>
                         </td>
 
                         <!-- 6 -->
-                        <td><?php echo date('H:i d/m/Y', strtotime($ventas_detalle -> venta_fh)) ?> </td>
+                        <td><?php echo date('d/m/Y H:i', strtotime($ventas_detalle -> venta_fh)) ?> </td>
                        
 
                         </tr>
@@ -215,9 +204,13 @@ th {
               {
                 "pageLength": 50,
                 "aaSorting": [0,'desc'],
-                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
+                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                "dom": 'Bfrtip',
+                  "buttons": [
+                    'copy', 'excel', 'pdf'
+                    ]
               });
-
+            $('.dt-buttons').css('text-align', 'left')
             $('#tabla_tickets_filter > label').css('color', 'black')
 
             $('#combo_vendedor').select2({
