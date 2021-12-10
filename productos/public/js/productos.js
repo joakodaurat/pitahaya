@@ -1,6 +1,17 @@
 
 /* -- Solicitudes -- */
 
+
+
+$( window ).load(function() {
+  let searchParams = new URLSearchParams(window.location.search);
+  let idproducto = searchParams.get('idproducto');
+   if (searchParams.has('idproducto')) { getProducto(idproducto);}
+});
+
+
+
+
 /* Para que deje scrollear el modal anterior!! */
 $(document).on('hidden.bs.modal', '.modal', function () {
     $('.modal:visible').length && $(document.body).addClass('modal-open');
@@ -310,4 +321,18 @@ function cargar_producto_lista (prod_modelo, prod_id) {
   calcular_total();
 
   $('#cant_prod').val(i+1);
+}
+
+
+function eliminarimagen(idproducto,url) {
+  $.ajax({
+      url: 'ajax_deleteImagen.php',
+      type: 'POST',
+      data: {idproducto : idproducto, url:url},
+  }).done(function(data){
+     window.location.href += "?idproducto="+idproducto;
+    windows.location.reload();
+  }).fail(function(xhr, textStatus, errorThrown) {
+      console.log(xhr.responseText);
+  });
 }

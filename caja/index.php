@@ -26,7 +26,7 @@
     $do_usua_roles->joinAdd($do_roles);
     $do_vendedor->joinAdd($do_usua_roles);
 
-    $do_vendedor -> rol_nombre = "vendedor";
+   // $do_vendedor -> rol_nombre = "vendedor";
     $do_vendedor->find();
 
   // print_r($do_vendedor);exit;

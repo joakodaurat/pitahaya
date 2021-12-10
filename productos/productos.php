@@ -34,6 +34,14 @@
 		
 	}
 
+	if($_POST['eliminarimagen'] == 1) {// Cambiar precios
+		//print_r($_POST);exit;
+		$producto = DB_DataObject::factory('producto');
+		$SeModifico = $producto -> modificarPrecios($_POST);
+		header("Location: productos.php?modifico=".$SeModifico);
+		
+	}
+
 	$permiso = getPermisos($_SESSION['app_id'], $_SESSION['modulo_id'], $_SESSION['usuario']['id']);
 
 	$producto = DB_DataObject::factory('producto');
