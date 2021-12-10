@@ -24,8 +24,8 @@
         <thead>
           <tr>
             <th>Vendedor</th>
-            <th>Hr Apertura</th>
-            <th>Hr Cierre</th>
+            <th>Apertura</th>
+            <th>Cierre</th>
           </tr>
         </thead>
         <tbody>
@@ -38,9 +38,9 @@
            echo 'active';
          }; ?>" onclick="getDatosCajaParticular(<?php echo $aperturasDiarias->caja_id; ?>,this);" >
             <td><?php echo $usuario -> getNombreUsuario($aperturasDiarias -> caja_usua_inicio) ?></td>
-            <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_inicio))?></td>
+            <td> <?php echo date('d/m H:i:s', strtotime( $aperturasDiarias -> caja_fh_inicio))?></td>
             <?php if($aperturasDiarias -> caja_estado == 2) { ?>  <!-- Si esta abierta la caja -->
-            <td> <?php echo date('H:i:s', strtotime( $aperturasDiarias -> caja_fh_cierre))?></td>
+            <td> <?php echo date('d/m H:i:s', strtotime( $aperturasDiarias -> caja_fh_cierre))?></td>
             <?php }else{ ?>
             <td>ABIERTA </td>
 
