@@ -8,9 +8,7 @@
 	$do_ventas = DB_DataObject::factory('venta');
 	$do_cobro = DB_DataObject::factory('cobro_cliente');
 	$do_ventas -> whereAdd('venta_id = '.$_POST['id']);
-	$do_cliente = DB_DataObject::factory('cliente');
 
-	$do_ventas -> joinAdd($do_cliente,"LEFT");
 	$do_ventas -> joinAdd($do_cobro,"LEFT");
 
 
