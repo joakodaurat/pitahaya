@@ -64,7 +64,7 @@
 
           <td><span>$<?php echo $do_ventas -> venta_monto_total; ?> (<?php echo $do_ventas -> getDetalleFormaPago(); ?>)</span></td>
 
-          <td><?php echo date('H:m:s', strtotime($do_ventas -> venta_fh)); ?></td>
+          <td><?php echo date('d/m H:i:s', strtotime($do_ventas -> venta_fh)); ?></td>
 
         </tr>
         <?php     } ?>

@@ -63,7 +63,7 @@
 	// Ventas realizadas
 	$venta = DB_DataObject::factory('venta');
 	if($caja -> caja_fh_cierre){
-		$do_ventas = $venta -> getVentas($caja -> caja_fh_inicio ,$caja -> caja_fecha_cierre);
+		$do_ventas = $venta -> getVentas($caja -> caja_fh_inicio ,$caja -> caja_fh_cierre);
 	} else {
 		$do_ventas = $venta -> getVentas($caja -> caja_fh_inicio ,date('Y-m-d H:i:s'));
 
