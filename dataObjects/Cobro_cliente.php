@@ -64,6 +64,15 @@ class DataObjects_Cobro_cliente extends DB_DataObject
             $this -> cobro_monto_total = $objeto['input_monto_tarjeta'];
             $ultima_caja -> caja_pagos_tarjeta = $ultima_caja -> caja_pagos_tarjeta + $objeto['input_monto_tarjeta'];
         }
+        if ($objeto['combo_fpago'] == 4) { // multiple
+            $this -> cobro_monto_total = $objeto['saldo_final_total'];
+            $this -> cobro_pago_dolar = $objeto['input_monto_dolares_multiple'];
+            $this -> cobro_pago_pesos = $objeto['input_monto_pesos_multiple'];
+            $this -> cobro_pago_tarjeta = $objeto['input_monto_tarjeta_multiple'];
+            $ultima_caja -> caja_pagos_tarjeta = $ultima_caja -> caja_pagos_tarjeta + $objeto['input_monto_tarjeta_multiple'];
+            $ultima_caja -> caja_pagos_dolar = $ultima_caja -> caja_pagos_dolar + $objeto['input_monto_dolares_multiple'];
+            $ultima_caja -> caja_pagos_efectivo = $ultima_caja -> caja_pagos_efectivo + $objeto['input_monto_pesos_multiple'];
+        }
         $ultima_caja -> update();
         $id_cobro = $this -> insert();
         if($objeto['input_id_cliente'] != 9999) {

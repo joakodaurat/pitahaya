@@ -292,17 +292,43 @@ $('#combo_fpago').on('input',function(){
     $('.input-pagos').attr('disabled',true);
     $('.form-credito').attr('disabled',false);
   }
-  if(i == 4){ // Tarjeta deb
+  if(i == 4){ // multiple
     $('.div-pagos').css('display','none');
-    $('#div-debito').css('display','block');
+    $('#div-multiple').css('display','block');
     $('.input-pagos').attr('disabled',true);
-    $('.form-debito').attr('disabled',false);
+    $('.form-multiple').attr('disabled',false);
   }
   
 });
 
 function validarYsubmitear() {
+// valido que si es multiple pago este pagando justo lo que es, ni + ni -
+var formapago = $('#combo_fpago').val();
+if (formapago == 4 ){  // multiple
+  var sumatotal = 0;
+var valordolar = parseFloat($('#valor_dolar').val());
+var pesos = parseFloat($('#input_monto_pesos_multiple').val());
+var dolares = parseFloat($('#input_monto_dolares_multiple').val());
+var dolares = dolares * valordolar;
+var tarjeta = parseFloat($('#input_monto_tarjeta_multiple').val());
+pesos = pesos || 0;
+dolares = dolares || 0;
+tarjeta = tarjeta || 0;
+var sumatotal = pesos + dolares + tarjeta;
+var monto =  parseFloat($('#saldo_final_total').val());
+  if(sumatotal == monto){
+    $('#detalle_compra').submit();
+  }else{
+     alert('El total ingresado ('+sumatotal+') no coincide con el monto('+monto+')');
+  } 
+
+} else {
+
    $('#detalle_compra').submit();
+
+}
+
+
 
 }
 
@@ -362,13 +388,11 @@ function cobrarVenta(valor_dolar){
       alert('Por favor ingrese al menos un producto a la venta');
       //validacion para que todos los productos tengan color y talle
     }else if (validartalleycolor()) {
-        alert('Por favor corrobore que todos los productos tengan talle y color');
+        alert('Por favor corrobore que todos los productos tengan talle');
        }else
        {
     //oculta los otros divs( pago en dolares|pago en tarjeta)
-    if ($('#combo_fpago').val = 1){
 
-    }
     var monto = $('#saldo_final_total').val();
      $("#myModalCobro").modal('show');
      $('#div-credito').css('display','none');
@@ -407,6 +431,8 @@ $("#input_monto_contado").change(function () {
   if (monto > valorcontado) {
       alert('El valor minimo de pago debe ser $'+monto);
       $("#input_monto_contado ").val(monto);
+      $("#cambio_pesos").val(0);
+      
       } else {
         $("#cambio_pesos").val(valorcontado - monto);
       }

@@ -37,6 +37,8 @@
       <div class="modal-body">
         <input type="hidden" name="nuevo_cobro" id="nuevo_cobro" value="1">
         <input type="hidden" name="input_monto2" id="input_monto2">
+        <input type="hidden" name="valor_dolar" id="valor_dolar" value="<?php echo $ultima_caja -> caja_valor_dolar;?>">
+        
 
         <!-- Seccion Pago y opciones -->
         <div class="row form-seccion" style="background-color: #eeeeee;">
@@ -48,6 +50,7 @@
                 <option value="1"> Pesos </option>
                 <option value="2"> Dolares </option>
                 <option value="3"> Tarjeta </option>
+                <option value="4"> Multiple </option>
               </select>
             </span>
           </div>
@@ -111,6 +114,35 @@
                 <input autocomplete="off" type="number" readonly name="input_monto_tarjeta" id="input_monto_tarjeta" class="input-pagos form-obs form-credito" placeholder="Monto" min="1">
             </span>
           </div>
+        </div>
+        <!-- / Div tarjeta -->
+
+                 <!-- Div Multiple -->
+        <div class="row form-seccion div-pagos" id="div-multiple">
+          <h4> Pago multiple</h4>
+          <br>
+          <div class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <strong>Pesos</strong>
+                <input style="float:right;" autocomplete="off" type="number"  name="input_monto_pesos_multiple" id="input_monto_pesos_multiple" class="input-pagos form-obs form-multiple" placeholder="Monto pesos" min="1">
+            </span>
+          </div>
+          
+          <div style="margin-top:10px" class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <strong>Dolares</strong>
+                <input style="float:right;" autocomplete="off" type="number"  name="input_monto_dolares_multiple" id="input_monto_dolares_multiple" class="input-pagos form-obs form-multiple" placeholder="Monto dolares" min="1">
+            </span>
+          </div>
+          
+          <div style="margin-top:10px" class="col-md-12 col-xs-12"> 
+            <span class="form-inline">
+                <strong>Tarjeta</strong>
+                <input style="float:right;" autocomplete="off" type="number"  name="input_monto_tarjeta_multiple" id="input_monto_tarjeta_multiple" class="input-pagos form-obs form-multiple" placeholder="Monto tarjeta" min="1">
+            </span>
+          </div>
+
+
         </div>
         <!-- / Div tarjeta -->
 
