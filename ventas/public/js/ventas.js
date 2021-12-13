@@ -1,13 +1,24 @@
 $('#combo_vendedor').on('select2:select', function (e) {
+	let searchParams = new URLSearchParams(window.location.search)
     var data = e.params.data;
 
-    location.href = "../ventas/ventas.php?vendedor="+data.id+"&filtro="+data.text;
+   
+      var fecha_desde = searchParams.get('fecha_desde');
+    var fecha_hasta = searchParams.get('fecha_hasta');
+    if(fecha_desde){location.href = "../ventas/ventas.php?vendedor="+data.id+"&filtro="+data.text+"&fecha_desde="+fecha_desde+"&fecha_hasta="+fecha_hasta;}else{
+    	 location.href = "../ventas/ventas.php?vendedor="+data.id+"&filtro="+data.text;
+    }
 });
 
 $('#combo_marca').on('select2:select', function (e) {
+	let searchParams = new URLSearchParams(window.location.search)
     var data = e.params.data;
-
-    location.href = "../ventas/ventas.php?marca="+data.id+"&filtro="+data.text;
+    var fecha_desde = searchParams.get('fecha_desde');
+    var fecha_hasta = searchParams.get('fecha_hasta');
+    if(fecha_desde){location.href = "../ventas/ventas.php?marca="+data.id+"&filtro="+data.text+"&fecha_desde="+fecha_desde+"&fecha_hasta="+fecha_hasta;}else{
+    	location.href = "../ventas/ventas.php?marca="+data.id+"&filtro="+data.text;
+    }
+    
 });
 
 function cargarselect() {
