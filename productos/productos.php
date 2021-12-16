@@ -12,7 +12,7 @@
 	$premium = $usr -> esPremium();
 
 	if($_POST['prod_id']) {// Editar prod
-		//print_r($_POST);exit;
+		print_r($_POST);exit;
 		$producto = DB_DataObject::factory('producto');
 		$id_prod_edit = $producto -> modificarPrecio($_POST);
 		header("Location: productos.php?id_edit=".$id_prod_edit);
@@ -26,6 +26,12 @@
 		header("Location: productos.php?id_add=".$id_prod_add);
 	}
 
+	if ($_POST['edit_imagen_prod']){
+		$producto = DB_DataObject::factory('producto');
+		$id_prod_edit = $producto -> editar_imagen_producto($_POST['edit_imagen_prod_id'],$_FILES);
+		header("Location: productos.php?idproducto=".$id_prod_edit);
+	}
+
 	if($_POST['modificar_precio'] == 1) {// Cambiar precios
 		//print_r($_POST);exit;
 		$producto = DB_DataObject::factory('producto');
@@ -34,13 +40,6 @@
 		
 	}
 
-	if($_POST['eliminarimagen'] == 1) {// Cambiar precios
-		//print_r($_POST);exit;
-		$producto = DB_DataObject::factory('producto');
-		$SeModifico = $producto -> modificarPrecios($_POST);
-		header("Location: productos.php?modifico=".$SeModifico);
-		
-	}
 
 	$permiso = getPermisos($_SESSION['app_id'], $_SESSION['modulo_id'], $_SESSION['usuario']['id']);
 

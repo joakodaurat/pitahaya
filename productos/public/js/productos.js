@@ -276,6 +276,23 @@ function readURL(input) {
         readURL(this);
     });
 
+    // Para tener una vista previa de las imagenes antes de modificarlas
+function readURLedit(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+            
+                  $('#edit-image1').attr('src', e.target.result);
+      
+                
+            
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+            $('#guardareditarproducto').show();
+        }
+    }
 
 
 // PARA LOS MODALES DE MODIFICAR STOCK
@@ -330,7 +347,7 @@ function eliminarimagen(idproducto,url) {
       type: 'POST',
       data: {idproducto : idproducto, url:url},
   }).done(function(data){
-     window.location.href += "?idproducto="+idproducto;
+     window.location = "../productos/productos.php?idproducto="+idproducto;
     windows.location.reload();
   }).fail(function(xhr, textStatus, errorThrown) {
       console.log(xhr.responseText);

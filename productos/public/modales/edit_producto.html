@@ -125,6 +125,11 @@
                     
                     </div>
                   </div>
+                  </form>
+
+                  <form class="form-horizontal form-label-left" name="producto_edit_imagen" id="producto_edit_imagen" method="post" action="" enctype="multipart/form-data">
+                    <input type="hidden" name="edit_imagen_prod" id="edit_imagen_prod" value="1">
+                     <input type="hidden" name="edit_imagen_prod_id" id="edit_imagen_prod_id" value="<?php echo $do_productos -> prod_id; ?>">
                   <div class="row">
                     <div class="col-xs-12">
                       <?php if ($do_productos -> prod_img1) { ?>
@@ -139,14 +144,14 @@
                        <?php } else {?>
 
                            <label class="btn btn-raised" for="inputeditimagen" style="text-align:center; display: block;margin-top: 20px;background-color: darksalmon;color: antiquewhite;"> subir imagen </label>
-                                    <input type='file' capture="camera" accept="image/*" style="display: none;" name="imagen" id="inputeditimagen" class="inputImagen"  />
-                                   <img style="display: none; width: 250px; height: 300px" id="image1" class="center" src="#" alt="" />
-
+                                    <input type='file' capture="camera" accept="image/*" style="display: none;" onchange="readURLedit(this)" name="imagen" id="inputeditimagen" class="inputImagen"  />
+                            <button type="submit" id="guardareditarproducto" class="btn btn-raised" for="inputeditimagen" style="width: 100%; text-align:center; display: none;margin-top: 20px;background-color: darkcyan;color: antiquewhite;"> GUARDAR </button>
                          <?php }?>
 
                     </div>
                     
                   </div>
+                </form>
 
                   <br>
 
@@ -154,12 +159,7 @@
                             
             </div>
            
-        </form>
 
-        <form method="POST" name="eliminar_producto" id="eliminar_producto">
-          <input type="hidden" name="borrar_producto" value="1">
-          <input type="hidden" name="id_eliminar" value="<?php echo $do_productos -> prod_id; ?>">
-        </form>
 
       </div>
       <div class="modal-footer">

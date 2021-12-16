@@ -70,10 +70,6 @@ class DataObjects_Producto extends DB_DataObject
          }
       }
    
-       
-
-
-
 
         }
 
@@ -86,6 +82,43 @@ class DataObjects_Producto extends DB_DataObject
         $id = $this -> insert();
         return $status;
     }
+
+
+
+        function editar_imagen_producto($id,$imagen=null){
+        $do_producto_edit = DB_DataObject::factory('producto');
+        $do_producto_edit -> prod_id = $id;
+        $do_producto_edit -> find(true);
+        if ($imagen) {
+             $tipo = $imagen['imagen']['type'];
+             $tamano = $imagen['imagen']['size'];
+             $temp = $imagen['imagen']['tmp_name'];
+                  if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+                  echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+                 - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+                 }
+                   else {
+                            //Si la imagen es correcta en tamaño y tipo
+                           //Se intenta subir al servidor
+               if (move_uploaded_file($temp, '../imagenes/'. $imagen['imagen']['name'])) {
+            //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
+                  chmod('images/'.$imagen['imagen']['name'], 0777);
+            //Mostramos el mensaje de que se ha subido co éxito
+               $do_producto_edit -> prod_img1 = '../imagenes/'.$imagen['imagen']['name'];
+        }
+            else {
+           //Si no se ha podido subir la imagen, mostramos una imagen generica
+           $do_producto_edit = "../imagenes/sinimagen.PNG";
+         }
+      }
+   
+
+        }  
+        $do_producto_edit -> update();
+        return $id;
+    }
+
+
         function agregar_producto($objeto,$archivo=null) {
         $do_producto_add = DB_DataObject::factory('cms_productos');
         $do_producto_add -> prod_id = $objeto['edit_producto'];
