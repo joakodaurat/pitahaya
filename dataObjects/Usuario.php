@@ -96,15 +96,16 @@ function esVendedor(){
     }
 
     function getNombreUsuario($id) {
+        $do_usuario = DB_DataObject::factory('usuario');
         if($id) {
-            $this -> usua_id = $id;
-            $this -> find(true);
-            $resp = $this -> usua_nombre;
+            $do_usuario -> usua_id = $id;
+            $do_usuario -> find(true);
+            $resp = $do_usuario -> usua_nombre;
         } else {
             $resp = '';
         }
 
-        return $resp;
+        return $resp ;
     }
 
 }
