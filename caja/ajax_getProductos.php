@@ -19,6 +19,11 @@
 		$productos[$do_productos -> prod_id]['prod_imagen'] = $do_productos -> prod_img1;
 
 	}
+
+	// traigo el valor de dolar actual
+	$do_ultima_caja = DB_DataObject::factory('caja');
+	$ultima_caja = $do_ultima_caja -> getUltimaCaja();
+	$valordolar = $ultima_caja -> caja_valor_dolar;
 	
 	require_once('public/productos.html');
 	exit;

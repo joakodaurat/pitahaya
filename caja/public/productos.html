@@ -7,8 +7,8 @@
       			<a style="text-decoration:none" href="#" onclick="agregar_producto_lista(<?php echo $producto['prod_id']?>)">
         		<img src="<?php echo $producto['prod_imagen']?>"  style="width:100%">
         		<div style="padding-left:0px;padding-right:0px" class="caption">
-          			<p style="margin:0px"><span><?php echo $producto['prod_nombre']?></span></p>
-          			<p><span style="float:right;color:#4caf50">$<?php echo $producto['prod_precio']?></span></p>
+          			<p style="margin:0px;text-align:center;"><span><?php echo $producto['prod_nombre']?></span></p>
+          			<p style="text-align: center"><span style="color:#4caf50"><?php echo $producto['prod_precio']?>usd - <?php echo $producto['prod_precio'] * $valordolar?>mx</span></p>
         		</div>
       			</a>
     		</div>

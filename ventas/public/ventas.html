@@ -76,6 +76,7 @@ th {
                 <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
                   <thead>
                     <tr>
+                      <!-- 1 --><th style="display:none" class="">id</th>
                       <!-- 1 --><th class="">VENDEDOR</th>
                       <!-- 2 --><th class="">MARCA</th>
                       <!-- 3 --><th class="">CATEGORIA</th>
@@ -96,7 +97,7 @@ th {
 
       ?>
                         <tr >
-
+                        <td style="display: none"><?php echo $ventas_detalle -> detalle_id; ?></td>
                         <!-- 1 -->
                         <td><?php echo $ventas_detalle -> usua_nombre; ?></td>
 

@@ -68,7 +68,7 @@
  //   $do_vendedor -> rol_nombre = "vendedor";
     $do_vendedor->find();
 
-  // print_r($do_vendedor);exit;
+  // print_r($venta_detalle);exit;
 
 
 	$vendedores = array();

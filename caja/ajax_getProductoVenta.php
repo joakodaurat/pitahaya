@@ -13,9 +13,14 @@
 	$do_stock = $do_prod -> getStockPorTalle($_POST['id']);
 	$do_stocktotal = $do_prod -> getStockTotal($_POST['id']);
 
+	// traigo el valor de dolar actual
+	$do_ultima_caja = DB_DataObject::factory('caja');
+	$ultima_caja = $do_ultima_caja -> getUltimaCaja();
+
 	$resp['producto'] = $do_productos;
 	$resp['stock'] = $do_stock;
 	$resp['stocktotal'] = $do_stocktotal;
+	$resp['valordolar'] = $ultima_caja -> caja_valor_dolar;
 	
 	print_r(json_encode($resp));
 

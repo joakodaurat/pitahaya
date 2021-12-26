@@ -124,10 +124,10 @@ function cargar_producto_lista (data) {
     newRowContent += '<input type="hidden" value="'+data.producto.prod_id+'" id="id_producto_'+i+'" name="detalle['+i+'][id]"></td>';
     newRowContent += '<td>'+select_stock+'</td>';
     newRowContent += '<td><input type="number" value="1" min="1" class="cantidades soloNumeros full-ancho" id="cant_producto_'+i+'" name="detalle['+i+'][cant]" oninput="modificar('+i+')"></td></td>';
-    newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
+    newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
     newRowContent += '<td><input type="number"  id="descuento_producto_'+i+'" name="detalle['+i+'][descuento]" onchange="porc_desc('+i+');"> </td>';
-    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
-    newRowContent += '<td style="display:none"><input type="number"  class="precio_parc_sindescuento" readonly value="'+data.producto.prod_precio+'" id="precio_total_sindescuento'+i+'" name="detalle['+i+'][total_sindescuento]"> </a></td>'
+    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
+    newRowContent += '<td style="display:none"><input type="number"  class="precio_parc_sindescuento" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_total_sindescuento'+i+'" name="detalle['+i+'][total_sindescuento]"> </a></td>'
     newRowContent += '</tr>';
     $("#tabla_productos tbody").append(newRowContent);
   // Limpiar el campo del producto
