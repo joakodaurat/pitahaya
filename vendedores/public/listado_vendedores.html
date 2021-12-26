@@ -77,12 +77,17 @@
         
         $(document).ready(function() {
             $('#tabla_vendedores').DataTable(
-              {
-                "pageLength": 50,
-                "aaSorting": [0,'desc'],
-                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
-              });
+                {
+                  "pageLength": 50,
+                  "aaSorting": [0,'desc'],
+                  "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                   "dom": 'Bfrtip',
+                  "buttons": [
+                    'copy', 'excel', 'pdf'
+                    ]
+                });
 
+        $('#tabla_vendedores_wrapper').find('input').css('border', '0');
  
         } );
 
