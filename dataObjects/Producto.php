@@ -47,31 +47,8 @@ class DataObjects_Producto extends DB_DataObject
         $this -> prod_cat_id = $o['input_categoria'];
         $this -> prod_baja = 0;
         $this -> prod_precio = $o['input_precio'];
-        if ($imagen) {
-             $tipo = $imagen['image1']['type'];
-             $tamano = $imagen['image1']['size'];
-             $temp = $imagen['image1']['tmp_name'];
-                  if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
-                  echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-                 - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
-                 }
-                   else {
-                            //Si la imagen es correcta en tamaño y tipo
-                           //Se intenta subir al servidor
-               if (move_uploaded_file($temp, '../imagenes/'. $imagen['image1']['name'])) {
-            //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                  chmod('images/'.$imagen['image1']['name'], 0777);
-            //Mostramos el mensaje de que se ha subido co éxito
-               $this -> prod_img1 = '../imagenes/'.$imagen['image1']['name'];
-        }
-            else {
-           //Si no se ha podido subir la imagen, mostramos una imagen generica
-           $this -> prod_img1 = "../imagenes/sinimagen.PNG";
-         }
-      }
-   
+        $this -> prod_img1 = "../imagenes/sinimagen.PNG";
 
-        }
 
         // guardo la categoria y la marca
         $do_marcacate= DB_DataObject::factory('marca_categoria');
@@ -85,41 +62,89 @@ class DataObjects_Producto extends DB_DataObject
 
 
 
-        function editar_imagen_producto($id,$imagen=null){
-        $do_producto_edit = DB_DataObject::factory('producto');
-        $do_producto_edit -> prod_id = $id;
-        $do_producto_edit -> find(true);
-        if ($imagen) {
-             $tipo = $imagen['imagen']['type'];
-             $tamano = $imagen['imagen']['size'];
-             $temp = $imagen['imagen']['tmp_name'];
-                  if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
-                  echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-                 - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
-                 }
-                   else {
-                            //Si la imagen es correcta en tamaño y tipo
-                           //Se intenta subir al servidor
-               if (move_uploaded_file($temp, '../imagenes/'. $imagen['imagen']['name'])) {
-            //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                  chmod('images/'.$imagen['imagen']['name'], 0777);
-            //Mostramos el mensaje de que se ha subido co éxito
-               $do_producto_edit -> prod_img1 = '../imagenes/'.$imagen['imagen']['name'];
-        }
-            else {
-           //Si no se ha podido subir la imagen, mostramos una imagen generica
-           $do_producto_edit = "../imagenes/sinimagen.PNG";
-         }
-      }
-   
 
-        }  
+
+function editar_imagen_producto($id,$imagen=null){
+    $do_producto_edit = DB_DataObject::factory('producto');
+    $do_producto_edit -> prod_id = $id;
+    $do_producto_edit -> find(true);
+
+  function compressImage($source, $destination, $quality) { 
+    $imgInfo = getimagesize($source); 
+    $mime = $imgInfo['mime']; 
+    
+    // Create a new image from file 
+    switch($mime){ 
+        case 'image/jpeg': 
+            $image = imagecreatefromjpeg($source); 
+           imagejpeg($image, $destination, $quality);
+            break; 
+        case 'image/png': 
+            $image = imagecreatefrompng($source); 
+            imagepng($image, $destination, $quality);
+            break; 
+        case 'image/gif': 
+            $image = imagecreatefromgif($source); 
+            imagegif($image, $destination, $quality);
+            break; 
+        default: 
+            $image = imagecreatefromjpeg($source); 
+           imagejpeg($image, $destination, $quality);
+    } 
+     
+     
+    // Return compressed image 
+    return $destination; 
+} 
+
+
+if ($imagen) {
+// File upload path 
+$uploadPath = "../imagenes/"; 
+ 
+// If file upload form is submitted 
+$status = $statusMsg = ''; 
+ 
+$status = 'error'; 
+    if(!empty($imagen["imagen"]["name"])) { 
+        // File info 
+        $fileName = basename($imagen["imagen"]["name"]);
+        $ahora = date("YmdHis"); 
+        $imageUploadPath = $uploadPath . $ahora . $fileName ; 
+        $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION); 
+         
+        // Allow certain file formats 
+        $allowTypes = array('jpg','png','jpeg','gif'); 
+        if(in_array($fileType, $allowTypes)){ 
+            // Image temp source 
+            $imageTemp = $imagen["imagen"]["tmp_name"]; 
+             
+            // Compress size and upload image 
+            $tamaño = $imagen["imagen"]["size"];
+            if($tamaño > 1000000) {$ubicacion = compressImage($imageTemp, $imageUploadPath, 50);} else {
+                move_uploaded_file($imageTemp, $imageUploadPath);
+            }
+            $do_producto_edit -> prod_img1 = $imageUploadPath;
+             
+
+        }else{ 
+            $statusMsg = 'Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.'; 
+        } 
+    }else{ 
+        $statusMsg = 'Please select an image file to upload.'; 
+    } 
+ 
+
+
+        } 
+
+
         $do_producto_edit -> update();
         return $id;
     }
 
-
-        function agregar_producto($objeto,$archivo=null) {
+ 
+function agregar_producto($objeto,$archivo=null) {
         $do_producto_add = DB_DataObject::factory('cms_productos');
         $do_producto_add -> prod_id = $objeto['edit_producto'];
         $do_producto_add -> find(true);
