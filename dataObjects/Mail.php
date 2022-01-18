@@ -4,13 +4,6 @@
 /**
  * Table Definition for mail
  */
-require_once 'DB/DataObject.php';
-require ('../inc/PHPMailer/src/Exception.php');
-require ('../inc/PHPMailer/src/PHPMailer.php');
-require ('../inc/PHPMailer/src/SMTP.php');
-///require '../API_AWS/aws-autoloader.php';
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 
 class DataObjects_Mail extends DB_DataObject 

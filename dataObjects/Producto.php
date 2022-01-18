@@ -3,7 +3,6 @@
  * Table Definition for producto
  */
 require_once 'DB/DataObject.php';
-require_once '../API_AWS/s3_subirArchivo.php';
 
 
 class DataObjects_Producto extends DB_DataObject 
