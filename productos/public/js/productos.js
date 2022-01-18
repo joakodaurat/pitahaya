@@ -319,9 +319,8 @@ function modificar(i) {
 }
 
 function cargar_producto_lista (prod_modelo, prod_id) {
-
   var i = parseInt($('#cant_prod').val());
-
+  modelo = '\''+prod_modelo+'\''
   var newRowContent = '<tr>';
   newRowContent += '<td>'+prod_modelo+' <input type="hidden" id="prod_id_'+i+'" name="prod['+i+'][id]" value="'+prod_id+'"></td>';
   newRowContent += '<td><select class="select-tipo-vaca" id="listado-talles_'+i+'" name="prod['+i+'][talle]" required>';
@@ -329,7 +328,7 @@ function cargar_producto_lista (prod_modelo, prod_id) {
     $.each(talles,function(key, value) 
     { newRowContent += '<option value=' + key + '>' + value + '</option>'; });
   newRowContent += '</select></td>';
-  newRowContent += '<td><input type="number" step="1" min="1" id="cantidad_'+i+'" name="prod['+i+'][cantidad]" oninput="modificar('+i+');" required></td>';
+  newRowContent += '<td><input type="number" step="1" min="1" id="cantidad_'+i+'" name="prod['+i+'][cantidad]" oninput="modificar('+i+');" required></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i> <a href="#" onclick="cargar_producto_lista('+modelo+','+prod_id+')" class="duplicar"><i style="color:green" class="fa fa-plus" aria-hidden="true"></i></td>';
   newRowContent += '</tr>';
 
   $("#tabla_productos tbody").append(newRowContent);
@@ -340,6 +339,12 @@ function cargar_producto_lista (prod_modelo, prod_id) {
   $('#cant_prod').val(i+1);
 }
 
+/* Borrar producto de la factura */
+$(document).on('click', '.borrar', function (event) {
+  event.preventDefault();
+  $(this).closest('tr').remove();
+  calcular_total();
+});
 
 function eliminarimagen(idproducto,url) {
   $.ajax({
