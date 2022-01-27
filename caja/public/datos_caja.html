@@ -126,7 +126,7 @@
         <tr style="cursor: pointer;" onclick="getVenta(<?php echo $do_ventas->venta_id; ?>);" >
           <td><?php echo  $do_ventas -> getDetalleArticuloPrecio();  ?></td>
 
-          <td><span>$<?php echo $do_ventas -> venta_monto_total; ?> (<?php echo $do_ventas -> getDetalleFormaPago(); ?>)</span></td>
+          <td><span>$<?php echo $do_ventas -> venta_monto_total; ?> (<?php echo $do_ventas -> getDetalleFormaPago(); ?> )</span></td>
 
           <td><?php echo date('H:i:s', strtotime($do_ventas -> venta_fh)); ?></td>
 

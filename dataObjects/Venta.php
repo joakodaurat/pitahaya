@@ -181,12 +181,10 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
 
 
         $do_usuario = DB_DataObject::factory('usuario');
-        $do_cliente = DB_DataObject::factory('cliente');
         $do_venta_estado = DB_DataObject::factory('venta_estado');
         $do_venta_forma_pago = DB_DataObject::factory('venta_forma_pago');
 
         $do_ventas -> joinAdd($do_usuario,"LEFT");
-        $do_ventas -> joinAdd($do_cliente,"LEFT");
         $do_ventas -> joinAdd($do_venta_estado,"LEFT");
         $do_ventas -> joinAdd($do_venta_forma_pago,"LEFT");
 
@@ -276,6 +274,7 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $arreglo[$detalle -> detalle_prod_id]['nombre'] = $detalle -> prod_nombre;
             $arreglo[$detalle -> detalle_prod_id]['cant'] += $detalle -> detalle_prod_cant;
             $arreglo[$detalle -> detalle_prod_id]['precio'] = $detalle -> prod_precio;
+            $arreglo[$detalle -> detalle_prod_id]['talle'] = $detalle -> talle_nombre;
         }
 
         $i = 0;
@@ -283,7 +282,7 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             if($i) {
                 $respuesta .= '<br> ';
             }
-            $respuesta .= ''.$prod['cant'].'x '.$prod['nombre'].' - $'.$prod['precio'];
+            $respuesta .= ''.$prod['cant'].'x '.$prod['nombre'].' ('.$prod['talle'].') - $'.$prod['precio'];
             $i ++;
         }
 
