@@ -149,9 +149,25 @@ function cargar_producto_lista (data) {
     $('#concepto_final').html(sum.toString());
 
     $("#iterador_producto").val(i+1);
-
+   notificacion("Producto Agregado correctamente","Baje para ver","<icon class=\"fa  fa-check\">","success" );
 }
 
+//notificaciones 
+function notificacion(titulo,mensaje,icono,tipo){
+     notify({
+            type: tipo, //alert | success | error | warning | info
+            title: titulo,
+            position: {
+                x: "center", //right | left | center
+                y: "top" //top | bottom | center
+              },
+            autoHide:true, //true | false
+            delay: 2500, //number ms
+            icon:icono,
+            message: mensaje,
+            z_index: 2000,
+          });
+   }
 
 
 /* Borrar producto de la factura */
