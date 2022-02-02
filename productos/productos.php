@@ -12,7 +12,7 @@
 	$premium = $usr -> esPremium();
 
 	if($_POST['prod_id']) {// Editar prod
-		print_r($_POST);exit;
+		//print_r($_POST);exit;
 		$producto = DB_DataObject::factory('producto');
 		$id_prod_edit = $producto -> modificarPrecio($_POST);
 		header("Location: productos.php?id_edit=".$id_prod_edit);
