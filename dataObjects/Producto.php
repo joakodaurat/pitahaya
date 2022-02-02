@@ -113,7 +113,7 @@ $status = 'error';
         $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION); 
          
         // Allow certain file formats 
-        $allowTypes = array('jpg','png','jpeg','gif'); 
+        $allowTypes = array('jpg','png','jpeg','gif','PNG'); 
         if(in_array($fileType, $allowTypes)){ 
             // Image temp source 
             $imageTemp = $imagen["imagen"]["tmp_name"]; 
