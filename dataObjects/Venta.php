@@ -263,8 +263,10 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
         $detalle = DB_DataObject::factory('venta_detalle');
         $detalle -> detalle_venta_id = $this -> venta_id;
         $producto = DB_DataObject::factory('producto');
+        $talle = DB_DataObject::factory('talle');
 
         $detalle -> joinAdd($producto);
+        $detalle -> joinAdd($talle);
         $detalle -> find();
 
         $respuesta = '';

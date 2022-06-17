@@ -16,7 +16,6 @@ class DataObjects_Producto_stock_bodega extends DB_DataObject
     public $psbodega_costo_u;                // float(11)  not_null group_by
     public $psbodega_cantidad;               // int(11)  not_null group_by
     public $psbodega_talle_id;               // int(11)  group_by
-    public $psbodega_color_id;               // int(11)  group_by
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Producto_stock_bodega',$k,$v); }

@@ -27,6 +27,7 @@ class DataObjects_Cobro_cliente extends DB_DataObject
     public $cobro_vuelto_pesos;              // float(11)  group_by
     public $cobro_pago_dolar;                // float(11)  group_by
     public $cobro_pago_pesos;                // float(11)  group_by
+    public $cobro_pago_tarjeta;              // float(11)  group_by
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Cobro_cliente',$k,$v); }
