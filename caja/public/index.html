@@ -243,10 +243,18 @@
           });
 // para nuevas ventas
 
+
+
+
+
     // select2 de productos
           $('#combo_prod').on("change", function(e) { agregar_producto_lista($(e.target).find('option:selected').val())});
 
+
+
+
           $('#combo_prod').select2({
+            matcher: matchCustom,
             language: {
               noResults: function (params) {
                 return "No hay resultados.";

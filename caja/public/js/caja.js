@@ -170,3 +170,32 @@ $('#myModalVenta').on('hidden.bs.modal', function () {
      $('#listadocategorias').html('');
      $('#listadoproductos').html('');
 });
+
+
+// filtro para el select2, multiples palabras
+function matchCustom(params, data) {
+    // si el buscador esta vacio devolver toda la data
+    if ($.trim(params.term) === '') {
+      return data;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+      return null;
+    }
+
+    // `params.term` should be the term that is used for searching
+    // `data.text` is the text that is displayed for the data object
+
+  const searchRegex = params.term.split(" ").map(word => `(?=.*${word})`);
+  console.log(searchRegex);
+  const regex = new RegExp(`^${searchRegex.join("")}.*$`,"gi"); 
+  const match = regex.test(data.text)
+  if (match) {
+    return data;
+  } else {
+    return null
+  }
+    // Return `null` if the term should not be displayed
+    //return null;
+}
