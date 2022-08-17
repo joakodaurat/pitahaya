@@ -47,17 +47,10 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
         // 2. Resta stock
         // 3. Asigna productos al detalle de la venta
         foreach ($objeto['detalle'] as $p) {
-            $tipos = explode(',',$p['tipo']);
-
-            $talle = DB_DataObject::factory('talle');
-            $talle_id = $talle -> getTallePorNombre($tipos[0]);
 
             $producto = DB_DataObject::factory('producto'); 
             $prod = $producto -> getProductos($p['id']);
 
-            $arreglo = $prod -> restarStock($talle_id,$p['cant']);
-
-            if($arreglo['productos']) {
                 $detalle = DB_DataObject::factory('venta_detalle');
                 $detalle -> detalle_venta_id = $id_venta;
                 $detalle -> detalle_prod_id = $p['id'];
@@ -77,7 +70,7 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
                     $venta_detalle_stock -> vds_prod_cant = $v;
                     $venta_detalle_stock -> insert();
                 }
-            }
+           
 
         }
 
@@ -263,10 +256,8 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
         $detalle = DB_DataObject::factory('venta_detalle');
         $detalle -> detalle_venta_id = $this -> venta_id;
         $producto = DB_DataObject::factory('producto');
-        $talle = DB_DataObject::factory('talle');
 
         $detalle -> joinAdd($producto);
-        $detalle -> joinAdd($talle);
         $detalle -> find();
 
         $respuesta = '';
@@ -276,7 +267,6 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $arreglo[$detalle -> detalle_prod_id]['nombre'] = $detalle -> prod_nombre;
             $arreglo[$detalle -> detalle_prod_id]['cant'] += $detalle -> detalle_prod_cant;
             $arreglo[$detalle -> detalle_prod_id]['precio'] = $detalle -> prod_precio;
-            $arreglo[$detalle -> detalle_prod_id]['talle'] = $detalle -> talle_nombre;
         }
 
         $i = 0;
@@ -284,7 +274,7 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             if($i) {
                 $respuesta .= '<br> ';
             }
-            $respuesta .= ''.$prod['cant'].'x '.$prod['nombre'].' ('.$prod['talle'].') - $'.$prod['precio'];
+            $respuesta .= ''.$prod['cant'].'x '.$prod['nombre'].' - $'.$prod['precio'];
             $i ++;
         }
 

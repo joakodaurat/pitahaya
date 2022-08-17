@@ -97,12 +97,16 @@
     <script type="text/javascript">  
         
         $(document).ready(function() {
-            $('#tabla_tickets').DataTable(
-              {
-                "pageLength": 50,
-                "aaSorting": [0,'desc'],
-                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"}
-              });
+              $('#tabla_tickets').DataTable(
+                {
+                  "pageLength": 50,
+                  "aaSorting": [0,'desc'],
+                  "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
+                   "dom": 'Bfrtip',
+                  "buttons": [
+                    'copy', 'excel', 'pdf'
+                    ]
+                });
 
             $('#tabla_tickets_filter').find('input').css('border', '0');
 

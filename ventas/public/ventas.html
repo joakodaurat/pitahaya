@@ -49,36 +49,11 @@ th {
 
   <div style="padding-left:0px;padding-right:0px" class="item-inner item-estadistico z-depth-1">
        
-        <div class="row">
-          <div class="col-xs-12 col-md-2"><h4 style="margin-top: 30px;"> FILTRAR POR:</h4></div>
-                    <div class="col-xs-12 col-md-3" style="margin-top: 20px;"> 
-                      <h4>VENDEDOR</h4>
-                      <select  id="combo_vendedor" name="input_id_vendedor" class="form-control form-angosto" placeholder="Seleccionar Vendedor" required>
-                         <option value="">TODOS</option>
-                      <?php foreach ($vendedores as $vend) { ?>
-                        <option value="<?php echo $vend['id']; ?>" ><?php echo $vend['nombre']; ?></option>
-                      <?php } ?>
-                    </select>
-                     </div> 
-
-                    <div class="col-xs-12 col-md-3" style="margin-top: 20px;"> 
-                      <h4>MARCA</h4>
-                      <select  id="combo_marca" name="input_id_marca" class="form-control form-angosto" placeholder="Seleccionar marca" required>
-                         <option value="">TODAS</option>
-                      <?php while ($do_marca->fetch()){ ?>
-                        <option value="<?php echo $do_marca -> marca_id; ?>" ><?php echo $do_marca -> marca_nombre; ?></option>
-                      <?php } ?>
-                    </select>
-                     </div> 
-          
-        </div>
         <div style="overflow-x:auto; width: 95%; margin: auto; margin-top:20px">
                 <table nowrap class="table table-hover table-bordered results z-depth-2 tabla-excel" id="tabla_tickets" style="background-color: #fafafa;">
                   <thead>
                     <tr>
                       <!-- 1 --><th style="display:none" class="">id</th>
-                      <!-- 1 --><th class="">VENDEDOR</th>
-                      <!-- 2 --><th class="">MARCA</th>
                       <!-- 3 --><th class="">CATEGORIA</th>
                       <!-- 4 --><th class="">PRODUCTO</th>
                       <!-- 5 --><th class="">VENTA</th>
@@ -98,11 +73,7 @@ th {
       ?>
                         <tr >
                         <td style="display: none"><?php echo $ventas_detalle -> detalle_id; ?></td>
-                        <!-- 1 -->
-                        <td><?php echo $ventas_detalle -> usua_nombre; ?></td>
 
-                        <!-- 2 -->
-                        <td><?php echo $ventas_detalle -> marca_nombre; ?></td>
                         
                         <!-- 3 -->
                         <td><?php echo $ventas_detalle -> cat_nombre; ?></td>

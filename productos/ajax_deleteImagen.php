@@ -5,11 +5,6 @@
 	require_once(CFG_PATH.'/data.config');
 	require_once(INC_PATH.'/pear.inc');
 	require_once(INC_PATH.'/comun.php');
-
- 
-	
-	
-
 	
 	$do_productos = DB_DataObject::factory('producto');
     $do_productos -> prod_id = $_POST['idproducto'];

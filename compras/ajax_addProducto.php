@@ -12,9 +12,6 @@
 	$categoria = DB_DataObject::factory('categoria');
 	$cat = $categoria -> getCategorias($_POST['input_categoria']);
 
-	$marca = DB_DataObject::factory('marca');
-	$mar = $marca -> getMarcas($_POST['input_marca']);
-
 	$resp['id_prod'] = $id_prod_add;
 	$resp['nom_prod'] = $_POST['input_codigo'] .' | '.$cat -> cat_nombre .' | '.$mar -> marca_nombre.' | '.$_POST['input_modelo'];
 

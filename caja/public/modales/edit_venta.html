@@ -17,10 +17,7 @@
         <div class="row form-seccion" > 
 
           <div class="col-md-6 col-xs-12"> 
-            <span class="form-inline">
-              <i class="fa fa-user"></i>
-              <?php if ($clientes['nombre']){echo $clientes['nombre'];} else { echo "Cliente Anonimo";}   ?>
-            </span>
+
           </div>
 
           <div class="col-md-6 col-xs-12"> 
@@ -41,7 +38,6 @@
               <thead>
                 <tr>
                   <th class="">Prenda</th>
-                  <th class="">Talle</th>
                   <th class="">Cant</th>
                   <th class="">Precio Unitario</th>
                   <th class="">Precio total ($)</th>
@@ -52,10 +48,7 @@
                 <?php foreach ($detalle as $d) { ?>
                 <tr>
                   <td>
-                    <?php echo $d['prod_codigo'].' - '.$d['cat_nombre'].' > '.$d['marca_nombre'].' > '.$d['prod_nombre']; ?>
-                  </td>
-                  <td>
-                    <?php echo $d['prod_talle']; ?>
+                    <?php echo $d['cat_nombre'].' >  '.$d['prod_nombre']; ?>
                   </td>
                   <td><?php echo $d['prod_cant']; ?>
                   </td>
@@ -78,7 +71,6 @@
 
               </tbody>
               <tfoot style="background-color: #fafafa;">
-                <td></td>
                 <td></td>
                 <td></td>
                 <td style="text-align: right;">Total $</span></td>

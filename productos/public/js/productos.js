@@ -37,7 +37,9 @@ function getProducto(id,premium){
 
 function agregarCategoria(){
   var nombre = prompt('Nombre de la categoría: ');
-  $.ajax({
+ 
+  if (nombre !== null) {
+      $.ajax({
       url: 'ajax_addCategoria.php',
       type: 'POST',
       data: {nombre : nombre},
@@ -49,6 +51,30 @@ function agregarCategoria(){
   }).fail(function(xhr, textStatus, errorThrown) {
       console.log(xhr.responseText);
   });
+  
+}
+
+}
+
+function agregarCategoriaEdit(){
+  var nombre = prompt('Nombre de la categoría: ');
+ 
+  if (nombre !== null) {
+      $.ajax({
+      url: 'ajax_addCategoria.php',
+      type: 'POST',
+      data: {nombre : nombre},
+      dataType: 'json'
+  }).done(function(data){
+      var newOption = new Option(nombre, data, false, false);
+      $('#input_categoria_edit').append(newOption).trigger('change');
+      $('#input_categoria_edit').val(data);
+  }).fail(function(xhr, textStatus, errorThrown) {
+      console.log(xhr.responseText);
+  });
+  
+}
+
 }
 
 function agregarMarca(){
@@ -149,11 +175,14 @@ $('#input_categoria').keypress(function() {
   function editarPrecio(){
   $('#editar_precio').show();
   $('#mostrar_precio').hide();
+  $('#categorianombre').hide();
+  $('#categoriaselect').show();
+  $('#input_nombre').attr('disabled',false);
   $('#input_precio').attr('disabled',false);
-  $('#input_precio').focus();
+  $('#input_nombre').focus();
   }
 
-          function validarMarca(){
+  function validarMarca(){
           var nombre = $('#input_marca_edit').val();
           var id = $('#edit_marca_id').val();
 
@@ -358,3 +387,15 @@ function eliminarimagen(idproducto,url) {
       console.log(xhr.responseText);
   });
 }
+
+
+$('#modal-edit-producto').on('shown.bs.modal', function() {
+                $('#input_categoria_edit').select2({
+                language: {
+                  noResults: function (params) {
+                    return "No hay resultados.";
+                  }
+                }
+              });
+  
+})

@@ -14,7 +14,7 @@
 	if($_POST['prod_id']) {// Editar prod
 		//print_r($_POST);exit;
 		$producto = DB_DataObject::factory('producto');
-		$id_prod_edit = $producto -> modificarPrecio($_POST);
+		$id_prod_edit = $producto -> modificarProducto($_POST);
 		header("Location: productos.php?id_edit=".$id_prod_edit);
 	}
 
@@ -32,7 +32,7 @@
 		header("Location: productos.php?idproducto=".$id_prod_edit);
 	}
 
-	if($_POST['modificar_precio'] == 1) {// Cambiar precios
+	if($_POST['modificar_precio'] == 1) {
 		//print_r($_POST);exit;
 		$producto = DB_DataObject::factory('producto');
 		$SeModifico = $producto -> modificarPrecios($_POST);

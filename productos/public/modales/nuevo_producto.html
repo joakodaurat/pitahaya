@@ -44,20 +44,6 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-3 col-xs-12 label-cliente">
-                      <span class="form-label"> Marca</span>
-                    </div>
-                    <div class="col-md-9">
-                      <select name="input_marca" id="input_marca_add" style="width: 90%;" required="required">
-                        <option value="">Seleccione una marca</option>
-                        <?php while ($do_marca -> fetch()) { ?>
-                        <option value="<?php echo $do_marca -> marca_id; ?>"><?php echo $do_marca -> marca_nombre; ?></option>
-                        <?php } ?>
-                      </select>
-                      <a class="btn btn-sm btn-success" href="#" onclick="agregarMarca();"><i class="fa fa-dropbox"></i> Agregar marca </a>
-                    </div>
-                  </div>
 
                   <div class="row">
                     <div class="col-md-3 col-xs-12 label-cliente">
@@ -68,14 +54,6 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-3 col-xs-12 label-cliente">
-                      <span class="form-label"> Codigo</span>
-                    </div>
-                    <div class="col-md-9">
-                      <input type="number" name="input_codigo" id="input_codigo_add" required="required" class="form-cliente">
-                    </div>
-                  </div>
 
                   <div class="row">
                     <div class="col-md-3 col-xs-12 label-cliente">

@@ -104,30 +104,26 @@ function modificarMax(i){
 }
 
 function cargar_producto_lista (data) {
-  if (!data.stocktotal) {
-     alert('ARTICULO SIN STOCK');
-     return false;
-  }
+
   
   // Agregar el item a la factura
     var i = parseInt($("#iterador_producto").val());
     
-    var select_stock = armarSelect(data.stock,i); 
     
     var newRowContent = '<tr class="prod_variante" id="prod_variante_'+i+'" rel="">';
 
-    newRowContent += '<td>'+data.producto.prod_codigo+' - '+data.producto.cat_nombre+' > '+data.producto.marca_nombre+' > '+data.producto.prod_nombre+' <a style="display:inline" class="tooltip"> <i class="fa fa-eye" aria-hidden="true"></i><span style="width: 120px;"><img style="width:100px;heigth:100px" src="'+data.producto.prod_img1+'"></a</td>';
+    newRowContent += '<td>'+data.producto.cat_nombre+' > '+data.producto.prod_nombre+' <a style="display:inline" class="tooltip"> <i class="fa fa-eye" aria-hidden="true"></i><span style="width: 120px;"><img style="width:100px;heigth:100px" src="'+data.producto.prod_img1+'"></a</td>';
     //si el producto viene con imagen, muestra el ojo para verla
     if (data.producto.prod_img == "") {
 
     }
     newRowContent += '<input type="hidden" value="'+data.producto.prod_id+'" id="id_producto_'+i+'" name="detalle['+i+'][id]"></td>';
-    newRowContent += '<td>'+select_stock+'</td>';
+
     newRowContent += '<td><input type="number" value="1" min="1" class="cantidades soloNumeros full-ancho" id="cant_producto_'+i+'" name="detalle['+i+'][cant]" oninput="modificar('+i+')"></td></td>';
-    newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
+    newRowContent += '<td><input type="number" readonly value="'+data.producto.prod_precio+'" id="precio_producto_'+i+'" name="detalle['+i+'][precio]"></td>';
     newRowContent += '<td><input type="number"  id="descuento_producto_'+i+'" name="detalle['+i+'][descuento]" onchange="porc_desc('+i+');"> </td>';
-    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
-    newRowContent += '<td style="display:none"><input type="number"  class="precio_parc_sindescuento" readonly value="'+data.producto.prod_precio * data.valordolar+'" id="precio_total_sindescuento'+i+'" name="detalle['+i+'][total_sindescuento]"> </a></td>'
+    newRowContent += '<td><input type="number"  class="precio_parc" readonly value="'+data.producto.prod_precio+'" id="precio_total_'+i+'" name="detalle['+i+'][total]"> </a></td><td><a href="#" class="borrar"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i></td>';
+    newRowContent += '<td style="display:none"><input type="number"  class="precio_parc_sindescuento" readonly value="'+data.producto.prod_precio+'" id="precio_total_sindescuento'+i+'" name="detalle['+i+'][total_sindescuento]"> </a></td>'
     newRowContent += '</tr>';
     $("#tabla_productos tbody").append(newRowContent);
   // Limpiar el campo del producto

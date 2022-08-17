@@ -30,30 +30,11 @@ class DataObjects_Producto extends DB_DataObject
     ###END_AUTOCODE
 
     function nuevoProducto($o,$imagen=null){
-                // asocio la marca a una categoria
-        $do_marcacate= DB_DataObject::factory('marca_categoria');
-        $do_marcacate -> whereAdd('marcacat_marca_id='.$o['input_marca'].' AND marcacat_categoria_id='.$o['input_categoria']);
-        $do_marcacate -> find();    
-        if (!$do_marcacate -> N){
-            $do_marcacate -> marcacat_marca_id = $o['input_marca'];
-            $do_marcacate -> marcacat_categoria_id = $o['input_categoria'];
-            $do_marcacate -> insert();
-        }
-
         $this -> prod_nombre = $o['input_modelo'];
-        $this -> prod_codigo = $o['input_codigo'];
-        $this -> prod_marca_id = $o['input_marca'];
         $this -> prod_cat_id = $o['input_categoria'];
         $this -> prod_baja = 0;
         $this -> prod_precio = $o['input_precio'];
         $this -> prod_img1 = "../imagenes/sinimagen.PNG";
-
-
-        // guardo la categoria y la marca
-        $do_marcacate= DB_DataObject::factory('marca_categoria');
-        $do_marcacate -> whereAdd('marcacat_marca_id='.$o['input_marca'].'AND marcacat_categoria_id='.$o['input_categoria']);
-        $do_marcacate -> find(true);
-        $yaestacargado = $do_marcacate -> N;
 
         $id = $this -> insert();
         return $status;
@@ -170,15 +151,12 @@ function agregar_producto($objeto,$archivo=null) {
         $do_productos -> prod_baja = 0;
 
         $do_categoria = DB_DataObject::factory('categoria');
-        $do_marca = DB_DataObject::factory('marca');
         
         $do_productos -> joinAdd($do_categoria);
-        $do_productos -> joinAdd($do_marca);
 
         if($id){
             $do_productos -> prod_id = $id;
             $do_productos -> find(true);
-            $do_productos -> prod_stock_cantidad = $do_productos -> getStock();
         } else {
             $do_productos -> find();
         }
@@ -199,15 +177,12 @@ function agregar_producto($objeto,$archivo=null) {
     function modificarProducto($objeto) {
 
         $do_producto = DB_DataObject::factory('producto');
-        $do_producto -> prod_id = $objeto['edit_producto_id'];
+        $do_producto -> prod_id = $objeto['prod_id'];
         $do_producto -> find(true);
 
-        $do_producto -> prod_cat_id = $objeto['input_categoria'];
-        $do_producto -> prod_nombre = $objeto['input_modelo_edit'];
-        $do_producto -> prod_alias = $objeto['input_alias_edit'];
-        $do_producto -> prod_proveedor_id = $objeto['input_proveedor'];
-        $do_producto -> prod_precio = $objeto['input_precio_contado'];
-        $do_producto -> prod_cantidad = $objeto['input_stock'];
+        $do_producto -> prod_cat_id = $objeto['input_categoria_edit'];
+        $do_producto -> prod_nombre = $objeto['input_nombre'];
+        $do_producto -> prod_precio = $objeto['input_precio'];
 
         $id_update = $do_producto -> update();
         return $id_update;

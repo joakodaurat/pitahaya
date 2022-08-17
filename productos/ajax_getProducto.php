@@ -11,6 +11,10 @@
 	$do_productos = $producto -> getProductos($_POST['id']);
 	$do_stock = $do_productos -> getStockPorTalle($_POST['id']);
 
+	$do_categoria = DB_DataObject::factory('categoria');
+	$do_categoria -> cat_baja = 0;
+	$do_categoria -> find();
+
 	require_once('public/modales/edit_producto.html');
 	exit;
 ?>

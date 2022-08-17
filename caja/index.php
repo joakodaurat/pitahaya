@@ -89,10 +89,9 @@
 	$productos = array();
 
 	while ($listado_productos -> fetch()) { 
-		if($listado_productos -> getStock()){
 			$productos[$listado_productos -> prod_id]['id'] = $listado_productos -> prod_id;
-			$productos[$listado_productos -> prod_id]['modelo'] = $listado_productos -> prod_codigo .' - '. utf8_decode($listado_productos -> cat_nombre).' | '. utf8_decode($listado_productos -> marca_nombre).' | '. utf8_decode($listado_productos -> prod_nombre); 
-		}
+			$productos[$listado_productos -> prod_id]['modelo'] =  utf8_decode($listado_productos -> cat_nombre).' | '. utf8_decode($listado_productos -> prod_nombre); 
+		
 	}
 
 	if($_POST['nueva_venta']) {
