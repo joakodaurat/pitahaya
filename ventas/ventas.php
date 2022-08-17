@@ -36,24 +36,17 @@
 
 
  	$producto = DB_DataObject::factory('producto');
- 	$marca = DB_DataObject::factory('marca');
     $categoria = DB_DataObject::factory('categoria');
-    $talle = DB_DataObject::factory('talle');
 
 
-    $producto ->joinAdd($marca, "LEFT");	
     $producto ->joinAdd($categoria, "LEFT");
     $producto -> find();	
     $ventas_detalle ->joinAdd($producto);
-    $ventas_detalle ->joinAdd($talle);	
     $ventas_detalle -> find();
 
     // si tiene el select de marca, filtro
-    if($_GET['marca']){
-	  $ventas_detalle -> whereAdd('marca_id = '.$_GET['marca']);
-      $ventas_detalle -> find();
-	}
-   // print_r($ventas_detalle);exit; 
+
+    //print_r($ventas_detalle);exit; 
 
 
     // traigo los vendedores para el select

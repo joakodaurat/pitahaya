@@ -54,10 +54,10 @@ th {
                   <thead>
                     <tr>
                       <!-- 1 --><th style="display:none" class="">id</th>
-                      <!-- 3 --><th class="">CATEGORIA</th>
-                      <!-- 4 --><th class="">PRODUCTO</th>
-                      <!-- 5 --><th class="">VENTA</th>
-                      <!-- 6 --><th class="">FECHA</th>
+                      <!-- 1 --><th style="display:none" class="">ventasinprecio</th>
+                      <!-- 2 --><th class="">PRODUCTO</th>
+                      <!-- 3 --><th class="">VENTA</th>
+                      <!-- 4 --><th class="">FECHA</th>
 
                     </tr>
 
@@ -73,21 +73,18 @@ th {
       ?>
                         <tr >
                         <td style="display: none"><?php echo $ventas_detalle -> detalle_id; ?></td>
+                        <td style="display: none"><?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?><?php $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?></td>
 
-                        
-                        <!-- 3 -->
-                        <td><?php echo $ventas_detalle -> cat_nombre; ?></td>
-
-                        <!-- 4 -->
-                        <td><?php echo $ventas_detalle -> prod_nombre; ?> (<?php echo $ventas_detalle -> talle_nombre; ?>) - $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?><?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong><?php }?>
+                        <!--  -->
+                        <td><?php echo $ventas_detalle -> cat_nombre; ?> - <?php echo $ventas_detalle -> prod_nombre; ?>   $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?><?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong><?php }?>
 
                        </td>
 
-                        <!-- 5 -->
+                        <!--  -->
                         <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?><?php $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?>
                         </td>
 
-                        <!-- 6 -->
+                        <!--  -->
                         <td><?php echo date('d/m/Y H:i', strtotime($ventas_detalle -> venta_fh)) ?> </td>
                        
 
@@ -101,7 +98,7 @@ th {
                 
             </div><!--//overflow-->
     
-            <h3> TOTAL VENTAS <span id="porfiltro"></span>: <span style="color:green">$<?php  echo $totalventas;?></span>  </h3>
+            <h3> TOTAL VENTAS <span id="porfiltro"></span>: <span style="color:green">$<span id="totalCalculado"><?php  echo $totalventas;?></span></span>  </h3>
 
            
 
@@ -127,86 +124,7 @@ th {
     <script type="text/javascript" src="public/js/ventas.js"></script>   
     <script type="text/javascript">  
         
-        $(document).ready(function() {
-
-
-            $('#fecha_form').daterangepicker({
-                "locale": {
-                    "format": "DD/MM/YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Aplicar",
-                    "cancelLabel": "Cancelar",
-                    "fromLabel": "Desde",
-                    "toLabel": "Hasta",
-                    "customRangeLabel": "Personalizar",
-                    "daysOfWeek": [
-                        "Do",
-                        "Lu",
-                        "Ma",
-                        "Mi",
-                        "Ju",
-                        "Vi",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "Enero",
-                        "Febrero",
-                        "Marzo",
-                        "Abril",
-                        "Mayo",
-                        "Junio",
-                        "Julio",
-                        "Agosto",
-                        "Septiembre",
-                        "Octubre",
-                        "Noviembre",
-                        "Diciembre"
-                    ],
-                    "firstDay": 1
-                }
-            });
-            $('#fecha_form').on('apply.daterangepicker', function(ev, picker) {
-              $('#fecha_desde').val(picker.startDate.format('YYYY-MM-DD'));
-              $('#fecha_hasta').val(picker.endDate.format('YYYY-MM-DD'));
-              $('#form-fecha').submit();
-            });
-
-
-            $('#tabla_tickets').DataTable(
-              {
-                "pageLength": 50,
-                "aaSorting": [0,'desc'],
-                "oSearch": {"sSearch": "<?php echo $_GET['busqueda']; ?>"},
-                "dom": 'Bfrtip',
-                  "buttons": [
-                    'copy', 'excel', 'pdf'
-                    ]
-              });
-            $('.dt-buttons').css('text-align', 'left')
-            $('#tabla_tickets_filter > label').css('color', 'black')
-
-            $('#combo_vendedor').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-            $('#combo_marca').select2({
-              language: {
-                noResults: function (params) {
-                  return "No hay resultados.";
-                }
-              }
-            });
-
-             $('.select2-container').css('width', '100%');
-
-             cargarselect();
-            
-
-
-        } );
+        
         
     </script>
 
