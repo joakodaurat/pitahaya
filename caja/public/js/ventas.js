@@ -112,7 +112,7 @@ function cargar_producto_lista (data) {
     
     var newRowContent = '<tr class="prod_variante" id="prod_variante_'+i+'" rel="">';
 
-    newRowContent += '<td>'+data.producto.cat_nombre+' > '+data.producto.prod_nombre+' <a style="display:inline" class="tooltip"> <i class="fa fa-eye" aria-hidden="true"></i><span style="width: 120px;"><img style="width:100px;heigth:100px" src="'+data.producto.prod_img1+'"></a</td>';
+    newRowContent += '<td>'+data.producto.cat_nombre+' > '+data.producto.prod_nombre+' <a style="display:none" class="tooltip"> <i class="fa fa-eye" aria-hidden="true"></i><span style="width: 120px;"><img style="width:100px;heigth:100px" src="'+data.producto.prod_img1+'"></a</td>';
     //si el producto viene con imagen, muestra el ojo para verla
     if (data.producto.prod_img == "") {
 
