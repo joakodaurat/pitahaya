@@ -73,7 +73,7 @@ th {
       ?>
                         <tr >
                         <td style="display: none"><?php echo $ventas_detalle -> detalle_id; ?></td>
-                        <td style="display: none"><?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?><?php $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?></td>
+                        <td style="display:none"><?php echo $ventas_detalle -> detalle_prod_total_venta ?></td>
 
                         <!--  -->
                         <td><?php echo $ventas_detalle -> cat_nombre; ?> - <?php echo $ventas_detalle -> prod_nombre; ?>   $<?php echo $ventas_detalle -> detalle_prod_precio_u; ?><?php if ($ventas_detalle -> detalle_prod_cant > 1) { ?> <strong>X <?php echo $ventas_detalle -> detalle_prod_cant; ?></strong><?php }?>
@@ -81,7 +81,7 @@ th {
                        </td>
 
                         <!--  -->
-                        <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?><?php $descuento = $ventas_detalle -> detalle_prod_total_venta - $ventas_detalle -> detalle_prod_total_sindescuento ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?>
+                        <td>$<?php echo $ventas_detalle -> detalle_prod_total_sindescuento; ?><?php if ($ventas_detalle -> detalle_prod_total_sindescuento  != $ventas_detalle -> detalle_prod_total_venta  ) { ?> - $<?php $descuento = $ventas_detalle -> detalle_prod_total_sindescuento - $ventas_detalle -> detalle_prod_total_venta  ; echo $descuento;?> = $<?php echo $ventas_detalle -> detalle_prod_total_venta ?> <?php }?>
                         </td>
 
                         <!--  -->
