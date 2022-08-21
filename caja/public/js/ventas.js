@@ -67,7 +67,6 @@ function modificar(i) {
         // checo si tiene descuento aplicado 
         var descuento =  $('#descuento_producto_'+i).val();
         if (descuento) {
-          var descuento = precio_parcial * descuento / 100 ;
           var precio_parcial = precio_parcial - descuento;
         }
         $('#precio_total_'+i+'').val(precio_parcial);
@@ -211,12 +210,11 @@ function armarSelect(stock,i){
 function porc_desc(i){
 
   valor_original = $('#precio_producto_'+i).val();
-  porcentaje = $('#descuento_producto_'+i).val();
-  descuento = valor_original * porcentaje / 100;
-  precio_con_descuento = valor_original - descuento;
   cantidad = $('#cant_producto_'+i).val();
-  precio_con_descuento = precio_con_descuento * cantidad;
-  $('#precio_total_'+i).val(precio_con_descuento);
+  total = valor_original * cantidad;
+  descuento = $('#descuento_producto_'+i).val();
+  total_descuento = total - descuento;
+  $('#precio_total_'+i).val(total_descuento);
   calcular_total();
 }
 
