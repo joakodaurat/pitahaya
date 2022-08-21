@@ -472,6 +472,8 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $arreglo[$detalle -> detalle_prod_id . $detalle -> detalle_prod_precio_u]['precio_unitario'] = $detalle -> detalle_prod_precio_u;
             $arreglo[$detalle -> detalle_prod_id . $detalle -> detalle_prod_precio_u]['cant'] += $detalle -> detalle_prod_cant;
             $arreglo[$detalle -> detalle_prod_id . $detalle -> detalle_prod_precio_u]['precio'] += $detalle -> detalle_prod_precio_u;
+            $arreglo[$detalle -> detalle_prod_id . $detalle -> detalle_prod_precio_u]['totaldescuento'] += $detalle -> detalle_prod_total_venta;
+            $arreglo[$detalle -> detalle_prod_id . $detalle -> detalle_prod_precio_u]['totalsindescuento'] += $detalle -> detalle_prod_total_sindescuento;
         }
         sort($arreglo);
         $respuesta .= '<table id="tablaventasxproducto" class="table table-hover table-bordered results z-depth-2 tabla-excel" style="margin-top: 0px;display:none">
@@ -488,12 +490,20 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
           
             $respuesta .= '<td>';
        
-            $respuesta .= ''.$prod['cant'].'x$'.$prod['precio_unitario'].' - '.$prod['nombre'].'';
+            $descuento = $prod['totalsindescuento'] - $prod['totaldescuento'];
+
+            $respuesta .= ''.$prod['nombre'].' '.$prod['cant'].'x $'.$prod['precio_unitario'].'';
+        
+
             $respuesta .= '</td> ';
 
             $respuesta .= '<td>';
-            $subtotal = $prod['precio_unitario'] * $prod['cant'];
-            $respuesta .= ' $'.$subtotal;
+            $subtotal = $prod['totaldescuento'];
+            if ($descuento > 0) {
+               $respuesta .= '$'.$prod['totalsindescuento']. ' - $'.$descuento.' = $'.$subtotal; 
+                   } else {
+                $respuesta .= ' $'.$subtotal;
+                 }
             $respuesta .= '</td> ';
             $respuesta .= '</tr> ';
 
