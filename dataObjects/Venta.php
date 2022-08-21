@@ -267,6 +267,9 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $arreglo[$detalle -> detalle_prod_id]['nombre'] = $detalle -> prod_nombre;
             $arreglo[$detalle -> detalle_prod_id]['cant'] += $detalle -> detalle_prod_cant;
             $arreglo[$detalle -> detalle_prod_id]['precio'] = $detalle -> prod_precio;
+            $arreglo[$detalle -> detalle_prod_id]['total'] = $detalle -> detalle_prod_total_sindescuento;
+            $arreglo[$detalle -> detalle_prod_id]['totaldescuento'] = $detalle -> detalle_prod_total_venta;
+
         }
 
         $i = 0;
@@ -274,7 +277,28 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             if($i) {
                 $respuesta .= '<br> ';
             }
-            $respuesta .= ''.$prod['cant'].'x '.$prod['nombre'].' - $'.$prod['precio'];
+            $descuento = $prod['total'] - $prod['totaldescuento'];
+              if ($descuento > 0) {
+
+                if($prod['cant'] > 1) {
+                   $respuesta .= ''.$prod['nombre'].' '.$prod['cant'].'x $'.$prod['precio'].' - $'.$descuento.' = $'.$prod['totaldescuento'];
+                  } else {
+                    $respuesta .= ''.$prod['nombre'].' '.$prod['cant'].'x $'.$prod['precio'].'- $'.$descuento.' = $'.$prod['totaldescuento'];
+                    }
+
+              } else {
+
+                if($prod['cant'] > 1) {
+                   $respuesta .= ''.$prod['nombre'].' '.$prod['cant'].'x $'.$prod['precio'].' = $'.$prod['totaldescuento'];
+                  } else {
+                    $respuesta .= ''.$prod['nombre'].' '.$prod['cant'].'x $'.$prod['precio'];
+                    }
+
+              }
+
+
+
+            
             $i ++;
         }
 
@@ -468,11 +492,13 @@ function nuevaVentaPorCaja($objeto,$id_cobro) {
             $respuesta .= '</td> ';
 
             $respuesta .= '<td>';
-            $respuesta .= ' $'.$prod['precio'];
+            $subtotal = $prod['precio_unitario'] * $prod['cant'];
+            $respuesta .= ' $'.$subtotal;
             $respuesta .= '</td> ';
-
             $respuesta .= '</tr> ';
-            $total += $prod['precio'];
+
+            
+            $total += $subtotal;
         }
         $respuesta .= '<tr>';
         $respuesta .= '<th style="text-align: right;">Total</th>';
