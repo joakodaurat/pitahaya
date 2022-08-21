@@ -45,11 +45,10 @@
 		$detalle[$do_venta_detalle -> detalle_id]['cat_id'] = $do_venta_detalle -> cat_id;
 		$detalle[$do_venta_detalle -> detalle_id]['cat_nombre'] = $do_venta_detalle -> cat_nombre;
 		$detalle[$do_venta_detalle -> detalle_id]['prod_nombre'] = $do_venta_detalle -> prod_nombre;
-		$detalle[$do_venta_detalle -> detalle_id]['prod_talle'] = $do_venta_detalle -> talle_nombre;
-		$detalle[$do_venta_detalle -> detalle_id]['prod_color'] = $do_venta_detalle -> color_nombre;
 		$detalle[$do_venta_detalle -> detalle_id]['prod_cant'] = $do_venta_detalle -> detalle_prod_cant;
 		$detalle[$do_venta_detalle -> detalle_id]['prod_val'] = $do_venta_detalle -> detalle_prod_precio_u;
-		$detalle[$do_venta_detalle -> detalle_id]['prod_tot'] = $do_venta_detalle -> detalle_prod_precio_u * $do_venta_detalle -> detalle_prod_cant;
+		$detalle[$do_venta_detalle -> detalle_id]['prod_desc'] = $do_venta_detalle -> detalle_prod_total_sindescuento - $do_venta_detalle -> detalle_prod_total_venta ;
+		$detalle[$do_venta_detalle -> detalle_id]['prod_tot'] = $do_venta_detalle -> detalle_prod_total_venta;
 	}
 
 	$caja = DB_DataObject::factory('caja');
